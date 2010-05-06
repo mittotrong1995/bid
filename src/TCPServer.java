@@ -7,7 +7,7 @@ public class TCPServer {
         boolean listening = true;
 
         try {
-            serverSocket = new ServerSocket(1024);
+            serverSocket = new ServerSocket(4444);
         } catch (IOException e) {
             System.err.println("Could not listen on port: 4444.");
             System.exit(-1);
