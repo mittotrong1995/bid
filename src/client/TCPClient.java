@@ -57,4 +57,9 @@ public class TCPClient implements Runnable{
 	    System.err.println("IOException:  " + e);
 	}
     }
+
+    public PrintStream getPrintStream()
+    {
+        return os;
+    }
 }
