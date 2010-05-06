@@ -339,7 +339,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         msgScrollPane.setName("msgScrollPane"); // NOI18N
 
         messageTextArea.setColumns(20);
-        messageTextArea.setEditable(false);
         messageTextArea.setRows(5);
         messageTextArea.setName("messageTextArea"); // NOI18N
         msgScrollPane.setViewportView(messageTextArea);
