@@ -29,6 +29,20 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     private javax.swing.JScrollPane textAreaScrollPane;
     private javax.swing.JButton withdrawButton;
 
+    //MESSAGE DIALOG
+    private javax.swing.JLabel messageLabel;
+    private javax.swing.JTextArea messageTextArea;
+    private javax.swing.JPanel messagesMainPanel;
+    private javax.swing.JLabel messagingLabel;
+    private javax.swing.JScrollPane msgScrollPane;
+    private javax.swing.JLabel recepientLabel;
+    private javax.swing.JTextField recepientTextField;
+    private javax.swing.JButton sendButton;
+    private javax.swing.JButton cancelButton;
+    private JDialog messageDialog;
+    //END OF MESSAGE DIALOG
+
+    
     public ClientGUI(){
         initComponents();
                 this.addWindowListener(new WindowAdapter() {
@@ -37,6 +51,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 showCancelDialog();
             }
         });
+        
     }
 
     public static void main(String args[]) {
@@ -65,6 +80,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         messageMenuItem = new javax.swing.JMenuItem();
         menuSeparator2 = new javax.swing.JPopupMenu.Separator();
         exitMenuItem = new javax.swing.JMenuItem();
+
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {},
@@ -225,6 +241,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         else if (c.equals("exit")){
             exitAction();
         }
+        else if (c.equals("cancelMessage"))
+        {
+            messageDialog.dispose();
+        }
     }
 
     private void registerAction() {
@@ -256,7 +276,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void messageAction() {
-
+        showMessageDialog();
     }
 
     private void exitAction() {
@@ -288,5 +308,104 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         if (value == JOptionPane.YES_OPTION){
             this.dispose();
         }
+    }
+
+    private void showMessageDialog() {
+
+        messagesMainPanel = new javax.swing.JPanel();
+        messagingLabel = new javax.swing.JLabel();
+        recepientLabel = new javax.swing.JLabel();
+        recepientTextField = new javax.swing.JTextField();
+        messageLabel = new javax.swing.JLabel();
+        msgScrollPane = new javax.swing.JScrollPane();
+        messageTextArea = new javax.swing.JTextArea();
+        sendButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+
+        messagesMainPanel.setName("messagesMainPanel"); // NOI18N
+
+        messagingLabel.setText("New Message:"); // NOI18N
+        messagingLabel.setName("messagingLabel"); // NOI18N
+
+        recepientLabel.setText("Recepient Address:"); // NOI18N
+        recepientLabel.setName("recepientLabel"); // NOI18N
+
+        recepientTextField.setText(""); // NOI18N
+        recepientTextField.setName("recepientTextField"); // NOI18N
+
+        messageLabel.setText("Message content:"); // NOI18N
+        messageLabel.setName("messageLabel"); // NOI18N
+
+        msgScrollPane.setName("msgScrollPane"); // NOI18N
+
+        messageTextArea.setColumns(20);
+        messageTextArea.setEditable(false);
+        messageTextArea.setRows(5);
+        messageTextArea.setName("messageTextArea"); // NOI18N
+        msgScrollPane.setViewportView(messageTextArea);
+
+        sendButton.setText("Send"); // NOI18N
+        sendButton.setActionCommand("sendMessage");
+        sendButton.addActionListener(this);
+
+        cancelButton.setText("Cancel"); // NOI18N
+        cancelButton.setActionCommand("cancelMessage");
+        cancelButton.addActionListener(this);
+
+        javax.swing.GroupLayout messagesMainPanelLayout = new javax.swing.GroupLayout(messagesMainPanel);
+        messagesMainPanel.setLayout(messagesMainPanelLayout);
+        messagesMainPanelLayout.setHorizontalGroup(
+            messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(messagesMainPanelLayout.createSequentialGroup()
+                .addGroup(messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(messagesMainPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(recepientLabel))
+                    .addGroup(messagesMainPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(messageLabel))
+                    .addGroup(messagesMainPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(msgScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, messagesMainPanelLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(recepientTextField))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, messagesMainPanelLayout.createSequentialGroup()
+                            .addGap(92, 92, 92)
+                            .addComponent(messagingLabel)))
+                    .addGroup(messagesMainPanelLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cancelButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        messagesMainPanelLayout.setVerticalGroup(
+            messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(messagesMainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(messagingLabel)
+                .addGap(18, 18, 18)
+                .addComponent(recepientLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(recepientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(messageLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(msgScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sendButton)
+                    .addComponent(cancelButton))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        messageDialog = new JDialog(this, "MessageSystem", true);
+        
+        messageDialog.add(messagesMainPanel);
+        messageDialog.pack();
+        messageDialog.setLocationRelativeTo(null);
+        messageDialog.setResizable(false);
+        messageDialog.setVisible(true);
     }
 }
