@@ -342,10 +342,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         sendButton.setActionCommand("sendMessage");
         sendButton.addActionListener(this);
 
-//        cancelButton.setText("Cancel"); // NOI18N
-//        cancelButton.setActionCommand("cancelMessage");
-//        cancelButton.addActionListener(this);
-
         javax.swing.GroupLayout messagesMainPanelLayout = new javax.swing.GroupLayout(messagesMainPanel);
         messagesMainPanel.setLayout(messagesMainPanelLayout);
         messagesMainPanelLayout.setHorizontalGroup(
