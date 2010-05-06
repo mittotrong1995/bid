@@ -1,14 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
-/**
- *
- * @author Bosko
- */
 
 public class AdvertiseAuctionGUI extends javax.swing.JDialog implements ActionListener{
     private javax.swing.JLabel closeTypeLabel;
@@ -26,7 +18,7 @@ public class AdvertiseAuctionGUI extends javax.swing.JDialog implements ActionLi
     
     public AdvertiseAuctionGUI(javax.swing.JFrame frame, String title)
     {
-        super(frame, title);
+        super(frame, title, true);
         initComponents(frame);
     }
 
