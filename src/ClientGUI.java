@@ -72,6 +72,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 "ID", "Name", "Start Price", "Seller IP", "Registered"
             }
             ) {
+            @Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return false;
             }
@@ -251,8 +252,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void advertiseAction() {
-        this.dispose();
-        new AdvertiseAuctionGUI();
+        new AdvertiseAuctionGUI(this, "Advertise an item");
     }
 
     private void messageAction() {
