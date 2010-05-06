@@ -2,6 +2,12 @@
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 public class ClientGUI extends javax.swing.JFrame implements ActionListener{
 
@@ -25,6 +31,12 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
 
     public ClientGUI(){
         initComponents();
+                this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                showCancelDialog();
+            }
+        });
     }
 
     public static void main(String args[]) {
@@ -173,12 +185,14 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 .addContainerGap())
         );
 
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setTitle("Auction System - Client");
         this.setMinimumSize(new Dimension(850,600));
         this.setPreferredSize(new Dimension(850, 600));
         this.setLocationRelativeTo(null);
+        
         this.pack();
+        this.setVisible(true);
     }// </editor-fold>
 
     public void actionPerformed(ActionEvent e) {
@@ -237,7 +251,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void advertiseAction() {
-
+        this.dispose();
+        new AdvertiseAuctionGUI();
     }
 
     private void messageAction() {
@@ -245,6 +260,33 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void exitAction() {
+        showCancelDialog();
 
+    }
+    private void showCancelDialog() {
+        final JDialog dialog = new JDialog(this, "Exit", true);
+        final JOptionPane op = new JOptionPane("Close Window", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dialog.setContentPane(op);
+        dialog.setResizable(false);
+        op.addPropertyChangeListener(new PropertyChangeListener(){
+            public void propertyChange(PropertyChangeEvent e){
+                String prop = e.getPropertyName();
+                if (dialog.isVisible() && (e.getSource() == op) && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
+                    dialog.setVisible(false);
+                }
+            }
+        });
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setResizable(false);
+        dialog.setVisible(true);
+        int value = ((Integer) op.getValue()).intValue();
+        if (value == JOptionPane.NO_OPTION){
+            dialog.dispose();
+        }
+        if (value == JOptionPane.YES_OPTION){
+            this.dispose();
+        }
     }
 }
