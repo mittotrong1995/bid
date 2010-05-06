@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 public class ClientGUI extends javax.swing.JFrame implements ActionListener{
 
+    private TCPClient client;
     private javax.swing.JMenuItem advertiseMenuItem;
     private javax.swing.JButton bidButton;
     private javax.swing.JMenuItem connectMenuItem;
@@ -46,6 +47,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
 
     
     public ClientGUI(){
+        client = new TCPClient();
         initComponents();
                 this.addWindowListener(new WindowAdapter() {
             @Override
@@ -250,7 +252,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void registerAction() {
-
+        String register = "2$" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+        (client.getPrintStream()).println(register);
     }
 
     private void withdrawAction() {
