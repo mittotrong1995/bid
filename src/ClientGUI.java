@@ -325,31 +325,26 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         messagesMainPanel.setName("messagesMainPanel"); // NOI18N
 
         messagingLabel.setText("New Message:"); // NOI18N
-        messagingLabel.setName("messagingLabel"); // NOI18N
 
         recepientLabel.setText("Recepient Address:"); // NOI18N
-        recepientLabel.setName("recepientLabel"); // NOI18N
 
         recepientTextField.setText(""); // NOI18N
-        recepientTextField.setName("recepientTextField"); // NOI18N
 
         messageLabel.setText("Message content:"); // NOI18N
-        messageLabel.setName("messageLabel"); // NOI18N
 
         msgScrollPane.setName("msgScrollPane"); // NOI18N
 
         messageTextArea.setColumns(20);
         messageTextArea.setRows(5);
-        messageTextArea.setName("messageTextArea"); // NOI18N
         msgScrollPane.setViewportView(messageTextArea);
 
         sendButton.setText("Send"); // NOI18N
         sendButton.setActionCommand("sendMessage");
         sendButton.addActionListener(this);
 
-        cancelButton.setText("Cancel"); // NOI18N
-        cancelButton.setActionCommand("cancelMessage");
-        cancelButton.addActionListener(this);
+//        cancelButton.setText("Cancel"); // NOI18N
+//        cancelButton.setActionCommand("cancelMessage");
+//        cancelButton.addActionListener(this);
 
         javax.swing.GroupLayout messagesMainPanelLayout = new javax.swing.GroupLayout(messagesMainPanel);
         messagesMainPanel.setLayout(messagesMainPanelLayout);
@@ -362,30 +357,22 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                         .addComponent(recepientLabel))
                     .addGroup(messagesMainPanelLayout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(recepientTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE))
+                    .addGroup(messagesMainPanelLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(messageLabel))
                     .addGroup(messagesMainPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(msgScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, messagesMainPanelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(recepientTextField))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, messagesMainPanelLayout.createSequentialGroup()
-                            .addGap(92, 92, 92)
-                            .addComponent(messagingLabel)))
                     .addGroup(messagesMainPanelLayout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cancelButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(91, 91, 91)
+                        .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         messagesMainPanelLayout.setVerticalGroup(
             messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(messagesMainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(messagingLabel)
-                .addGap(18, 18, 18)
                 .addComponent(recepientLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(recepientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -393,13 +380,11 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 .addComponent(messageLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(msgScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sendButton)
-                    .addComponent(cancelButton))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(sendButton)
+                .addContainerGap())
         );
-        messageDialog = new JDialog(this, "MessageSystem", true);
+        messageDialog = new JDialog(this, "Message System", true);
         
         messageDialog.add(messagesMainPanel);
         messageDialog.pack();
