@@ -213,7 +213,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void registerAction() {
-
+        System.out.println(":P");
     }
 
     private void withdrawAction() {
