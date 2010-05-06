@@ -137,7 +137,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         withdrawButton.setActionCommand("withdraw");
         withdrawButton.addActionListener(this);
 
-        connectMenuItem.setText("Connect");
+        connectMenuItem.setText("Connect...");
         connectMenuItem.setActionCommand("connect");
         connectMenuItem.addActionListener(this);
 
