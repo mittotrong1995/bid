@@ -19,14 +19,12 @@ public class TCPServerThread extends Thread {
 
 	    String inputLine, outputLine;
 	    AuctionProtocol ap = new AuctionProtocol();
-	    outputLine = ap.processInput(null);
+	    outputLine = ap.processInput("");
 	    out.println(outputLine);
 
 	    while ((inputLine = in.readLine()) != null) {
 		outputLine = ap.processInput(inputLine);
 		out.println(outputLine);
-		if (outputLine.equals("Bye"))
-		    break;
 	    }
 	    out.close();
 	    in.close();

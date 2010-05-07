@@ -9,10 +9,7 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -235,6 +232,15 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         else if (c.equals("exit")){
             exitAction();
         }
+        else if (c.equals("disconnectMenu")){
+            try {
+                client.closeConnection();
+                connectMenuItem.setText("Connect...");
+                connectMenuItem.setActionCommand("connect");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private void registerAction() {
@@ -290,7 +296,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void advertiseAction() {
-        new AdvertiseAuctionGUI(this, "Advertise an item");
+        showAdvertiseDialog();
     }
 
     private void messageAction() {
@@ -374,8 +380,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                         .addContainerGap()
                         .addComponent(msgScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, messagesMainPanelLayout.createSequentialGroup()
-                        .addComponent(sendButton)
-                        .addContainerGap())))
+                        .addComponent(sendButton))))
         );
         messagesMainPanelLayout.setVerticalGroup(
             messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -418,6 +423,9 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         javax.swing.JPanel connectPanel = new javax.swing.JPanel();
         final JDialog connectDialog = new JDialog(this, "Connect to server", true);
 
+        final ActionListener connectAL;
+        final ActionListener disconnectAL;
+
         IPTextField1.setDocument(new MaxLengthTextDocument(3));
         IPTextField2.setDocument(new MaxLengthTextDocument(3));
         IPTextField3.setDocument(new MaxLengthTextDocument(3));
@@ -427,23 +435,25 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         serverLabel.setText("Server IP:");
         portLabel.setText("Port:");
         connectButton.setText("Connect");
-        connectButton.addActionListener(new ActionListener() {
 
+        connectAL = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (!IPTextField1.getText().trim().equals("") && !IPTextField2.getText().trim().equals("") && !IPTextField3.getText().trim().equals("")
-                        && !IPTextField4.getText().trim().equals("") && !portTextField.getText().trim().equals("")){
+                if (!IPTextField1.getText().trim().equals("") && !IPTextField2.getText().trim().equals("") && !IPTextField3.getText().trim().equals("") && !IPTextField4.getText().trim().equals("") && !portTextField.getText().trim().equals("")) {
                     try {
                         client = new TCPClient(IPTextField1.getText() + "." + IPTextField2.getText() + "." + IPTextField3.getText() + "." + IPTextField4.getText(), Integer.parseInt(portTextField.getText()));
                         connectDialog.dispose();
+                        connectMenuItem.setText("Disconnect");
+                        connectMenuItem.setActionCommand("disconnectMenu");
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(connectDialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                }
-                else{
+                } else {
                     JOptionPane.showMessageDialog(connectDialog, "Please enter a correct IP address.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            }});
+            }
+        };
 
+        connectButton.addActionListener(connectAL);
         javax.swing.GroupLayout connectPanelLayout = new javax.swing.GroupLayout(connectPanel);
         connectPanel.setLayout(connectPanelLayout);
         connectPanelLayout.setHorizontalGroup(
@@ -491,6 +501,109 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         connectDialog.setResizable(false);
         connectDialog.setVisible(true);
     }// </editor-fold>
+
+
+    private void showAdvertiseDialog(){
+        javax.swing.JLabel closeTypeLabel = new javax.swing.JLabel();
+        final javax.swing.JRadioButton closeTypeOneRadioButton = new javax.swing.JRadioButton();
+        final javax.swing.JRadioButton closeTypeTwoRadioButton = new javax.swing.JRadioButton();
+        javax.swing.JLabel descriptionLabel = new javax.swing.JLabel();
+        final javax.swing.JTextArea descriptionTextArea = new javax.swing.JTextArea();
+        javax.swing.JScrollPane descriptionScrollPane = new javax.swing.JScrollPane();
+        javax.swing.JPanel advPanel = new javax.swing.JPanel();
+        javax.swing.JLabel nameLabel = new javax.swing.JLabel();
+        final javax.swing.JTextField nameTextField = new javax.swing.JTextField();
+        javax.swing.JLabel startPriceLabel = new javax.swing.JLabel();
+        final javax.swing.JTextField startPriceTextField = new javax.swing.JTextField();
+        javax.swing.JButton submitButton = new javax.swing.JButton();
+        javax.swing.JDialog advertiseDialog = new javax.swing.JDialog(this, "Advertise an item", true);
+
+        nameLabel.setText("Name:");
+        descriptionLabel.setText("Description:");
+        startPriceLabel.setText("Starting Price:");
+        closeTypeLabel.setText("Closing Type:");
+        submitButton.setText("Submit");
+
+        final javax.swing.ButtonGroup closeGroup = new javax.swing.ButtonGroup();
+        closeTypeOneRadioButton.setText("1");
+        closeTypeTwoRadioButton.setText("2");
+        closeGroup.add(closeTypeOneRadioButton);
+        closeGroup.add(closeTypeTwoRadioButton);
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(advPanel);
+        advPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                        .addComponent(submitButton))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nameTextField)
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(startPriceTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(startPriceLabel, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(closeTypeLabel)
+                                    .addGroup(mainPanelLayout.createSequentialGroup()
+                                        .addComponent(closeTypeOneRadioButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(closeTypeTwoRadioButton))))
+                            .addComponent(nameLabel)
+                            .addComponent(descriptionLabel)
+                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGap(5, 5, 5)
+                .addComponent(nameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(descriptionLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(startPriceLabel)
+                    .addComponent(closeTypeLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(startPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(closeTypeTwoRadioButton)
+                    .addComponent(closeTypeOneRadioButton))
+                .addGap(18, 18, 18)
+                .addComponent(submitButton)
+                .addContainerGap())
+        );
+
+        submitButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                String typeSelection = "";
+                if (closeTypeOneRadioButton.isSelected())
+                    typeSelection = closeTypeOneRadioButton.getText();
+                else if (closeTypeTwoRadioButton.isSelected())
+                    typeSelection = closeTypeTwoRadioButton.getText();
+                String auction = "0|" + typeSelection + "|" + startPriceTextField.getText() + "|" + nameTextField.getText() + "|" + descriptionTextArea.getText();
+                client.getPrintStream().println(auction);
+            }
+        });
+
+        descriptionScrollPane.setViewportView(descriptionTextArea);
+        advertiseDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        advertiseDialog.setResizable(false);
+        advertiseDialog.add(advPanel);
+        advertiseDialog.pack();
+        advertiseDialog.setLocationRelativeTo(this);
+        advertiseDialog.setVisible(true);
+    }
 }
 
 class MaxLengthTextDocument extends javax.swing.text.PlainDocument {

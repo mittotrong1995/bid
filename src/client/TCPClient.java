@@ -2,8 +2,6 @@ package client;
 
 import java.io.*;
 import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class TCPClient implements Runnable {
 
@@ -12,6 +10,7 @@ public class TCPClient implements Runnable {
     static BufferedReader in = null;
     static BufferedReader inputLine = null;
     static boolean closed = false;
+    static Thread t;
 
     public TCPClient(String host, int port) throws UnknownHostException, IOException, InterruptedException{
 
@@ -22,12 +21,19 @@ public class TCPClient implements Runnable {
 
         if (clientSocket != null && out != null && in != null) {
             new Thread(this).start();
-            while (!closed) {
-                out.println(inputLine.readLine());
-            }
-            out.close();
-            in.close();
-            clientSocket.close();
+            t = new Thread(this){
+                public void run(){
+                     while (!closed) {
+                        try {
+                            out.println(inputLine.readLine());
+                        } catch (IOException ex) {
+
+                        }
+                    }
+                };
+            };
+            t.start();
+
         }
     }
 
@@ -36,7 +42,6 @@ public class TCPClient implements Runnable {
 	try{
 	    while ((responseLine = in.readLine()) != null) {
 		System.out.println(responseLine);
-                if (responseLine.indexOf("*** Bye") != -1) break;
 	    }
             closed = true;
         } catch (Exception e) {
@@ -46,5 +51,11 @@ public class TCPClient implements Runnable {
 
     public PrintWriter getPrintStream() {
         return out;
+    }
+
+    void closeConnection() throws IOException {
+            out.close();
+            in.close();
+            clientSocket.close();
     }
 }
