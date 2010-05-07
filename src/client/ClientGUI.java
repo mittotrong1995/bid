@@ -251,7 +251,13 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void bidAction() {
-        JOptionPane.showInputDialog(this, "Enter a value for the bid: ", "Place a bid", JOptionPane.QUESTION_MESSAGE);
+        if(table.getSelectedRow() != -1){
+        String prize = JOptionPane.showInputDialog(this, "Enter a value for the bid: ", "Place a bid", JOptionPane.QUESTION_MESSAGE);
+        String bid = "3|"+(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + "|" + prize;
+        (client.getPrintStream()).println(bid);
+        }
+        else
+          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
     }
 
     private void historyAction() {
