@@ -31,21 +31,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     private javax.swing.JTextArea textArea;
     private javax.swing.JScrollPane textAreaScrollPane;
     private javax.swing.JButton withdrawButton;
-
-    //MESSAGE DIALOG
-    private javax.swing.JLabel messageLabel;
-    private javax.swing.JTextArea messageTextArea;
-    private javax.swing.JPanel messagesMainPanel;
-    private javax.swing.JLabel messagingLabel;
-    private javax.swing.JScrollPane msgScrollPane;
-    private javax.swing.JLabel recepientLabel;
-    private javax.swing.JTextField recepientTextField;
-    private javax.swing.JButton sendButton;
-    private javax.swing.JButton cancelButton;
-    private JDialog messageDialog;
-    //END OF MESSAGE DIALOG
-
-    
+  
     public ClientGUI(){
         client = new TCPClient();
         initComponents();
@@ -116,7 +102,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         table.getColumnModel().getColumn(4).setPreferredWidth(80);
         table.getColumnModel().getColumn(4).setMaxWidth(80);
 
-        textArea.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        textArea.setFont(new java.awt.Font("Lucida Sans", 0, 12)); 
         textArea.setToolTipText("Description");
         textArea.setEnabled(false);
         textAreaScrollPane.setViewportView(textArea);
@@ -245,10 +231,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         else if (c.equals("exit")){
             exitAction();
         }
-        else if (c.equals("cancelMessage"))
-        {
-            messageDialog.dispose();
-        }
     }
 
     private void registerAction() {
@@ -262,7 +244,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void bidAction() {
-
+        JOptionPane.showInputDialog(this, "Enter a value for the bid: ", "Place a bid", JOptionPane.QUESTION_MESSAGE);
     }
 
     private void historyAction() {
@@ -276,7 +258,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void connectAction() {
-
+        showConnectDialog();
     }
 
     private void advertiseAction() {
@@ -319,34 +301,22 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void showMessageDialog() {
+        javax.swing.JLabel messageLabel = new javax.swing.JLabel();
+        javax.swing.JTextArea messageTextArea = new javax.swing.JTextArea();
+        javax.swing.JPanel messagesMainPanel = new javax.swing.JPanel();
+        javax.swing.JScrollPane msgScrollPane = new javax.swing.JScrollPane();
+        javax.swing.JLabel recepientLabel = new javax.swing.JLabel();
+        javax.swing.JButton sendButton = new javax.swing.JButton();
+        javax.swing.JTextField IPTextField1 = new javax.swing.JTextField();
+        javax.swing.JTextField IPTextField2 = new javax.swing.JTextField();
+        javax.swing.JTextField IPTextField3 = new javax.swing.JTextField();
+        javax.swing.JTextField IPTextField4 = new javax.swing.JTextField();
+        JDialog messageDialog;
 
-        messagesMainPanel = new javax.swing.JPanel();
-        messagingLabel = new javax.swing.JLabel();
-        recepientLabel = new javax.swing.JLabel();
-        recepientTextField = new javax.swing.JTextField();
-        messageLabel = new javax.swing.JLabel();
-        msgScrollPane = new javax.swing.JScrollPane();
-        messageTextArea = new javax.swing.JTextArea();
-        sendButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
+        recepientLabel.setText("Send to IP:");
+        messageLabel.setText("Message content:");
 
-        messagesMainPanel.setName("messagesMainPanel"); // NOI18N
-
-        messagingLabel.setText("New Message:"); // NOI18N
-
-        recepientLabel.setText("Recepient Address:"); // NOI18N
-
-        recepientTextField.setText(""); // NOI18N
-
-        messageLabel.setText("Message content:"); // NOI18N
-
-        msgScrollPane.setName("msgScrollPane"); // NOI18N
-
-        messageTextArea.setColumns(20);
-        messageTextArea.setRows(5);
-        msgScrollPane.setViewportView(messageTextArea);
-
-        sendButton.setText("Send"); // NOI18N
+        sendButton.setText("Send"); 
         sendButton.setActionCommand("sendMessage");
         sendButton.addActionListener(this);
 
@@ -361,17 +331,23 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                         .addComponent(recepientLabel))
                     .addGroup(messagesMainPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(recepientTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IPTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IPTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IPTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IPTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(messagesMainPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(messageLabel))
                     .addGroup(messagesMainPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(msgScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(messagesMainPanelLayout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(msgScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, messagesMainPanelLayout.createSequentialGroup()
+                        .addComponent(sendButton)
+                        .addContainerGap())))
         );
         messagesMainPanelLayout.setVerticalGroup(
             messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,21 +355,92 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 .addContainerGap()
                 .addComponent(recepientLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(recepientTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(IPTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IPTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IPTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IPTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(messageLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(msgScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(sendButton)
                 .addContainerGap())
         );
-        messageDialog = new JDialog(this, "Message System", true);
-        
+
+        msgScrollPane.setViewportView(messageTextArea);
+        messageDialog = new JDialog(this, "Send Message", true);
         messageDialog.add(messagesMainPanel);
         messageDialog.pack();
-        messageDialog.setLocationRelativeTo(null);
+        messageDialog.setLocationRelativeTo(this);
         messageDialog.setResizable(false);
         messageDialog.setVisible(true);
     }
+
+    public void showConnectDialog(){
+        javax.swing.JTextField IPTextField1 = new javax.swing.JTextField();
+        javax.swing.JTextField IPTextField2 = new javax.swing.JTextField();
+        javax.swing.JTextField IPTextField3 = new javax.swing.JTextField();
+        javax.swing.JTextField IPTextField4 = new javax.swing.JTextField();
+        javax.swing.JButton connectButton = new javax.swing.JButton();
+        javax.swing.JLabel portLabel = new javax.swing.JLabel();
+        javax.swing.JTextField portTextField = new javax.swing.JTextField();
+        javax.swing.JLabel serverLabel = new javax.swing.JLabel();
+        javax.swing.JPanel connectPanel = new javax.swing.JPanel();
+        JDialog connectDialog;
+
+        serverLabel.setText("Server IP:");
+        portLabel.setText("Port:");
+        connectButton.setText("Connect");
+
+        javax.swing.GroupLayout connectPanelLayout = new javax.swing.GroupLayout(connectPanel);
+        connectPanel.setLayout(connectPanelLayout);
+        connectPanelLayout.setHorizontalGroup(
+            connectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(connectPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(connectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(connectPanelLayout.createSequentialGroup()
+                        .addComponent(serverLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IPTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IPTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IPTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IPTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(portLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(portTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+                    .addComponent(connectButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+        );
+        connectPanelLayout.setVerticalGroup(
+            connectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(connectPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(connectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(serverLabel)
+                    .addComponent(IPTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IPTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IPTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IPTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(portLabel)
+                    .addComponent(portTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addComponent(connectButton))
+        );
+
+        connectDialog = new JDialog(this, "Connect to server", true);
+        connectDialog.add(connectPanel);
+        connectDialog.pack();
+        connectDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        connectDialog.setLocationRelativeTo(this);
+        connectDialog.setResizable(false);
+        connectDialog.setVisible(true);
+    }// </editor-fold>
 }
+
