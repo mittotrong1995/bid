@@ -252,12 +252,13 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void registerAction() {
-        String register = "2$" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+        String register = "2|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
         (client.getPrintStream()).println(register);
     }
 
     private void withdrawAction() {
-
+        String withdraw = "6|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+        (client.getPrintStream()).println(withdraw);
     }
 
     private void bidAction() {
@@ -265,11 +266,13 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void historyAction() {
-
+        String history = "5|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+        (client.getPrintStream()).println(history);
     }
 
     private void participantsAction() {
-
+        String participants = "7|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+        (client.getPrintStream()).println(participants);
     }
 
     private void connectAction() {
