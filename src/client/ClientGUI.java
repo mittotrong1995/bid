@@ -8,6 +8,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -33,7 +38,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     private javax.swing.JButton withdrawButton;
   
     public ClientGUI(){
-        client = new TCPClient();
         initComponents();
                 this.addWindowListener(new WindowAdapter() {
             @Override
@@ -278,7 +282,11 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void connectAction() {
-        showConnectDialog();
+        try {
+            showConnectDialog();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void advertiseAction() {
@@ -398,21 +406,43 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         messageDialog.setVisible(true);
     }
 
-    public void showConnectDialog(){
-        javax.swing.JTextField IPTextField1 = new javax.swing.JTextField();
-        javax.swing.JTextField IPTextField2 = new javax.swing.JTextField();
-        javax.swing.JTextField IPTextField3 = new javax.swing.JTextField();
-        javax.swing.JTextField IPTextField4 = new javax.swing.JTextField();
+    public void showConnectDialog() throws ParseException{
+        final javax.swing.JTextField IPTextField1 = new javax.swing.JTextField();
+        final javax.swing.JTextField IPTextField2 = new javax.swing.JTextField();
+        final javax.swing.JTextField IPTextField3 = new javax.swing.JTextField();
+        final javax.swing.JTextField IPTextField4 = new javax.swing.JTextField();
+        final javax.swing.JTextField portTextField = new javax.swing.JTextField();
         javax.swing.JButton connectButton = new javax.swing.JButton();
         javax.swing.JLabel portLabel = new javax.swing.JLabel();
-        javax.swing.JTextField portTextField = new javax.swing.JTextField();
         javax.swing.JLabel serverLabel = new javax.swing.JLabel();
         javax.swing.JPanel connectPanel = new javax.swing.JPanel();
-        JDialog connectDialog;
+        final JDialog connectDialog = new JDialog(this, "Connect to server", true);
+
+        IPTextField1.setDocument(new MaxLengthTextDocument(3));
+        IPTextField2.setDocument(new MaxLengthTextDocument(3));
+        IPTextField3.setDocument(new MaxLengthTextDocument(3));
+        IPTextField4.setDocument(new MaxLengthTextDocument(3));
+        portTextField.setDocument(new MaxLengthTextDocument(5));
 
         serverLabel.setText("Server IP:");
         portLabel.setText("Port:");
         connectButton.setText("Connect");
+        connectButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                if (!IPTextField1.getText().trim().equals("") && !IPTextField2.getText().trim().equals("") && !IPTextField3.getText().trim().equals("")
+                        && !IPTextField4.getText().trim().equals("") && !portTextField.getText().trim().equals("")){
+                    try {
+                        client = new TCPClient(IPTextField1.getText() + "." + IPTextField2.getText() + "." + IPTextField3.getText() + "." + IPTextField4.getText(), Integer.parseInt(portTextField.getText()));
+                        connectDialog.dispose();
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(connectDialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(connectDialog, "Please enter a correct IP address.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }});
 
         javax.swing.GroupLayout connectPanelLayout = new javax.swing.GroupLayout(connectPanel);
         connectPanel.setLayout(connectPanelLayout);
@@ -454,7 +484,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 .addComponent(connectButton))
         );
 
-        connectDialog = new JDialog(this, "Connect to server", true);
         connectDialog.add(connectPanel);
         connectDialog.pack();
         connectDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -464,3 +493,19 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }// </editor-fold>
 }
 
+class MaxLengthTextDocument extends javax.swing.text.PlainDocument {
+    private int maxChars;
+
+    public MaxLengthTextDocument(int max){
+        this.maxChars = max;
+    }
+
+    @Override
+    public void insertString(int offs, String str, javax.swing.text.AttributeSet a)
+                    throws javax.swing.text.BadLocationException {
+            if(str == null || (getLength() + str.length() > maxChars)){
+                    str = str.substring(0, maxChars-1);
+            }
+            super.insertString(offs, str, a);
+    }
+}
