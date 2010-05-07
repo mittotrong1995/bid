@@ -2,64 +2,49 @@ package client;
 
 import java.io.*;
 import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class TCPClient implements Runnable{
+public class TCPClient implements Runnable {
 
     static Socket clientSocket = null;
-    static PrintStream os = null;
-    static DataInputStream is = null;
+    static PrintWriter out = null;
+    static BufferedReader in = null;
     static BufferedReader inputLine = null;
     static boolean closed = false;
 
-    public static void main(String[] args) {
+    public TCPClient(String host, int port) throws UnknownHostException, IOException, InterruptedException{
 
-	int port_number = 4444;
-        String host = "localhost";
+        clientSocket = new Socket(host, port);
+        out = new PrintWriter(clientSocket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        inputLine = new BufferedReader(new InputStreamReader(System.in));
 
-	try {
-            clientSocket = new Socket(host, port_number);
-            inputLine = new BufferedReader(new InputStreamReader(System.in));
-            os = new PrintStream(clientSocket.getOutputStream());
-            is = new DataInputStream(clientSocket.getInputStream());
-        } catch (UnknownHostException e) {
-            System.err.println("Don't know about host: " + host);
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to the host: " + host);
-        }
-
-	// If everything has been initialized then we want to write some data
-	// to the socket we have opened a connection to on port port_number
-
-        if (clientSocket != null && os != null && is != null) {
-            try {
-                new Thread(new TCPClient()).start();
-		while (!closed) {
-                    os.println(inputLine.readLine());
-                }
-		os.close();
-		is.close();
-		clientSocket.close();
-            } catch (IOException e) {
-                System.err.println("IOException:  " + e);
+        if (clientSocket != null && out != null && in != null) {
+            new Thread(this).start();
+            while (!closed) {
+                out.println(inputLine.readLine());
             }
+            out.close();
+            in.close();
+            clientSocket.close();
         }
     }
 
     public void run() {
 	String responseLine;
 	try{
-	    while ((responseLine = is.readLine()) != null) {
+	    while ((responseLine = in.readLine()) != null) {
 		System.out.println(responseLine);
-		if (responseLine.indexOf("*** Bye") != -1) break;
+                if (responseLine.indexOf("*** Bye") != -1) break;
 	    }
             closed = true;
-	} catch (IOException e) {
+        } catch (Exception e) {
 	    System.err.println("IOException:  " + e);
 	}
     }
 
-    public PrintStream getPrintStream()
-    {
-        return os;
+    public PrintWriter getPrintStream() {
+        return out;
     }
 }
