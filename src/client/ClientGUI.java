@@ -234,13 +234,20 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void registerAction() {
-        String register = "2|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
-        (client.getPrintStream()).println(register);
+
+        if(table.getSelectedRow() != -1){
+            String register = "2|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+            (client.getPrintStream()).println(register);}
+        else
+          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
     }
 
     private void withdrawAction() {
-        String withdraw = "6|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
-        (client.getPrintStream()).println(withdraw);
+        if(table.getSelectedRow() != -1){
+            String withdraw = "6|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+            (client.getPrintStream()).println(withdraw);}
+        else
+          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
     }
 
     private void bidAction() {
@@ -248,13 +255,20 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     }
 
     private void historyAction() {
-        String history = "5|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
-        (client.getPrintStream()).println(history);
+        if(table.getSelectedRow() != -1){
+            String history = "5|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+            (client.getPrintStream()).println(history);}
+        else
+          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
     }
 
     private void participantsAction() {
-        String participants = "7|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
-        (client.getPrintStream()).println(participants);
+        if(table.getSelectedRow() != -1){
+            String participants = "7|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+            (client.getPrintStream()).println(participants);
+                }
+        else
+          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
     }
 
     private void connectAction() {
