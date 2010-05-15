@@ -46,6 +46,7 @@ public class TCPClient implements Runnable {
                 {
                     JOptionPane.showMessageDialog(null,responseLine, "Connection Accepted", 1);
                 }
+                
 		System.out.println(responseLine);
 	    }
             closed = true;
