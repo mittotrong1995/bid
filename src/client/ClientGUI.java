@@ -536,6 +536,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         final javax.swing.JTextField nameTextField = new javax.swing.JTextField();
         javax.swing.JLabel startPriceLabel = new javax.swing.JLabel();
         final javax.swing.JTextField startPriceTextField = new javax.swing.JTextField();
+        javax.swing.JLabel quantityLabel = new javax.swing.JLabel();
+        final javax.swing.JTextField quantityTextField = new javax.swing.JTextField();
         javax.swing.JButton submitButton = new javax.swing.JButton();
         final javax.swing.JDialog advertiseDialog = new javax.swing.JDialog(this, "Advertise an item", true);
 
@@ -544,6 +546,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         startPriceLabel.setText("Starting Price:");
         closeTypeLabel.setText("Closing Type:");
         submitButton.setText("Submit");
+        quantityLabel.setText("Quantity: ");
 
         final javax.swing.ButtonGroup closeGroup = new javax.swing.ButtonGroup();
         closeTypeOneRadioButton.setText("1");
@@ -567,6 +570,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(startPriceTextField, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(startPriceLabel, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(quantityTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(quantityLabel, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(closeTypeLabel)
@@ -594,10 +601,12 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 .addGap(18, 18, 18)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startPriceLabel)
+                    .addComponent(quantityLabel)
                     .addComponent(closeTypeLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(quantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(closeTypeTwoRadioButton)
                     .addComponent(closeTypeOneRadioButton))
                 .addGap(18, 18, 18)
