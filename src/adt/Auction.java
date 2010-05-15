@@ -15,13 +15,15 @@ public class Auction {
     private byte closingType;
     private double highestBid;
     private String sellerIP;
+    private Item item;
 
-    public Auction(int auctionID, int quantity, byte closingType, double highestBid, String sellerIP) {
+    public Auction(int auctionID, int quantity, byte closingType, double highestBid, String sellerIP,Item item) {
         this.auctionID = auctionID;
         this.quantity = quantity;
         this.closingType = closingType;
         this.highestBid = highestBid;
         this.sellerIP = sellerIP;
+        this.item = item;
     }
 
      public Auction() {
@@ -30,6 +32,15 @@ public class Auction {
         this.closingType = 0;
         this.highestBid = 0;
         this.sellerIP = null;
+        this.item = null;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
     
     public int getAuctionID() {
