@@ -2,6 +2,7 @@ package client;
 
 import java.io.*;
 import java.net.*;
+import javax.swing.JOptionPane;
 
 public class TCPClient implements Runnable {
 
@@ -41,6 +42,10 @@ public class TCPClient implements Runnable {
 	String responseLine;
 	try{
 	    while ((responseLine = in.readLine()) != null) {
+                if(responseLine.indexOf("connected") > -1)
+                {
+                    JOptionPane.showMessageDialog(null,responseLine, "Connection Accepted", 1);
+                }
 		System.out.println(responseLine);
 	    }
             closed = true;
