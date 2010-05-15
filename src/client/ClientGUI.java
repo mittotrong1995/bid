@@ -34,9 +34,11 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     private javax.swing.JTextArea textArea;
     private javax.swing.JScrollPane textAreaScrollPane;
     private javax.swing.JButton withdrawButton;
+    private boolean connected;
   
     public ClientGUI(){
         token = "#@";
+        connected = false;
         initComponents();
                 this.addWindowListener(new WindowAdapter() {
             @Override
@@ -194,7 +196,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 .addComponent(textAreaScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setTitle("Auction System - Client");
         this.setMinimumSize(new Dimension(850,600));
@@ -208,28 +209,54 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         String c = e.getActionCommand();
         if (c.equals("register")){
-            registerAction();
+            if (connected == true)
+                registerAction();
+
+            if (connected == false )
+                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
         }
         else if (c.equals("withdraw")){
-            withdrawAction();
+            if (connected == true)
+                withdrawAction();
+
+            if (connected == false )
+                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
         }
         else if (c.equals("bid")){
-            bidAction();
+            if (connected == true)
+                bidAction();
+            if (connected == false )
+             JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
         }
         else if (c.equals("history")){
-            historyAction();
+            if (connected == true)
+                historyAction();
+            
+            if (connected == false )
+                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
         }
         else if (c.equals("participants")){
-            participantsAction();
+            if (connected == false )
+                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+            
+            if (connected == true)
+                participantsAction();
         }
         else if (c.equals("connect")){
             connectAction();
+            
         }
         else if (c.equals("advertise")){
-            advertiseAction();
+            if (connected == false)
+                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+            if (connected == true)
+                advertiseAction();
         }
         else if (c.equals("message")){
-            messageAction();
+            if (connected == true)
+                messageAction();
+            if (connected == false )
+                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
         }
         else if (c.equals("exit")){
             exitAction();
@@ -237,6 +264,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         else if (c.equals("disconnectMenu")){
             try {
                 client.closeConnection();
+                connected = false;
                 connectMenuItem.setText("Connect...");
                 connectMenuItem.setActionCommand("connect");
             } catch (IOException ex) {
@@ -244,7 +272,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
             }
         }
     }
-
     private void registerAction() {
 
         if(table.getSelectedRow() != -1){
@@ -333,6 +360,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         }
         if (value == JOptionPane.YES_OPTION){
             this.dispose();
+            System.exit(0);
         }
     }
 
@@ -467,6 +495,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                         connectDialog.dispose();
                         connectMenuItem.setText("Disconnect");
                         connectMenuItem.setActionCommand("disconnectMenu");
+                        connected = true;
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(connectDialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
