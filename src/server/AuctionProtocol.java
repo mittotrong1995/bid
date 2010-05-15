@@ -1,5 +1,10 @@
 package server;
 
+import adt.Auction;
+import adt.Item;
+import java.util.LinkedList;
+import java.util.List;
+
 public class AuctionProtocol {
 
     private static final byte ADVERTISE = 0;
@@ -11,6 +16,7 @@ public class AuctionProtocol {
     private static final byte WITHDRAW = 6;
     private static final byte PARTICIPANTS = 7;
     private static final byte MESSAGE = 8;
+    private static List auctionList = new LinkedList();
 
     public String processInput(String theInput) {
         String theOutput = "";
@@ -43,7 +49,22 @@ public class AuctionProtocol {
         return theOutput;
     }
 
+    public static List getAuctionList() {
+        return auctionList;
+    }
+
     private String advertiseAction(String in) {
+        String [] parts = null ;
+        parts = in.split("#@");
+        for(int i = 0; i < parts.length; i++)
+            System.out.println(parts[i]);
+        Item item = new Item(parts[4],parts[5],Double.parseDouble(parts[2]));
+        int id = 1;
+        if(auctionList.size() > 0){
+            id = ((Auction)auctionList.get(auctionList.size())).getAuctionID()  + 1;}
+
+        Auction auction = new Auction(id,Integer.parseInt(parts[3]),Byte.parseByte(parts[1]),Double.parseDouble(parts[2]),parts[6],item);
+        auctionList.add((Auction)auction);
         String out = in;
         return out;
     }

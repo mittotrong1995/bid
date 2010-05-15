@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 public class ClientGUI extends javax.swing.JFrame implements ActionListener{
 
     private TCPClient client;
+    private String token;
     private javax.swing.JMenuItem advertiseMenuItem;
     private javax.swing.JButton bidButton;
     private javax.swing.JMenuItem connectMenuItem;
@@ -35,6 +36,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     private javax.swing.JButton withdrawButton;
   
     public ClientGUI(){
+        token = "#@";
         initComponents();
                 this.addWindowListener(new WindowAdapter() {
             @Override
@@ -246,7 +248,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     private void registerAction() {
 
         if(table.getSelectedRow() != -1){
-            String register = "2|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+            String register = "2"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
             (client.getPrintWriter()).println(register);}
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
@@ -254,7 +256,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
 
     private void withdrawAction() {
         if(table.getSelectedRow() != -1){
-            String withdraw = "6|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+            String withdraw = "6"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
             (client.getPrintWriter()).println(withdraw);}
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
@@ -263,7 +265,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     private void bidAction() {
         if(table.getSelectedRow() != -1){
         String prize = JOptionPane.showInputDialog(this, "Enter a value for the bid: ", "Place a bid", JOptionPane.QUESTION_MESSAGE);
-        String bid = "3|"+(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + "|" + prize;
+        String bid = "3" + token +(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + token + prize;
         (client.getPrintWriter()).println(bid);
         }
         else
@@ -272,7 +274,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
 
     private void historyAction() {
         if(table.getSelectedRow() != -1){
-            String history = "5|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+            String history = "5"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
             (client.getPrintWriter()).println(history);}
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
@@ -280,7 +282,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
 
     private void participantsAction() {
         if(table.getSelectedRow() != -1){
-            String participants = "7|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+            String participants = "7"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
             (client.getPrintWriter()).println(participants);
                 }
         else
@@ -414,7 +416,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                     Integer.parseInt(iPTextField2.getText());
                     Integer.parseInt(iPTextField3.getText());
                     Integer.parseInt(iPTextField4.getText());
-                    String message = "8|" + iPTextField1.getText() + "." + iPTextField2.getText() + "." + iPTextField3.getText() + "." + iPTextField4.getText() + "|" + messageTextArea.getText();
+                    String message = "8"+ token + iPTextField1.getText() + "." + iPTextField2.getText() + "." + iPTextField3.getText() + "." + iPTextField4.getText() + token+ messageTextArea.getText();
                         client.getPrintWriter().println(message);
                         messageDialog.dispose();
                 }
@@ -624,6 +626,13 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 try
                 {
                     Integer.parseInt(startPriceTextField.getText());
+                    try{
+                    Integer.parseInt(quantityTextField.getText());
+                    }
+                    catch(Exception ex)
+                    {
+                        JOptionPane.showMessageDialog(null,"Please enter digits in the quantity field!", "Error Message!",3);
+                    }
                     if(typeSelection.equals(""))
                         JOptionPane.showMessageDialog(null,"Please select the closing type!", "Error Message!",3);
                     else if(nameTextField.getText().equals(""))
@@ -631,7 +640,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                     else if(descriptionTextArea.getText().equals(""))
                         JOptionPane.showMessageDialog(null,"Please enter the item's description!", "Error Message!",3);
                     else{
-                        String auction = "0|" + typeSelection + "|" + startPriceTextField.getText() + "|" + nameTextField.getText() + "|" + descriptionTextArea.getText();
+                        String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + client.getClient().getIp();
                         client.getPrintWriter().println(auction);
                         advertiseDialog.dispose();
                     }
