@@ -21,7 +21,7 @@ public class TCPServerThread extends Thread {
 	try {
 	    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 	    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out.println("Connected!");
+            out.println("Welcome! You have been sucessfully connected!");
 
 	    auctionProtocol = new AuctionProtocol();
 	    outputString = auctionProtocol.processInput("");
