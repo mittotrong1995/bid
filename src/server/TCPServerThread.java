@@ -24,8 +24,9 @@ public class TCPServerThread extends Thread {
             out.println("Welcome! You have been sucessfully connected!");
 
 	    auctionProtocol = new AuctionProtocol();
-	    outputString = auctionProtocol.processInput("");
-	    out.println(outputString);
+            auctionProtocol.processInput("");
+//	    outputString = auctionProtocol.processInput("");
+//	    out.println(outputString);
 
 	    while ((inputString = in.readLine()) != null) {
 		outputString = auctionProtocol.processInput(inputString);
