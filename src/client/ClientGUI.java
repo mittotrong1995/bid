@@ -247,7 +247,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
 
         if(table.getSelectedRow() != -1){
             String register = "2|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
-            (client.getPrintStream()).println(register);}
+            (client.getPrintWriter()).println(register);}
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
     }
@@ -255,7 +255,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     private void withdrawAction() {
         if(table.getSelectedRow() != -1){
             String withdraw = "6|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
-            (client.getPrintStream()).println(withdraw);}
+            (client.getPrintWriter()).println(withdraw);}
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
     }
@@ -264,7 +264,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         if(table.getSelectedRow() != -1){
         String prize = JOptionPane.showInputDialog(this, "Enter a value for the bid: ", "Place a bid", JOptionPane.QUESTION_MESSAGE);
         String bid = "3|"+(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + "|" + prize;
-        (client.getPrintStream()).println(bid);
+        (client.getPrintWriter()).println(bid);
         }
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
@@ -273,7 +273,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     private void historyAction() {
         if(table.getSelectedRow() != -1){
             String history = "5|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
-            (client.getPrintStream()).println(history);}
+            (client.getPrintWriter()).println(history);}
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
     }
@@ -281,7 +281,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     private void participantsAction() {
         if(table.getSelectedRow() != -1){
             String participants = "7|" + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
-            (client.getPrintStream()).println(participants);
+            (client.getPrintWriter()).println(participants);
                 }
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
@@ -592,7 +592,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 else if (closeTypeTwoRadioButton.isSelected())
                     typeSelection = closeTypeTwoRadioButton.getText();
                 String auction = "0|" + typeSelection + "|" + startPriceTextField.getText() + "|" + nameTextField.getText() + "|" + descriptionTextArea.getText();
-                client.getPrintStream().println(auction);
+                client.getPrintWriter().println(auction);
             }
         });
 

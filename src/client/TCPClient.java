@@ -49,7 +49,7 @@ public class TCPClient implements Runnable {
 	}
     }
 
-    public PrintWriter getPrintStream() {
+    public PrintWriter getPrintWriter() {
         return out;
     }
 

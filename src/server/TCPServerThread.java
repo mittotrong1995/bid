@@ -4,11 +4,16 @@ import java.net.*;
 import java.io.*;
 
 public class TCPServerThread extends Thread {
-    private Socket socket = null;
+    private Socket socket;
+    private String inputString;
+    private String outputString;
+    private AuctionProtocol auctionProtocol;
 
     public TCPServerThread(Socket socket) {
 	super();
 	this.socket = socket;
+        inputString = "";
+        outputString = "";
     }
 
     public void run() {
@@ -17,14 +22,13 @@ public class TCPServerThread extends Thread {
 	    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 	    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-	    String inputLine, outputLine;
-	    AuctionProtocol ap = new AuctionProtocol();
-	    outputLine = ap.processInput("");
-	    out.println(outputLine);
+	    auctionProtocol = new AuctionProtocol();
+	    outputString = auctionProtocol.processInput("");
+	    out.println(outputString);
 
-	    while ((inputLine = in.readLine()) != null) {
-		outputLine = ap.processInput(inputLine);
-		out.println(outputLine);
+	    while ((inputString = in.readLine()) != null) {
+		outputString = auctionProtocol.processInput(inputString);
+		out.println(outputString);
 	    }
 	    out.close();
 	    in.close();
