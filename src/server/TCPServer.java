@@ -10,9 +10,8 @@ public class TCPServer {
 
         try {
             serverSocket = new ServerSocket(4444);
-            System.out.println("Server started");
         } catch (IOException e) {
-            System.err.println("Could not listen on port: 4444.");
+            System.err.println("Cannot listen on port: 4444.");
         }
 
         while (listening)
