@@ -84,7 +84,7 @@ public class AuctionProtocol {
     }
 
     private String messageAction(String in) {
-        String out = "";
+        String out = in;
         return out;
     }
 }

@@ -336,16 +336,21 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
 
     private void showMessageDialog() {
         javax.swing.JLabel messageLabel = new javax.swing.JLabel();
-        javax.swing.JTextArea messageTextArea = new javax.swing.JTextArea();
+        final javax.swing.JTextArea messageTextArea = new javax.swing.JTextArea();
         javax.swing.JPanel messagesMainPanel = new javax.swing.JPanel();
         javax.swing.JScrollPane msgScrollPane = new javax.swing.JScrollPane();
         javax.swing.JLabel recepientLabel = new javax.swing.JLabel();
         javax.swing.JButton sendButton = new javax.swing.JButton();
-        javax.swing.JTextField IPTextField1 = new javax.swing.JTextField();
-        javax.swing.JTextField IPTextField2 = new javax.swing.JTextField();
-        javax.swing.JTextField IPTextField3 = new javax.swing.JTextField();
-        javax.swing.JTextField IPTextField4 = new javax.swing.JTextField();
+        final javax.swing.JTextField iPTextField1 = new javax.swing.JTextField();
+        final javax.swing.JTextField iPTextField2 = new javax.swing.JTextField();
+        final javax.swing.JTextField iPTextField3 = new javax.swing.JTextField();
+        final javax.swing.JTextField iPTextField4 = new javax.swing.JTextField();
         JDialog messageDialog;
+
+        iPTextField1.setDocument(new MaxLengthTextDocument(3));
+        iPTextField2.setDocument(new MaxLengthTextDocument(3));
+        iPTextField3.setDocument(new MaxLengthTextDocument(3));
+        iPTextField4.setDocument(new MaxLengthTextDocument(3));
 
         recepientLabel.setText("Send to IP:");
         messageLabel.setText("Message content:");
@@ -366,13 +371,13 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                     .addGroup(messagesMainPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IPTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(iPTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IPTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(iPTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IPTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(iPTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IPTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(iPTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(messagesMainPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(messageLabel))
@@ -389,10 +394,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 .addComponent(recepientLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(messagesMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(IPTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IPTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IPTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IPTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(iPTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(iPTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(iPTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(iPTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(messageLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -402,6 +407,22 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 .addContainerGap())
         );
 
+        sendButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    Integer.parseInt(iPTextField1.getText());
+                    Integer.parseInt(iPTextField2.getText());
+                    Integer.parseInt(iPTextField3.getText());
+                    Integer.parseInt(iPTextField4.getText());
+                    String message = "8|" + iPTextField1.getText() + "." + iPTextField2.getText() + "." + iPTextField3.getText() + "." + iPTextField4.getText() + "|" + messageTextArea.getText();
+                        client.getPrintWriter().println(message);
+                }
+                catch(Exception ex)
+                {
+                    JOptionPane.showMessageDialog(null,"Please enter digits in the IP fields!", "Error Message!",3);
+                }
+            }
+        });
         msgScrollPane.setViewportView(messageTextArea);
         messageDialog = new JDialog(this, "Send Message", true);
         messageDialog.add(messagesMainPanel);
@@ -516,7 +537,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         javax.swing.JLabel startPriceLabel = new javax.swing.JLabel();
         final javax.swing.JTextField startPriceTextField = new javax.swing.JTextField();
         javax.swing.JButton submitButton = new javax.swing.JButton();
-        javax.swing.JDialog advertiseDialog = new javax.swing.JDialog(this, "Advertise an item", true);
+        final javax.swing.JDialog advertiseDialog = new javax.swing.JDialog(this, "Advertise an item", true);
 
         nameLabel.setText("Name:");
         descriptionLabel.setText("Description:");
@@ -591,8 +612,25 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                     typeSelection = closeTypeOneRadioButton.getText();
                 else if (closeTypeTwoRadioButton.isSelected())
                     typeSelection = closeTypeTwoRadioButton.getText();
-                String auction = "0|" + typeSelection + "|" + startPriceTextField.getText() + "|" + nameTextField.getText() + "|" + descriptionTextArea.getText();
-                client.getPrintWriter().println(auction);
+                try
+                {
+                    Integer.parseInt(startPriceTextField.getText());
+                    if(typeSelection.equals(""))
+                        JOptionPane.showMessageDialog(null,"Please select the closing type!", "Error Message!",3);
+                    else if(nameTextField.getText().equals(""))
+                        JOptionPane.showMessageDialog(null,"Please enter the item's name!", "Error Message!",3);
+                    else if(descriptionTextArea.getText().equals(""))
+                        JOptionPane.showMessageDialog(null,"Please enter the item's description!", "Error Message!",3);
+                    else{
+                        String auction = "0|" + typeSelection + "|" + startPriceTextField.getText() + "|" + nameTextField.getText() + "|" + descriptionTextArea.getText();
+                        client.getPrintWriter().println(auction);
+                        advertiseDialog.dispose();
+                    }
+                }
+                catch(Exception exc)
+                {
+                    JOptionPane.showMessageDialog(null,"Please enter digits in the price field!", "Error Message!",3);
+                }              
             }
         });
 
@@ -616,9 +654,15 @@ class MaxLengthTextDocument extends javax.swing.text.PlainDocument {
     @Override
     public void insertString(int offs, String str, javax.swing.text.AttributeSet a)
                     throws javax.swing.text.BadLocationException {
+        try{
             if(str == null || (getLength() + str.length() > maxChars)){
                     str = str.substring(0, maxChars-1);
             }
             super.insertString(offs, str, a);
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null,"You cannot enter more than 3 digits in the IP address fields!", "Error Message!",3);
+        }
     }
 }
