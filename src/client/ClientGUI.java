@@ -345,7 +345,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         final javax.swing.JTextField iPTextField2 = new javax.swing.JTextField();
         final javax.swing.JTextField iPTextField3 = new javax.swing.JTextField();
         final javax.swing.JTextField iPTextField4 = new javax.swing.JTextField();
-        JDialog messageDialog;
+        final JDialog messageDialog = new JDialog(this, "Send Message", true);
 
         iPTextField1.setDocument(new MaxLengthTextDocument(3));
         iPTextField2.setDocument(new MaxLengthTextDocument(3));
@@ -416,6 +416,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                     Integer.parseInt(iPTextField4.getText());
                     String message = "8|" + iPTextField1.getText() + "." + iPTextField2.getText() + "." + iPTextField3.getText() + "." + iPTextField4.getText() + "|" + messageTextArea.getText();
                         client.getPrintWriter().println(message);
+                        messageDialog.dispose();
                 }
                 catch(Exception ex)
                 {
@@ -424,7 +425,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
             }
         });
         msgScrollPane.setViewportView(messageTextArea);
-        messageDialog = new JDialog(this, "Send Message", true);
         messageDialog.add(messagesMainPanel);
         messageDialog.pack();
         messageDialog.setLocationRelativeTo(this);
