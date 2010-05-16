@@ -277,7 +277,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             if (connected == false)
                 JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
             if (connected == true)
-                advertiseAction();
+                highestBidAction();
         }
         else if (c.equals("exit")){
             exitAction();
@@ -334,6 +334,14 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         if(table.getSelectedRow() != -1){
             String history = "5"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
             (client.getPrintWriter()).println(history);}
+        else
+          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
+    }
+
+    private void highestBidAction() {
+        if(table.getSelectedRow() != -1){
+            String highestBid = "4"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+            (client.getPrintWriter()).println(highestBid);}
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
     }

@@ -28,6 +28,7 @@ public class AuctionProtocol {
 
         if (!theInput.isEmpty()){
             byte action = Byte.parseByte(theInput.substring(0, 1));
+            System.out.println(action + "govance");
             switch(action){
                 case 0: theOutput = advertiseAction(theInput);
                         break;
@@ -123,10 +124,13 @@ public class AuctionProtocol {
     private String highestAction(String in) {
         String [] parts = null ;
         parts = in.split(token);
+        for(int i = 0; i < parts.length; i++)
+            System.out.println(parts[i]);
         Auction currentAuction = getAuction(parts[1]);
         String out = "";
 
-       out += ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size())).get(0) +"-" +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size())).get(4);
+        out += ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() - 1)).get(0) +"-" +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() -1)).get(4);
+        System.out.println(out + " ssss");
         return out;
     }
 
