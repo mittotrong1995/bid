@@ -20,6 +20,7 @@ public class AuctionProtocol {
     private static final byte PARTICIPANTS = 7;
     private static final byte MESSAGE = 8;
     private static final byte TABLE = 9;
+    private static final byte CONNECT = 10;
     private static List auctionList = new LinkedList();
     private static String token = "#@";
 
@@ -181,6 +182,7 @@ public class AuctionProtocol {
     }
 
     private String messageAction(String in) {
+        
         String out = in;
         return out;
     }

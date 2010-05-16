@@ -13,10 +13,10 @@ public class TCPClient implements Runnable{
     static BufferedReader inputLine = null;
     static boolean closed = false;
     static Thread t;
-    static Client client;
+    //static Client client;
     String responseLine;
     Thread clientThread;
-
+    
     public Thread getClientThread() {
         return clientThread;
     }
@@ -27,8 +27,9 @@ public class TCPClient implements Runnable{
 
     public TCPClient(String host, int port) throws UnknownHostException, IOException, InterruptedException{
 
-        client = new Client(host);
+        //client = new Client(host);
         clientSocket = new Socket(host, port);
+        System.out.println(clientSocket.getInetAddress());
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         inputLine = new BufferedReader(new InputStreamReader(System.in));
@@ -40,9 +41,9 @@ public class TCPClient implements Runnable{
         }
     }
 
-    public static Client getClient() {
-        return client;
-    }
+//    public static Client getClient() {
+//        return client;
+//    }
 
     public void run() {
         while (!closed) {
