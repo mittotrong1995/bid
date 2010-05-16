@@ -33,7 +33,7 @@ public class TCPClient implements Runnable{
 
         //client = new Client(host);
         clientSocket = new Socket(host, port);
-        System.out.println(clientSocket.getInetAddress());
+        System.out.println(clientSocket.getLocalAddress());
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         inputLine = new BufferedReader(new InputStreamReader(System.in));
