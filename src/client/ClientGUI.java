@@ -228,14 +228,22 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         String c = e.getActionCommand();
         if (c.equals("register")){
             if (connected == true)
+            {
                 registerAction();
+                refreshTable();
+                client.getPrintWriter().println("9" + token + localaddr);
+            }
 
             if (connected == false )
                 JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
         }
         else if (c.equals("withdraw")){
             if (connected == true)
+            {
                 withdrawAction();
+                refreshTable();
+               client.getPrintWriter().println("9" + token + localaddr);
+            }
 
             if (connected == false )
                 JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
@@ -309,7 +317,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     private void withdrawAction() {
         if(table.getSelectedRow() != -1){
             String withdraw = "6"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + token + localaddr;
-            (client.getPrintWriter()).println(withdraw);}
+            (client.getPrintWriter()).println(withdraw);
+        }
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
     }
@@ -768,11 +777,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     JOptionPane.showMessageDialog(null,"Please enter digits in the price field!", "Error Message!",3);
                 }              
             }
-
-            private void refreshTable() {
-                while(tableModel.getRowCount() != 0)
-                    tableModel.removeRow(0);
-            }
         });
 
         descriptionScrollPane.setViewportView(descriptionTextArea);
@@ -784,6 +788,11 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         advertiseDialog.setVisible(true);
     }
 
+    public void refreshTable() {
+                while(tableModel.getRowCount() != 0)
+                    tableModel.removeRow(0);
+            }
+    
     public void action()
     {
         Thread t = new Thread(this);
@@ -795,14 +804,13 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             String responseLine;
             while ((responseLine = (client.getIn()).readLine()) != null) {
                 String [] parts = responseLine.split(token);
-                 System.out.println("pred rl" + responseLine);
                 if (responseLine.indexOf("connected") > -1) {
                     JOptionPane.showMessageDialog(null, responseLine, "Connection Accepted", 1);
                 }
 
                 else if(responseLine.charAt(0) == '9')
                 {
-                    System.out.println("vp rl" + responseLine);
+                    //refreshTable();
                     int info = 1;
 
                     for(int j = 0; j < (parts.length/5); j++){
