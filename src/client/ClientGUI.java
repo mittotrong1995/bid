@@ -318,7 +318,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
 
     private void withdrawAction() {
         if(table.getSelectedRow() != -1){
-            String withdraw = "6"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
+            String withdraw = "6"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + token + localaddr;
             (client.getPrintWriter()).println(withdraw);}
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);

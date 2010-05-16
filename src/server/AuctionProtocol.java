@@ -160,6 +160,8 @@ public class AuctionProtocol {
                 break;
             }
         }
+
+        out = "withdrawn from auction " + parts[1];
         return out;
     }
 
