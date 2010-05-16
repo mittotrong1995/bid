@@ -745,7 +745,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                                 JOptionPane.showMessageDialog(null,"Please enter closing time that is greater than 0!", "Error Message!",3);
                             }
                             else{
-                                String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + localaddr +closingTimeTextField.getText() ;
+                                String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + localaddr +token +closingTimeTextField.getText() ;
                                 client.getPrintWriter().println(auction);
                                 advertiseDialog.dispose();
                                 refreshTable();
