@@ -24,44 +24,11 @@ public class AuctionProtocol {
     private static List auctionList = new LinkedList();
     private static String token = "#@";
 
-    public String processInput(String theInput) {
-        String theOutput = "";
-
-        if (!theInput.isEmpty()){
-            byte action = Byte.parseByte(theInput.substring(0, 1));
-            switch(action){
-                case 0: theOutput = advertiseAction(theInput);
-                        break;
-                case 1: theOutput = listAction(theInput);
-                        break;
-                case 2: theOutput = registerAction(theInput);
-                        break;
-                case 3: theOutput = bidAction(theInput);
-                        break;
-                case 4: theOutput = highestAction(theInput);
-                        break;
-                case 5: theOutput = historyAction(theInput);
-                        break;
-                case 6: theOutput = withdrawAction(theInput);
-                        break;
-                case 7: theOutput = participantsAction(theInput);
-                        break;
-                case 8: theOutput = messageAction(theInput);
-                        break;
-                case 9: theOutput = tableAction(theInput);
-                        break;
-                default:
-                        break;
-            }
-        }
-        return theOutput;
-    }
-
     public static List getAuctionList() {
         return auctionList;
     }
 
-    private String advertiseAction(String in) {
+    public String advertiseAction(String in) {
         String [] parts = null ;
         parts = in.split(token);
         for(int i = 0; i < parts.length; i++)
@@ -79,12 +46,12 @@ public class AuctionProtocol {
         return out;
     }
 
-    private String listAction(String in) {
+    public String listAction(String in) {
         String out = "Bosko says: FART!";
         return out;
     }
 
-    private String registerAction(String in) {
+    public String registerAction(String in) {
         
         String [] parts = null ;
         parts = in.split(token);
@@ -97,7 +64,7 @@ public class AuctionProtocol {
         return out;
     }
 
-    private String bidAction(String in) {
+    public String bidAction(String in) {
         String [] parts = null ;
         parts = in.split(token);       
 
@@ -121,7 +88,7 @@ public class AuctionProtocol {
         return out;
     }
 
-    private String highestAction(String in) {
+    public String highestAction(String in) {
         String [] parts = null ;
         parts = in.split(token);
         Auction currentAuction = getAuction(parts[1]);
@@ -133,7 +100,7 @@ public class AuctionProtocol {
         return out;
     }
 
-    private String historyAction(String in) {
+    public String historyAction(String in) {
         String [] parts = null ;
         parts = in.split(token);  
         Auction currentAuction = getAuction(parts[1]);
@@ -149,7 +116,7 @@ public class AuctionProtocol {
         return out;
     }
 
-    private String withdrawAction(String in) {
+    public String withdrawAction(String in) {
         String [] parts = null ;
         parts = in.split(token);
         Auction currentAuction = getAuction(parts[1]);
@@ -168,7 +135,7 @@ public class AuctionProtocol {
         return out;
     }
 
-    private String participantsAction(String in) {
+    public String participantsAction(String in) {
         String [] parts = null ;
         parts = in.split(token);
         Auction currentAuction = getAuction(parts[1]);
@@ -181,13 +148,21 @@ public class AuctionProtocol {
         return out;
     }
 
-    private String messageAction(String in) {
+    public String messageAction(String in, List<TCPServerThread> tcpST) {
+        String [] parts = null ;
+        parts = in.split(token);
+
+        for(int i = 0 ; i < tcpST.size(); i++)
+        {
+            if((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","").equals(parts[1]))
+              ((TCPServerThread)tcpST.get(i)).getOut().println(parts[2]);
+        }
         
-        String out = in;
+        String out = "message sent";
         return out;
     }
 
-    private String tableAction(String in) {
+    public String tableAction(String in) {
         String [] parts = null ;
         parts = in.split(token);
 
@@ -198,7 +173,7 @@ public class AuctionProtocol {
         return out;
     }
 
-    private Auction getAuction(String s)
+    public Auction getAuction(String s)
     {
         Auction currentAuction = null;
         for(int i = 0; i< auctionList.size(); i++)
@@ -213,7 +188,7 @@ public class AuctionProtocol {
         return currentAuction;
     }
 
-    private boolean isRegistered(String string, List clients) {
+    public boolean isRegistered(String string, List clients) {
         for(int i = 0; i < clients.size(); i++)
         {
             if(((Client)clients.get(i)).getIp().equals(string))
