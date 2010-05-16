@@ -74,7 +74,7 @@ public class TCPServerThread extends Thread {
                         break;
                 case 2: theOutput = auctionProtocol.registerAction(theInput);
                         break;
-                case 3: theOutput = auctionProtocol.bidAction(theInput);
+                case 3: theOutput = auctionProtocol.bidAction(theInput,TCP_SERVER_THREADS);
                         break;
                 case 4: theOutput = auctionProtocol.highestAction(theInput);
                         break;
