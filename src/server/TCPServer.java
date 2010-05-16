@@ -6,6 +6,7 @@ import java.io.*;
 public class TCPServer {
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = null;
+        Socket socket;
         boolean listening = true;
 
         try {
@@ -15,7 +16,11 @@ public class TCPServer {
         }
 
         while (listening)
-	    new TCPServerThread(serverSocket.accept()).start();
+        {
+            socket = serverSocket.accept();           
+	    new TCPServerThread(socket).start();
+            
+        }
         serverSocket.close();
     }
 }
