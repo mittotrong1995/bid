@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AuctionProtocol {
 
@@ -38,11 +40,21 @@ public class AuctionProtocol {
         if(auctionList.size() > 0){
             id = ((Auction)auctionList.get(auctionList.size() - 1)).getAuctionID()  + 1;}
 
-        Auction auction = new Auction(id,Integer.parseInt(parts[3]),Byte.parseByte(parts[1]),Double.parseDouble(parts[2]),parts[6],item);
+        Auction auction = new Auction(id,Integer.parseInt(parts[3]),Byte.parseByte(parts[1]),Double.parseDouble(parts[2]),parts[6],item,Integer.parseInt(parts[7]));
         Client client = new Client(parts[6]);
         (auction.getClients()).add(client);
         auctionList.add((Auction)auction);
-        String out = in;
+        String out = "";
+        if(parts[1].equals("1"))
+        {
+            Thread t = new Thread();
+            try {
+                t.sleep(Integer.parseInt(parts[7]) * 1000);
+                out = "sold";
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AuctionProtocol.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        
         return out;
     }
 

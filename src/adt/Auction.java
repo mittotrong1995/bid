@@ -23,14 +23,16 @@ public class Auction {
     private List clients;
     private List biddingHistory;
     private Vector biddingPair;
+    private int timer;
 
-    public Auction(int auctionID, int quantity, byte closingType, double highestBid, String sellerIP,Item item) {
+    public Auction(int auctionID, int quantity, byte closingType, double highestBid, String sellerIP,Item item,int timer) {
         this.auctionID = auctionID;
         this.quantity = quantity;
         this.closingType = closingType;
         this.highestBid = highestBid;
         this.sellerIP = sellerIP;
         this.item = item;
+        this.timer = timer;
         clients = new LinkedList();
         biddingHistory = new LinkedList();
     }
