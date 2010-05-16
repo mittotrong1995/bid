@@ -14,6 +14,7 @@ public class TCPClient implements Runnable {
     static boolean closed = false;
     static Thread t;
     static Client client;
+    String responseLine;
 
     public TCPClient(String host, int port) throws UnknownHostException, IOException, InterruptedException{
 
@@ -46,7 +47,6 @@ public class TCPClient implements Runnable {
     }
 
     public void run() {
-	String responseLine;
 	try{
 	    while ((responseLine = in.readLine()) != null) {
                 if(responseLine.indexOf("connected") > -1)
@@ -62,8 +62,17 @@ public class TCPClient implements Runnable {
 	}
     }
 
+    public static BufferedReader getIn() {
+        return in;
+    }
+
     public PrintWriter getPrintWriter() {
         return out;
+    }
+
+    public String sendString()
+    {
+        return responseLine;
     }
 
     void closeConnection() throws IOException {

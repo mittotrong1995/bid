@@ -10,10 +10,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-public class ClientGUI extends javax.swing.JFrame implements ActionListener{
+public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runnable{
 
     private TCPClient client;
     private String token;
@@ -30,6 +33,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
     private javax.swing.JButton registerButton;
     private javax.swing.JMenu systemMenu;
     private javax.swing.JTable table;
+    private javax.swing.table.DefaultTableModel tableModel;
     private javax.swing.JScrollPane tableScrollPane;
     private javax.swing.JTextArea textArea;
     private javax.swing.JScrollPane textAreaScrollPane;
@@ -46,7 +50,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                 showCancelDialog();
             }
         });
-        
     }
 
     public static void main(String args[]) {
@@ -61,6 +64,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         registerButton = new javax.swing.JButton();
         tableScrollPane = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        tableModel = new javax.swing.table.DefaultTableModel();
         historyButton = new javax.swing.JButton();
         participantsButton = new javax.swing.JButton();
         textAreaScrollPane = new javax.swing.JScrollPane();
@@ -106,6 +110,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         table.getColumnModel().getColumn(4).setMinWidth(80);
         table.getColumnModel().getColumn(4).setPreferredWidth(80);
         table.getColumnModel().getColumn(4).setMaxWidth(80);
+
+        tableModel = (DefaultTableModel) table.getModel();
 
         textArea.setFont(new java.awt.Font("Lucida Sans", 0, 12)); 
         textArea.setToolTipText("Description");
@@ -495,6 +501,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                         connectDialog.dispose();
                         connectMenuItem.setText("Disconnect");
                         connectMenuItem.setActionCommand("disconnectMenu");
+                        action();
                         connected = true;
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(connectDialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -671,7 +678,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
                     else{
                         String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + client.getClient().getIp();
                         client.getPrintWriter().println(auction);
-                        advertiseDialog.dispose();
+                        advertiseDialog.dispose();                      
                     }
                 }
                 catch(Exception exc)
@@ -689,8 +696,39 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener{
         advertiseDialog.setLocationRelativeTo(this);
         advertiseDialog.setVisible(true);
     }
-}
 
+    public void action()
+    {
+        
+        Thread t = new Thread(this);
+        t.start();
+    }
+
+    public void run() {
+        try {
+            String responseLine;
+            while ((responseLine = (client.getIn()).readLine()) != null) {
+                String [] parts = responseLine.split(token);
+                if (responseLine.indexOf("connected") > -1) {
+                    JOptionPane.showMessageDialog(null, responseLine, "Connection Accepted", 1);
+                }
+
+                else if(responseLine.charAt(0) == '9')
+                {
+                    System.out.println("ssss" + responseLine);
+                    int info = 1;
+
+                    for(int j = 0; j < (parts.length/5); j++){
+                        tableModel.insertRow(j, new Object [] {parts[info],parts[info+1],parts[info+2],parts[info+3],parts[info+4]});
+                        info = info + 5;
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}
 class MaxLengthTextDocument extends javax.swing.text.PlainDocument {
     private int maxChars;
 
