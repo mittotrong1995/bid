@@ -169,10 +169,14 @@ public class AuctionProtocol {
         return out;
     }
 
-    private String tableAction(String theInput) {
+    private String tableAction(String in) {
+        String [] parts = null ;
+        parts = in.split(token);
+
+        System.out.println("u auction prot");
         String out = "9";
         for(int i = 0;i < auctionList.size(); i++)
-            out += token + ((Auction)(auctionList.get(i))).getAuctionID() + token + ((Auction)(auctionList.get(i))).getItem().getName() + token + ((Auction)(auctionList.get(i))).getItem().getStartingPrize() + token + ((Auction)(auctionList.get(i))).getSellerIP() + token + true;
+            out += token + ((Auction)(auctionList.get(i))).getAuctionID() + token + ((Auction)(auctionList.get(i))).getItem().getName() + token + ((Auction)(auctionList.get(i))).getItem().getStartingPrize() + token + ((Auction)(auctionList.get(i))).getSellerIP() + token + isRegistered(parts[1],((Auction)auctionList.get(i)).getClients());
         return out;
     }
 
@@ -189,5 +193,14 @@ public class AuctionProtocol {
         }
 
         return currentAuction;
+    }
+
+    private boolean isRegistered(String string, List clients) {
+        for(int i = 0; i < clients.size(); i++)
+        {
+            if(((Client)clients.get(i)).getIp().equals(string))
+                return true;
+        }
+        return false;
     }
 }
