@@ -125,8 +125,10 @@ public class AuctionProtocol {
         parts = in.split(token);
         Auction currentAuction = getAuction(parts[1]);
         String out = "";
-
-        out += ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() - 1)).get(0) +"-" +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() -1)).get(4);
+        if (currentAuction.getBiddingHistory().size() >0)
+            out += ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() - 1)).get(0) +"-" +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() -1)).get(4);
+        else
+            out += Double.toString(currentAuction.getItem().getStartingPrize());
         return out;
     }
 
