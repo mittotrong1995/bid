@@ -330,12 +330,19 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         {
             if(table.getSelectedRow() != -1){
                 String prize = JOptionPane.showInputDialog(this, "Enter a value for the bid: ", "Place a bid", JOptionPane.QUESTION_MESSAGE);
-                Integer.parseInt(prize);
-                String bid = "3" + token +(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + token + prize + token + localaddr;
-                (client.getPrintWriter()).println(bid);
+                double price =Double.parseDouble(prize);
+                if (price >0)
+                {
+                    String bid = "3" + token +(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + token + prize + token + localaddr;
+                    (client.getPrintWriter()).println(bid);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"Please enter a number greater than 0","Error Message",2);
+                }
             }
             else
-          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
+            JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
         }
         catch(Exception e)
         {
@@ -708,27 +715,39 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     typeSelection = closeTypeTwoRadioButton.getText();
                 try
                 {
-                    Integer.parseInt(startPriceTextField.getText());
+
+                    double startprice = Double.parseDouble(startPriceTextField.getText());
+                    System.out.println(startprice);
                     try{
-                    Integer.parseInt(quantityTextField.getText());
+                        int quantity = Integer.parseInt(quantityTextField.getText());
+
+                        if(typeSelection.equals(""))
+                            JOptionPane.showMessageDialog(null,"Please select the closing type!", "Error Message!",3);
+                        else if(nameTextField.getText().equals(""))
+                            JOptionPane.showMessageDialog(null,"Please enter the item's name!", "Error Message!",3);
+                        else if(descriptionTextArea.getText().equals(""))
+                            JOptionPane.showMessageDialog(null,"Please enter the item's description!", "Error Message!",3);
+                        else if (startprice <= 0)
+                        {
+                            JOptionPane.showMessageDialog(null,"Please enter valid price that is greater than 0!", "Error Message!",3);
+                        }
+                        else if (quantity <= 0 )
+                        {
+                            JOptionPane.showMessageDialog(null,"Please enter quantity that is greater than 0!", "Error Message!",3);
+                        }
+                        else{
+                            String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + localaddr;
+                            client.getPrintWriter().println(auction);
+                            advertiseDialog.dispose();
+                            refreshTable();
+                            client.getPrintWriter().println("9" + token + localaddr);
+                        }
                     }
                     catch(Exception ex)
                     {
                         JOptionPane.showMessageDialog(null,"Please enter digits in the quantity field!", "Error Message!",3);
                     }
-                    if(typeSelection.equals(""))
-                        JOptionPane.showMessageDialog(null,"Please select the closing type!", "Error Message!",3);
-                    else if(nameTextField.getText().equals(""))
-                        JOptionPane.showMessageDialog(null,"Please enter the item's name!", "Error Message!",3);
-                    else if(descriptionTextArea.getText().equals(""))
-                        JOptionPane.showMessageDialog(null,"Please enter the item's description!", "Error Message!",3);
-                    else{
-                        String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + localaddr;
-                        client.getPrintWriter().println(auction);
-                        advertiseDialog.dispose();
-                        refreshTable();
-                        client.getPrintWriter().println("9" + token + localaddr);
-                    }
+
                 }
                 catch(Exception exc)
                 {
