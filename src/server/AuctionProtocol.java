@@ -147,7 +147,19 @@ public class AuctionProtocol {
     }
 
     private String withdrawAction(String in) {
+        String [] parts = null ;
+        parts = in.split(token);
+        Auction currentAuction = getAuction(parts[1]);
         String out = "";
+
+        for(int i = 0; i < currentAuction.getClients().size(); i++)
+        {
+            if(((Client)(currentAuction.getClients().get(i))).getIp().equals(parts[2]))
+            {
+                currentAuction.getClients().remove(i);
+                break;
+            }
+        }
         return out;
     }
 
