@@ -2,6 +2,7 @@ package server;
 
 import java.net.*;
 import java.io.*;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TCPServerThread extends Thread {
@@ -11,7 +12,7 @@ public class TCPServerThread extends Thread {
     private AuctionProtocol auctionProtocol;
     private PrintWriter out;
     private BufferedReader in;
-    static List <TCPServerThread> TCP_SERVER_THREADS;
+    public static List <TCPServerThread> TCP_SERVER_THREADS;
 
     public PrintWriter getOut() {
         return out;
@@ -24,6 +25,7 @@ public class TCPServerThread extends Thread {
         inputString = "";
         outputString = "";
         auctionProtocol = new AuctionProtocol();
+        TCP_SERVER_THREADS = new LinkedList();
     }
 
     public Socket getSocket() {
