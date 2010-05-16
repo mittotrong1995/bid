@@ -48,16 +48,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     public ClientGUI(){
         token = "#@";
         connected = false;
-        try
-        {
-                localaddr = InetAddress.getLocalHost().getHostAddress();
-
-                System.out.println ("Local IP Address : " + localaddr );
-        }
-        catch (UnknownHostException e)
-        {
-                System.err.println ("Can't detect localhost : " + e);
-        }
         initComponents();
                 this.addWindowListener(new WindowAdapter() {
             @Override
@@ -551,6 +541,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 if (!IPTextField1.getText().trim().equals("") && !IPTextField2.getText().trim().equals("") && !IPTextField3.getText().trim().equals("") && !IPTextField4.getText().trim().equals("") && !portTextField.getText().trim().equals("")) {
                     try {
                         client = new TCPClient(IPTextField1.getText() + "." + IPTextField2.getText() + "." + IPTextField3.getText() + "." + IPTextField4.getText(), Integer.parseInt(portTextField.getText()));
+                        localaddr = ((client.getClientSocket().getInetAddress()).toString()).replace("/","");
+                        System.out.println(localaddr);
                         connectDialog.dispose();
                         connectMenuItem.setText("Disconnect");
                         connectMenuItem.setActionCommand("disconnectMenu");
