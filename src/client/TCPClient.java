@@ -5,7 +5,7 @@ import java.io.*;
 import java.net.*;
 import javax.swing.JOptionPane;
 
-public class TCPClient implements Runnable {
+public class TCPClient implements Runnable{
 
     static Socket clientSocket = null;
     static PrintWriter out = null;
@@ -15,6 +15,15 @@ public class TCPClient implements Runnable {
     static Thread t;
     static Client client;
     String responseLine;
+    Thread clientThread;
+
+    public Thread getClientThread() {
+        return clientThread;
+    }
+
+    public void setClientThread(Thread clientThread) {
+        this.clientThread = clientThread;
+    }
 
     public TCPClient(String host, int port) throws UnknownHostException, IOException, InterruptedException{
 
@@ -25,18 +34,7 @@ public class TCPClient implements Runnable {
         inputLine = new BufferedReader(new InputStreamReader(System.in));
 
         if (clientSocket != null && out != null && in != null) {
-            new Thread(this).start();
-            t = new Thread(this){
-                public void run(){
-                     while (!closed) {
-                        try {
-                            out.println(inputLine.readLine());
-                        } catch (IOException ex) {
-
-                        }
-                    }
-                };
-            };
+            t = new Thread(this);
             t.start();
 
         }
@@ -47,20 +45,28 @@ public class TCPClient implements Runnable {
     }
 
     public void run() {
-	try{
-	    while ((responseLine = in.readLine()) != null) {
-                if(responseLine.indexOf("connected") > -1)
-                {
-                    JOptionPane.showMessageDialog(null,responseLine, "Connection Accepted", 1);
-                }
-                
-		System.out.println(responseLine);
-	    }
-            closed = true;
-        } catch (Exception e) {
-	    System.err.println("IOException:  " + e);
-	}
+        while (!closed) {
+                        try {
+                            out.println(inputLine.readLine());
+                        } catch (IOException ex) {
+
+                        }
+                    }
     }
+//	try{
+//	    while ((responseLine = in.readLine()) != null) {
+//                if(responseLine.indexOf("connected") > -1)
+//                {
+//                    JOptionPane.showMessageDialog(null,responseLine, "Connection Accepted", 1);
+//                }
+//
+//		System.out.println(responseLine);
+//	    }
+//            closed = true;
+//        } catch (Exception e) {
+//	    System.err.println("IOException:  " + e);
+//	}
+//    }
 
     public static BufferedReader getIn() {
         return in;

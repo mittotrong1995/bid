@@ -534,6 +534,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         connectDialog.dispose();
                         connectMenuItem.setText("Disconnect");
                         connectMenuItem.setActionCommand("disconnectMenu");
+                        client.getPrintWriter().println("9" + token + client.getClient().getIp());
                         action();
                         connected = true;
                     } catch (Exception ex) {
@@ -713,7 +714,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         client.getPrintWriter().println(auction);
                         advertiseDialog.dispose();
                         refreshTable();
-                        client.getPrintWriter().println("9");
+                        client.getPrintWriter().println("9" + token + client.getClient().getIp());
                     }
                 }
                 catch(Exception exc)
@@ -739,7 +740,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
 
     public void action()
     {
-        
         Thread t = new Thread(this);
         t.start();
     }
@@ -749,12 +749,14 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             String responseLine;
             while ((responseLine = (client.getIn()).readLine()) != null) {
                 String [] parts = responseLine.split(token);
+                 System.out.println("pred rl" + responseLine);
                 if (responseLine.indexOf("connected") > -1) {
                     JOptionPane.showMessageDialog(null, responseLine, "Connection Accepted", 1);
                 }
 
                 else if(responseLine.charAt(0) == '9')
                 {
+                    System.out.println("vp rl" + responseLine);
                     int info = 1;
 
                     for(int j = 0; j < (parts.length/5); j++){
