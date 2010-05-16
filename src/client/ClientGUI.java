@@ -494,6 +494,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     Integer.parseInt(iPTextField3.getText());
                     Integer.parseInt(iPTextField4.getText());
                     String message = "8"+ token + iPTextField1.getText() + "." + iPTextField2.getText() + "." + iPTextField3.getText() + "." + iPTextField4.getText() + token+ messageTextArea.getText();
+                    System.out.println(messageTextArea.getText());
                         client.getPrintWriter().println(message);
                         messageDialog.dispose();
                 }
@@ -620,6 +621,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         final javax.swing.JTextField nameTextField = new javax.swing.JTextField();
         javax.swing.JLabel startPriceLabel = new javax.swing.JLabel();
         final javax.swing.JTextField startPriceTextField = new javax.swing.JTextField();
+        javax.swing.JLabel closingTimeLabel = new javax.swing.JLabel();
+        final javax.swing.JTextField closingTimeTextField = new javax.swing.JTextField();
         javax.swing.JLabel quantityLabel = new javax.swing.JLabel();
         final javax.swing.JTextField quantityTextField = new javax.swing.JTextField();
         javax.swing.JButton submitButton = new javax.swing.JButton();
@@ -631,6 +634,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         closeTypeLabel.setText("Closing Type:");
         submitButton.setText("Submit");
         quantityLabel.setText("Quantity: ");
+        closingTimeLabel.setText("Closing Time: ");
 
         final javax.swing.ButtonGroup closeGroup = new javax.swing.ButtonGroup();
         closeTypeOneRadioButton.setText("1");
@@ -658,6 +662,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(quantityTextField, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(quantityLabel, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(closingTimeTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(closingTimeLabel, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(closeTypeLabel)
@@ -686,11 +694,13 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startPriceLabel)
                     .addComponent(quantityLabel)
+                    .addComponent(closingTimeLabel)
                     .addComponent(closeTypeLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(quantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(closingTimeTextField)
                     .addComponent(closeTypeTwoRadioButton)
                     .addComponent(closeTypeOneRadioButton))
                 .addGap(18, 18, 18)
@@ -713,26 +723,38 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     try{
                         int quantity = Integer.parseInt(quantityTextField.getText());
 
-                        if(typeSelection.equals(""))
-                            JOptionPane.showMessageDialog(null,"Please select the closing type!", "Error Message!",3);
-                        else if(nameTextField.getText().equals(""))
-                            JOptionPane.showMessageDialog(null,"Please enter the item's name!", "Error Message!",3);
-                        else if(descriptionTextArea.getText().equals(""))
-                            JOptionPane.showMessageDialog(null,"Please enter the item's description!", "Error Message!",3);
-                        else if (startprice <= 0)
+                        try
                         {
-                            JOptionPane.showMessageDialog(null,"Please enter valid price that is greater than 0!", "Error Message!",3);
+                            int closingtime = Integer.parseInt(closingTimeTextField.getText());
+                            if(typeSelection.equals(""))
+                                JOptionPane.showMessageDialog(null,"Please select the closing type!", "Error Message!",3);
+                            else if(nameTextField.getText().equals(""))
+                                JOptionPane.showMessageDialog(null,"Please enter the item's name!", "Error Message!",3);
+                            else if(descriptionTextArea.getText().equals(""))
+                                JOptionPane.showMessageDialog(null,"Please enter the item's description!", "Error Message!",3);
+                            else if (startprice <= 0)
+                            {
+                                JOptionPane.showMessageDialog(null,"Please enter valid price that is greater than 0!", "Error Message!",3);
+                            }
+                            else if (quantity <= 0 )
+                            {
+                                JOptionPane.showMessageDialog(null,"Please enter quantity that is greater than 0!", "Error Message!",3);
+                            }
+                            else if (closingtime <= 0 )
+                            {
+                                JOptionPane.showMessageDialog(null,"Please enter closing time that is greater than 0!", "Error Message!",3);
+                            }
+                            else{
+                                String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + localaddr +closingTimeTextField.getText() ;
+                                client.getPrintWriter().println(auction);
+                                advertiseDialog.dispose();
+                                refreshTable();
+                                client.getPrintWriter().println("9" + token + localaddr);
+                            }
                         }
-                        else if (quantity <= 0 )
+                        catch(Exception ex)
                         {
-                            JOptionPane.showMessageDialog(null,"Please enter quantity that is greater than 0!", "Error Message!",3);
-                        }
-                        else{
-                            String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + localaddr;
-                            client.getPrintWriter().println(auction);
-                            advertiseDialog.dispose();
-                            refreshTable();
-                            client.getPrintWriter().println("9" + token + localaddr);
+                            JOptionPane.showMessageDialog(null,"Please enter digits in the closing time field!", "Error Message!",3);
                         }
                     }
                     catch(Exception ex)
