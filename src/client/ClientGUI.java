@@ -42,12 +42,22 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     private javax.swing.JScrollPane textAreaScrollPane;
     private javax.swing.JButton withdrawButton;
     private boolean connected;
-    private InetAddress localaddr;
+    private String localaddr;
 
   
     public ClientGUI(){
         token = "#@";
         connected = false;
+        try
+        {
+                localaddr = InetAddress.getLocalHost().getHostAddress();
+
+                System.out.println ("Local IP Address : " + localaddr );
+        }
+        catch (UnknownHostException e)
+        {
+                System.err.println ("Can't detect localhost : " + e);
+        }
         initComponents();
                 this.addWindowListener(new WindowAdapter() {
             @Override
@@ -85,19 +95,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         messageMenuItem = new javax.swing.JMenuItem();
         menuSeparator2 = new javax.swing.JPopupMenu.Separator();
         exitMenuItem = new javax.swing.JMenuItem();
-        try
-        {
-                localaddr = InetAddress.getLocalHost();
-
-                System.out.println ("Local IP Address : " + localaddr.getHostAddress() );
-        }
-        catch (UnknownHostException e)
-        {
-                System.err.println ("Can't detect localhost : " + e);
-        }
-
-
-
+      
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {},
             new String [] {
@@ -311,7 +309,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     private void registerAction() {
 
         if(table.getSelectedRow() != -1){
-            String register = "2"+ token + table.getModel().getValueAt(table.getSelectedRow(),0) + token + client.getClient().getIp();
+            String register = "2"+ token + table.getModel().getValueAt(table.getSelectedRow(),0) + token + localaddr;
             (client.getPrintWriter()).println(register);
         }
         else
@@ -333,7 +331,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             if(table.getSelectedRow() != -1){
                 String prize = JOptionPane.showInputDialog(this, "Enter a value for the bid: ", "Place a bid", JOptionPane.QUESTION_MESSAGE);
                 Integer.parseInt(prize);
-                String bid = "3" + token +(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + token + prize + token + client.getClient().getIp();
+                String bid = "3" + token +(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + token + prize + token + localaddr;
                 (client.getPrintWriter()).println(bid);
             }
             else
@@ -549,7 +547,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         connectDialog.dispose();
                         connectMenuItem.setText("Disconnect");
                         connectMenuItem.setActionCommand("disconnectMenu");
-                        client.getPrintWriter().println("9" + token + client.getClient().getIp());
+                        client.getPrintWriter().println("9" + token + localaddr);
                         action();
                         connected = true;
                     } catch (Exception ex) {
@@ -725,11 +723,11 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     else if(descriptionTextArea.getText().equals(""))
                         JOptionPane.showMessageDialog(null,"Please enter the item's description!", "Error Message!",3);
                     else{
-                        String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + client.getClient().getIp();
+                        String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + localaddr;
                         client.getPrintWriter().println(auction);
                         advertiseDialog.dispose();
                         refreshTable();
-                        client.getPrintWriter().println("9" + token + client.getClient().getIp());
+                        client.getPrintWriter().println("9" + token + localaddr);
                     }
                 }
                 catch(Exception exc)
