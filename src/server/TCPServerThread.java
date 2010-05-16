@@ -23,10 +23,10 @@ public class TCPServerThread extends Thread {
 	    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out.println("Welcome! You have been sucessfully connected!");
 
-	    auctionProtocol = new AuctionProtocol();
-            auctionProtocol.processInput("");
+	    auctionProtocol = new AuctionProtocol();            
 //	    outputString = auctionProtocol.processInput("");
-//	    out.println(outputString);
+            if(auctionProtocol.getAuctionList().size() > 0)
+	    out.println(auctionProtocol.processInput("9"));
 
 	    while ((inputString = in.readLine()) != null) {
 		outputString = auctionProtocol.processInput(inputString);

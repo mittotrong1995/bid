@@ -16,7 +16,9 @@ public class AuctionProtocol {
     private static final byte WITHDRAW = 6;
     private static final byte PARTICIPANTS = 7;
     private static final byte MESSAGE = 8;
+    private static final byte TABLE = 9;
     private static List auctionList = new LinkedList();
+    private static String token = "#@";
 
     public String processInput(String theInput) {
         String theOutput = "";
@@ -42,6 +44,8 @@ public class AuctionProtocol {
                         break;
                 case 8: theOutput = messageAction(theInput);
                         break;
+                case 9: theOutput = tableAction(theInput);
+                        break;
                 default:
                         break;
             }
@@ -55,13 +59,13 @@ public class AuctionProtocol {
 
     private String advertiseAction(String in) {
         String [] parts = null ;
-        parts = in.split("#@");
+        parts = in.split(token);
         for(int i = 0; i < parts.length; i++)
             System.out.println(parts[i]);
         Item item = new Item(parts[4],parts[5],Double.parseDouble(parts[2]));
         int id = 1;
         if(auctionList.size() > 0){
-            id = ((Auction)auctionList.get(auctionList.size())).getAuctionID()  + 1;}
+            id = ((Auction)auctionList.get(auctionList.size() - 1)).getAuctionID()  + 1;}
 
         Auction auction = new Auction(id,Integer.parseInt(parts[3]),Byte.parseByte(parts[1]),Double.parseDouble(parts[2]),parts[6],item);
         auctionList.add((Auction)auction);
@@ -106,6 +110,13 @@ public class AuctionProtocol {
 
     private String messageAction(String in) {
         String out = in;
+        return out;
+    }
+
+    private String tableAction(String theInput) {
+        String out = "9";
+        for(int i = 0;i < auctionList.size(); i++)
+            out += token + ((Auction)(auctionList.get(i))).getAuctionID() + token + ((Auction)(auctionList.get(i))).getItem().getName() + token + ((Auction)(auctionList.get(i))).getItem().getStartingPrize() + token + ((Auction)(auctionList.get(i))).getSellerIP() + token + true;
         return out;
     }
 }
