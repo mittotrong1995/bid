@@ -25,6 +25,10 @@ public class TCPClient implements Runnable{
         this.clientThread = clientThread;
     }
 
+    public static Socket getClientSocket() {
+        return clientSocket;
+    }
+
     public TCPClient(String host, int port) throws UnknownHostException, IOException, InterruptedException{
 
         //client = new Client(host);
