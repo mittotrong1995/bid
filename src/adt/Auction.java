@@ -37,6 +37,14 @@ public class Auction {
         biddingHistory = new LinkedList();
     }
 
+    public int getTimer() {
+        return timer;
+    }
+
+    public void setTimer(int timer) {
+        this.timer = timer;
+    }
+
      public Auction() {
         this.auctionID = 0;
         this.quantity = 0;

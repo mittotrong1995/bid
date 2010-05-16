@@ -34,11 +34,7 @@ public class TCPServerThread extends Thread {
     public void run() {
         System.out.println(socket.getInetAddress());
 	try {
-            System.out.println("sanja");
             TCP_SERVER_THREADS.add(this);
-            for(int i = 0; i < TCP_SERVER_THREADS.size(); i++)
-                System.out.println(TCP_SERVER_THREADS.get(i));
-            System.out.println(socket.getInetAddress() + "aaaaaaaaaaaaaa");
 	    out = new PrintWriter(socket.getOutputStream(), true);
 	    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out.println("Welcome! You have been sucessfully connected!");            
@@ -68,7 +64,7 @@ public class TCPServerThread extends Thread {
         if (!theInput.isEmpty()){
             byte action = Byte.parseByte(theInput.substring(0, 1));
             switch(action){
-                case 0: theOutput = auctionProtocol.advertiseAction(theInput);
+                case 0: theOutput = auctionProtocol.advertiseAction(theInput,TCP_SERVER_THREADS);
                         break;
                 case 1: theOutput = auctionProtocol.listAction(theInput);
                         break;

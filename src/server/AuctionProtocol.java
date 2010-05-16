@@ -30,9 +30,10 @@ public class AuctionProtocol {
         return auctionList;
     }
 
-    public String advertiseAction(String in) {
+    public String advertiseAction(String in,List<TCPServerThread> tcpST) {
         String [] parts = null ;
         parts = in.split(token);
+        //final String time = parts[7];
         for(int i = 0; i < parts.length; i++)
             System.out.println(parts[i]);
         Item item = new Item(parts[4],parts[5],Double.parseDouble(parts[2]));
@@ -44,17 +45,12 @@ public class AuctionProtocol {
         Client client = new Client(parts[6]);
         (auction.getClients()).add(client);
         auctionList.add((Auction)auction);
-        String out = "";
+        
         if(parts[1].equals("1"))
         {
-            Thread t = new Thread();
-            try {
-                t.sleep(Integer.parseInt(parts[7]) * 1000);
-                out = "sold";
-            } catch (InterruptedException ex) {
-                Logger.getLogger(AuctionProtocol.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }        
+            startClosing(auction);
+        }
+        String out = "item added";
         return out;
     }
 
@@ -70,9 +66,15 @@ public class AuctionProtocol {
 
         Auction currentAuction = getAuction(parts[1]);
         Client client= new Client(parts[2]);
-        (currentAuction.getClients()).add(client);
+        String out= "";
+        if(isRegistered(currentAuction,parts[2]) == false)
+        {
+            (currentAuction.getClients()).add(client);
+             out = "You have been registerd to auction " + parts[1];
+        }
+        else
+            out = "You have already been registered to this auction";
 
-        String out = "You have been registerd to auction " + parts[1];
         return out;
     }
 
@@ -82,7 +84,7 @@ public class AuctionProtocol {
 
         Auction currentAuction = getAuction(parts[1]);
         String out = "";
-        if(currentAuction.getHighestBid() < Integer.parseInt(parts[2])){
+        if(currentAuction.getHighestBid() < Integer.parseInt(parts[2]) && isRegistered(currentAuction,parts[3])){
         currentAuction.setHighestBid(Integer.parseInt(parts[2]));
         Date d = new Date();
             out = "New highest bid has been set for auction " + currentAuction.getAuctionID() + " the bid is:" +  currentAuction.getHighestBid() + "at time: " + d.toGMTString();
@@ -93,13 +95,20 @@ public class AuctionProtocol {
             biddingPair.add("-");
             biddingPair.add(d);
             currentAuction.getBiddingHistory().add(biddingPair);
+            String msgToParticipants = currentAuction.getAuctionID()+token+currentAuction.getItem().getName()+token+parts[2]+token+parts[3];
+            System.out.println(msgToParticipants);
+            notifyParticipants(msgToParticipants,currentAuction,tcpST);
         }
-        else
+        else if(currentAuction.getHighestBid() >= Integer.parseInt(parts[2]))
+        {
             out = "This is not the highest bid";
+        }
 
-        String msgToParticipants = currentAuction.getAuctionID()+token+currentAuction.getItem().getName()+token+parts[2]+token+parts[3];
-        System.out.println(msgToParticipants);
-        notifyParticipants(msgToParticipants,currentAuction,tcpST);
+        else if(isRegistered(currentAuction,parts[3]) == false)
+        {
+            out = "You have not been registered to this auction";
+        }
+                   
         return out;
     }
 
@@ -137,6 +146,7 @@ public class AuctionProtocol {
         Auction currentAuction = getAuction(parts[1]);
         String out = "";
 
+        if(isRegistered(currentAuction,parts[2])){
         for(int i = 0; i < currentAuction.getClients().size(); i++)
         {
             if(((Client)(currentAuction.getClients().get(i))).getIp().equals(parts[2]))
@@ -145,8 +155,12 @@ public class AuctionProtocol {
                 break;
             }
         }
-
         out = "withdrawn from auction " + parts[1];
+        }
+        else
+            out = "You are not registered in this auction in order to withdraw!";
+
+        
         return out;
     }
 
@@ -216,6 +230,7 @@ public class AuctionProtocol {
         return false;
     }
 
+
     private void notifyParticipants(String msgToParticipants,Auction auct,List<TCPServerThread> tcpST) {
         for(int i = 0; i < auct.getClients().size(); i++)
         {
@@ -228,4 +243,30 @@ public class AuctionProtocol {
             }
         }
     }
+
+    private boolean isRegistered(Auction auct,String ip) {
+
+        for(int i = 0; i < (auct.getClients()).size(); i++)
+        {
+            if(((Client)auct.getClients().get(i)).getIp().equals(ip))
+                return true;
+        }
+        return false;
+    }
+
+    private void startClosing(final Auction auct) {
+        try{
+        TimerThread timeThread= new TimerThread(auct.getTimer());
+            timeThread.start();
+
+            System.out.println(timeThread.interrupted());
+
+        }
+        catch(RuntimeException e)
+        {
+            System.out.println("sanja");
+        }
+
+    }
+
 }
