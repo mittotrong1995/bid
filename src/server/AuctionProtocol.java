@@ -1,7 +1,9 @@
 package server;
 
 import adt.Auction;
+import adt.Client;
 import adt.Item;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -79,12 +81,49 @@ public class AuctionProtocol {
     }
 
     private String registerAction(String in) {
-        String out = "";
+        Auction currentAuction = null;
+        String [] parts = null ;
+        parts = in.split(token);
+        
+        for(int i = 0; i< auctionList.size(); i++)
+        {
+            if(((Auction)auctionList.get(i)).getAuctionID() == Integer.parseInt(parts[1]))
+            {
+                currentAuction =((Auction)auctionList.get(i));
+                break;
+            }
+        }
+
+        Client client= new Client(parts[2]);
+        (currentAuction.getClients()).add(client);
+
+        String out = "You have been registerd to auction " + parts[1];
         return out;
     }
 
     private String bidAction(String in) {
+        Auction currentAuction = null;
+        String [] parts = null ;
+        parts = in.split(token);
+
+        for(int i = 0; i< auctionList.size(); i++)
+        {
+            if(((Auction)auctionList.get(i)).getAuctionID() == Integer.parseInt(parts[1]))
+            {
+                currentAuction =((Auction)auctionList.get(i));
+                break;
+            }
+        }
+
         String out = "";
+        if(currentAuction.getHighestBid() < Integer.parseInt(parts[2])){
+        currentAuction.setHighestBid(Integer.parseInt(parts[2]));
+        Date d = new Date();
+            out = "New highest bid has been set for auction " + currentAuction.getAuctionID() + " the bid is:" +  currentAuction.getHighestBid() + "at time: " + d.toGMTString();
+        }
+        else
+            out = "This is not the highest bid";
+
         return out;
     }
 
