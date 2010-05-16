@@ -155,7 +155,7 @@ public class AuctionProtocol {
 
         for(int i = 0 ; i < tcpST.size(); i++)
         {
-            System.out.println(((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString());
+            System.out.println((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","") + " blaaaaa" + parts[1]);
             if((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","").equals(parts[1]))
             {
               ((TCPServerThread)tcpST.get(i)).getOut().println(parts[2]);

@@ -12,7 +12,7 @@ public class TCPServerThread extends Thread {
     private AuctionProtocol auctionProtocol;
     private PrintWriter out;
     private BufferedReader in;
-    private List <TCPServerThread> TCP_SERVER_THREADS = new LinkedList();
+    public static List <TCPServerThread> TCP_SERVER_THREADS = new LinkedList();
 
     public PrintWriter getOut() {
         return out;
@@ -32,7 +32,7 @@ public class TCPServerThread extends Thread {
     }
 
     public void run() {
-        
+        System.out.println(socket.getInetAddress());
 	try {
             System.out.println("sanja");
             TCP_SERVER_THREADS.add(this);
