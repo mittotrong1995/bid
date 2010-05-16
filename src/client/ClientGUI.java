@@ -9,6 +9,8 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +42,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     private javax.swing.JScrollPane textAreaScrollPane;
     private javax.swing.JButton withdrawButton;
     private boolean connected;
+    private InetAddress localaddr;
+
   
     public ClientGUI(){
         token = "#@";
@@ -81,6 +85,17 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         messageMenuItem = new javax.swing.JMenuItem();
         menuSeparator2 = new javax.swing.JPopupMenu.Separator();
         exitMenuItem = new javax.swing.JMenuItem();
+        try
+        {
+                localaddr = InetAddress.getLocalHost();
+
+                System.out.println ("Local IP Address : " + localaddr.getHostAddress() );
+        }
+        catch (UnknownHostException e)
+        {
+                System.err.println ("Can't detect localhost : " + e);
+        }
+
 
 
         table.setModel(new javax.swing.table.DefaultTableModel(
