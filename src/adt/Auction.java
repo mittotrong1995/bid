@@ -7,6 +7,7 @@ package adt;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  *
@@ -20,6 +21,8 @@ public class Auction {
     private String sellerIP;
     private Item item;
     private List clients;
+    private List biddingHistory;
+    private Vector biddingPair;
 
     public Auction(int auctionID, int quantity, byte closingType, double highestBid, String sellerIP,Item item) {
         this.auctionID = auctionID;
@@ -29,6 +32,7 @@ public class Auction {
         this.sellerIP = sellerIP;
         this.item = item;
         clients = new LinkedList();
+        biddingHistory = new LinkedList();
     }
 
      public Auction() {
@@ -39,6 +43,15 @@ public class Auction {
         this.sellerIP = null;
         this.item = null;
         clients = new LinkedList();
+        biddingHistory = new LinkedList();
+    }
+
+    public List getBiddingHistory() {
+        return biddingHistory;
+    }
+
+    public void setBiddingHistory(List biddingHistory) {
+        this.biddingHistory = biddingHistory;
     }
 
     public Item getItem() {

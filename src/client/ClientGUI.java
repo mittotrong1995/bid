@@ -303,7 +303,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             if(table.getSelectedRow() != -1){
                 String prize = JOptionPane.showInputDialog(this, "Enter a value for the bid: ", "Place a bid", JOptionPane.QUESTION_MESSAGE);
                 Integer.parseInt(prize);
-                String bid = "3" + token +(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + token + prize;
+                String bid = "3" + token +(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + token + prize + token + client.getClient().getIp();
                 (client.getPrintWriter()).println(bid);
             }
             else
