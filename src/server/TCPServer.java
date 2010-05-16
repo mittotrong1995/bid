@@ -17,9 +17,8 @@ public class TCPServer {
 
         while (listening)
         {
-            socket = serverSocket.accept();           
+            socket = serverSocket.accept();
 	    new TCPServerThread(socket).start();
-            
         }
         serverSocket.close();
     }

@@ -151,11 +151,15 @@ public class AuctionProtocol {
     public String messageAction(String in, List<TCPServerThread> tcpST) {
         String [] parts = null ;
         parts = in.split(token);
+        System.out.println("eeeeeeeeeeee" + tcpST.size());
 
         for(int i = 0 ; i < tcpST.size(); i++)
         {
+            System.out.println(((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString());
             if((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","").equals(parts[1]))
+            {
               ((TCPServerThread)tcpST.get(i)).getOut().println(parts[2]);
+            }
         }
         
         String out = "message sent";

@@ -12,7 +12,7 @@ public class TCPServerThread extends Thread {
     private AuctionProtocol auctionProtocol;
     private PrintWriter out;
     private BufferedReader in;
-    public static List <TCPServerThread> TCP_SERVER_THREADS;
+    private List <TCPServerThread> TCP_SERVER_THREADS = new LinkedList();
 
     public PrintWriter getOut() {
         return out;
@@ -25,7 +25,6 @@ public class TCPServerThread extends Thread {
         inputString = "";
         outputString = "";
         auctionProtocol = new AuctionProtocol();
-        TCP_SERVER_THREADS = new LinkedList();
     }
 
     public Socket getSocket() {
@@ -35,8 +34,11 @@ public class TCPServerThread extends Thread {
     public void run() {
         
 	try {
+            System.out.println("sanja");
             TCP_SERVER_THREADS.add(this);
-            System.out.println(socket.getInetAddress());
+            for(int i = 0; i < TCP_SERVER_THREADS.size(); i++)
+                System.out.println(TCP_SERVER_THREADS.get(i));
+            System.out.println(socket.getInetAddress() + "aaaaaaaaaaaaaa");
 	    out = new PrintWriter(socket.getOutputStream(), true);
 	    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out.println("Welcome! You have been sucessfully connected!");            
