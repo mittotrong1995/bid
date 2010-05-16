@@ -76,7 +76,7 @@ public class AuctionProtocol {
         return out;
     }
 
-    public String bidAction(String in) {
+    public String bidAction(String in,List<TCPServerThread> tcpST) {
         String [] parts = null ;
         parts = in.split(token);       
 
@@ -97,6 +97,9 @@ public class AuctionProtocol {
         else
             out = "This is not the highest bid";
 
+        String msgToParticipants = currentAuction.getAuctionID()+token+currentAuction.getItem().getName()+token+parts[2]+token+parts[3];
+        System.out.println(msgToParticipants);
+        notifyParticipants(msgToParticipants,currentAuction,tcpST);
         return out;
     }
 
@@ -211,5 +214,18 @@ public class AuctionProtocol {
                 return true;
         }
         return false;
+    }
+
+    private void notifyParticipants(String msgToParticipants,Auction auct,List<TCPServerThread> tcpST) {
+        for(int i = 0; i < auct.getClients().size(); i++)
+        {
+            for(int j = 0 ; j < tcpST.size(); j++)
+            {
+                if((((TCPServerThread)tcpST.get(j)).getSocket().getInetAddress().toString()).replace("/","").equals(((Client)auct.getClients().get(i)).getIp()))
+                {
+                        ((TCPServerThread)tcpST.get(j)).getOut().println(msgToParticipants);
+                }
+            }
+        }
     }
 }
