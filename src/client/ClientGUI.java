@@ -25,6 +25,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     private javax.swing.JMenuItem connectMenuItem;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JButton historyButton;
+    private javax.swing.JButton highestBidButton;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JPopupMenu.Separator menuSeparator1;
     private javax.swing.JPopupMenu.Separator menuSeparator2;
@@ -66,6 +67,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         table = new javax.swing.JTable();
         tableModel = new javax.swing.table.DefaultTableModel();
         historyButton = new javax.swing.JButton();
+        highestBidButton = new javax.swing.JButton();
         participantsButton = new javax.swing.JButton();
         textAreaScrollPane = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
@@ -126,6 +128,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         registerButton.setActionCommand("register");
         registerButton.addActionListener(this);
 
+        highestBidButton.setText("Highest Bid");
+        highestBidButton.setActionCommand("highestbid");
+        highestBidButton.addActionListener(this);
+
         participantsButton.setText("Participants");
         participantsButton.setActionCommand("participants");
         participantsButton.addActionListener(this);
@@ -179,7 +185,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     .addComponent(withdrawButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bidButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(participantsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(highestBidButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -196,7 +203,9 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         .addGap(18, 18, 18)
                         .addComponent(historyButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(participantsButton))
+                        .addComponent(participantsButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(highestBidButton))
                     .addComponent(tableScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textAreaScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
@@ -263,6 +272,12 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 messageAction();
             if (connected == false )
                 JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+        }
+        else if (c.equals("highestbid")){
+            if (connected == false)
+                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+            if (connected == true)
+                advertiseAction();
         }
         else if (c.equals("exit")){
             exitAction();
