@@ -27,7 +27,8 @@ public class TCPServerThread extends Thread {
 //	    outputString = auctionProtocol.processInput("");
             if(auctionProtocol.getAuctionList().size() > 0)
 	    out.println(auctionProtocol.processInput("9"));
-
+           
+            System.out.println(inputString);
 	    while ((inputString = in.readLine()) != null) {
 		outputString = auctionProtocol.processInput(inputString);
 		out.println(outputString);

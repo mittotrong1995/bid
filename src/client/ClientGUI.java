@@ -281,8 +281,9 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     private void registerAction() {
 
         if(table.getSelectedRow() != -1){
-            String register = "2"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
-            (client.getPrintWriter()).println(register);}
+            String register = "2"+ token + table.getModel().getValueAt(table.getSelectedRow(),0) + token + client.getClient().getIp();
+            (client.getPrintWriter()).println(register);
+        }
         else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
     }
@@ -296,14 +297,23 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     }
 
     private void bidAction() {
-        if(table.getSelectedRow() != -1){
-        String prize = JOptionPane.showInputDialog(this, "Enter a value for the bid: ", "Place a bid", JOptionPane.QUESTION_MESSAGE);
-        String bid = "3" + token +(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + token + prize;
-        (client.getPrintWriter()).println(bid);
-        }
-        else
+        
+        try
+        {
+            if(table.getSelectedRow() != -1){
+                String prize = JOptionPane.showInputDialog(this, "Enter a value for the bid: ", "Place a bid", JOptionPane.QUESTION_MESSAGE);
+                Integer.parseInt(prize);
+                String bid = "3" + token +(table.getModel().getValueAt(table.getSelectedRow(),0)).toString() + token + prize;
+                (client.getPrintWriter()).println(bid);
+            }
+            else
           JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
-    }
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null,"Please enter only digits in the bid field","Error Message",2);
+        }      
+   }
 
     private void historyAction() {
         if(table.getSelectedRow() != -1){
@@ -678,13 +688,20 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     else{
                         String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + client.getClient().getIp();
                         client.getPrintWriter().println(auction);
-                        advertiseDialog.dispose();                      
+                        advertiseDialog.dispose();
+                        refreshTable();
+                        client.getPrintWriter().println("9");
                     }
                 }
                 catch(Exception exc)
                 {
                     JOptionPane.showMessageDialog(null,"Please enter digits in the price field!", "Error Message!",3);
                 }              
+            }
+
+            private void refreshTable() {
+                while(tableModel.getRowCount() != 0)
+                    tableModel.removeRow(0);
             }
         });
 
@@ -715,13 +732,16 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
 
                 else if(responseLine.charAt(0) == '9')
                 {
-                    System.out.println("ssss" + responseLine);
                     int info = 1;
 
                     for(int j = 0; j < (parts.length/5); j++){
                         tableModel.insertRow(j, new Object [] {parts[info],parts[info+1],parts[info+2],parts[info+3],parts[info+4]});
                         info = info + 5;
                     }
+                }
+                else
+                {
+                    System.out.println(responseLine);
                 }
             }
         } catch (IOException ex) {
