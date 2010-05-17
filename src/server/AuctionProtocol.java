@@ -147,7 +147,14 @@ public class AuctionProtocol {
         String out = "";
 
         if(isRegistered(currentAuction,parts[2])){
-        for(int i = 0; i < currentAuction.getClients().size(); i++)
+
+            if(currentAuction.getBiddingHistory().size() > 0)
+            {
+                if(((Vector)(currentAuction.getBiddingHistory()).get(currentAuction.getBiddingHistory().size() - 1)).get(2).equals(parts[2]))
+                    out = "Sorry you cannot withdraw from this auction. You are the highest bidder!";
+                else
+                {
+                    for(int i = 0; i < currentAuction.getClients().size(); i++)
         {
             if(((Client)(currentAuction.getClients().get(i))).getIp().equals(parts[2]))
             {
@@ -156,6 +163,13 @@ public class AuctionProtocol {
             }
         }
         out = "withdrawn from auction " + parts[1];
+                }
+            }
+//            if(((Client)(currentAuction.getClients().get(i))).getIp().equals(parts[2]))
+//            {
+//
+//            }
+        
         }
         else
             out = "You are not registered in this auction in order to withdraw!";
@@ -180,7 +194,6 @@ public class AuctionProtocol {
     public String messageAction(String in, List<TCPServerThread> tcpST) {
         String [] parts = null ;
         parts = in.split(token);
-        System.out.println("eeeeeeeeeeee" + tcpST.size());
 
         for(int i = 0 ; i < tcpST.size(); i++)
         {
