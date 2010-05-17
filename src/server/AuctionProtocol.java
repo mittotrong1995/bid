@@ -273,7 +273,6 @@ public class AuctionProtocol {
     }
 
     private void startClosing(final Auction auct, List<TCPServerThread> tcpST) {
-        try{
             TCPServerThread tcp = null;
             for(int i = 0 ; i < tcpST.size(); i++)
         {
@@ -283,16 +282,8 @@ public class AuctionProtocol {
               tcp = (TCPServerThread)tcpST.get(i);
             }
         }
-        TimerThread timeThread= new TimerThread(auct.getTimer(),tcp.getOut(),auct);
+        TimerThread timeThread= new TimerThread(auct.getTimer(),tcp.getOut(),auct,tcpST,token);
             timeThread.start();
-
-            System.out.println(timeThread.interrupted());
-
-        }
-        catch(RuntimeException e)
-        {
-            System.out.println("sanja");
-        }
 
     }
 
