@@ -841,11 +841,11 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     else if(responseLine.charAt(0) == '7')
                     {
                         String participants = "";
-                        for(int i = 1 ; i < parts.length; i++)
+                        for(int i = 2 ; i < parts.length; i++)
                         {
                             participants += parts[i] + "\n";
                         }
-                        textArea.setText("PARTICIPANTS:\n\n"+participants);
+                        textArea.setText("PARTICIPANTS FOR AUCTION " +parts[1] +":\n\n"+participants);
                         //JOptionPane.showMessageDialog(null,participants,"Participants",1);
                     }
                     else if(responseLine.charAt(0) == '8')
