@@ -863,6 +863,16 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         }
                         textArea.setText("NEW HIGHEST BID:\n\n"+notification);
                     }
+
+                    else if(responseLine.charAt(0) == '1' &&responseLine.charAt(1) == '2' )
+                    {
+                        String notification = "";
+                        for(int i = 1 ; i < parts.length; i++)
+                        {
+                            notification += parts[i] + "\n";
+                        }
+                        textArea.setText("AUCTION CLOSED:\n\n"+notification);
+                    }
                     else
                     JOptionPane.showMessageDialog(null,responseLine,"Info",1);
                 }
