@@ -48,12 +48,12 @@ public class TimerThread extends Thread{
          try {
                         TimerThread.sleep(time * 1000);
                         if(auct.getBiddingHistory().size() > 0)
-                            out = "Auction Id: " + auct.getAuctionID() + ", Item name: " + auct.getItem().getName() + ", Highest bid: " + auct.getHighestBid() + ", Buyer: " + ((Vector)auct.getBiddingHistory().get(auct.getBiddingHistory().size()-1)).get(2);
+                            out = "Auction Id: " + auct.getAuctionID() + token +"Item name: " + auct.getItem().getName() + token +"Highest bid: " + auct.getHighestBid() + token +"Buyer: " + ((Vector)auct.getBiddingHistory().get(auct.getBiddingHistory().size()-1)).get(2);
                         else
-                            out = "Auction Id: " + auct.getAuctionID() + ", Item name: " + auct.getItem().getName() + ", Highest bid: " + auct.getHighestBid() + ", Buyer: " + auct.getSellerIP();
+                            out = "Auction Id: " + auct.getAuctionID() + token +"Item name: " + auct.getItem().getName() +token + "Highest bid: " + auct.getHighestBid() + token +"Buyer: " + auct.getSellerIP();
                         auct.setIsActive(false);
                        notifyParticipants(out,auct,tcpST,auct.getSellerIP());
-                        output.println(out);
+                        output.println("12"+token+out);
                          //this.wait();
                         //this.stop();
 
