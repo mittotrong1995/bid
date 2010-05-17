@@ -827,7 +827,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             String responseLine;
             while ((responseLine = (client.getIn()).readLine()) != null) {
                 String [] parts = responseLine.split(token);
-                if (responseLine.indexOf("connected") > -1) {
+                if (responseLine.indexOf("connected") > -1 && responseLine.indexOf("disconnected") <= -1) {
+                    System.out.println("pa");
                     JOptionPane.showMessageDialog(null, responseLine, "Connection Accepted", 1);
                 }
 
@@ -897,15 +898,22 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
 
                     else if(responseLine.charAt(0) == '1'&&responseLine.charAt(1) == '3')
                     {
+                        System.out.println("u 13");
                         if(parts[1].indexOf("Farewell") > -1)
                         {
                             try{
-                            listener.stop();
-                            client.closeConnection();
-                            connected = false;
-                            connectMenuItem.setText("Connect...");
-                            connectMenuItem.setActionCommand("connect");
-                            JOptionPane.showMessageDialog(null,parts[1],"Info",1);
+                                System.out.println("mu");
+                                System.out.println("mu1");
+                                client.closeConnection();
+                                System.out.println("mu2");
+                                connected = false;
+                                System.out.println("mu3");
+                                connectMenuItem.setText("Connect...");
+                                System.out.println("mu4");
+                                connectMenuItem.setActionCommand("connect");
+                                System.out.println("mu5");
+                                JOptionPane.showMessageDialog(null,parts[1],"Info",1);
+                                listener.stop();
                             }
                              catch (IOException ex) {
                                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
