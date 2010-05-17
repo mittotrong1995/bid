@@ -340,7 +340,7 @@ public class AuctionProtocol {
             if(isHighestBidder(((Auction)auctionList.get(i)).getBiddingHistory(),parts[1]))
                 return "13" + token + "Sorry, you cannot disconnect since you are the highest bidder";
         }
-        return "13" + token + "You have disconnected from the auction system!\nFarewell!";
+        return "13" + token + "You have disconnected from the auction system!Farewell!";
     }
 
 
