@@ -394,7 +394,9 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     }
     private void activeAuctionsAction() {
 
-        JOptionPane.showMessageDialog(null,"Not yet implemented","Error Message",2);
+        String activeAuctions = "1"+ token;
+            (client.getPrintWriter()).println(activeAuctions);
+        //JOptionPane.showMessageDialog(null,"Not yet implemented","Error Message",2);
     }
     private void connectAction() {
         try {
@@ -893,6 +895,23 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                             notification += parts[i] + "\n";
                         }
                         textArea.setText("AUCTION CLOSED:\n\n"+notification);
+                    }
+                    else if(responseLine.charAt(0) == '1')
+                    {
+                        if(parts.length == 3)
+                            JOptionPane.showMessageDialog(null,parts[2],"Info",1);
+                        else{
+                        String activeAuctions = "LIST OF ACTIVE AUCTIONS:\n\n";
+
+                        int info = 1;
+                        for(int i = 0 ; i < parts.length/6; i++)
+                        {
+                            activeAuctions+= "Auction ID:  "+parts[info] + ",  Item name:  "+parts[info + 1] + ",  Item Description:  "+parts[info + 2]+",  Starting Price:  "+parts[info + 3]+",  Highest Bid:  "+parts[info + 4] + ",  Seller IP:   "+parts[info + 5] + "\n\n";
+                            info = info+6;
+                        }
+
+                        textArea.setText(activeAuctions);
+                        }
                     }
                     else
                     JOptionPane.showMessageDialog(null,responseLine,"Info",1);
