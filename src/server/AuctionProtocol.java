@@ -89,7 +89,6 @@ public class AuctionProtocol {
         if(currentAuction.getHighestBid() < Double.parseDouble(parts[2]) && isRegistered(currentAuction,parts[3])){
         currentAuction.setHighestBid(Double.parseDouble(parts[2]));
         Date d = new Date();
-            out = "3"+token;
             Vector biddingPair = new Vector();
             biddingPair.add(parts[2]);
             biddingPair.add("-");
