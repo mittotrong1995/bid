@@ -96,7 +96,7 @@ public class AuctionProtocol {
             biddingPair.add("-");
             biddingPair.add(d);
             currentAuction.getBiddingHistory().add(biddingPair);
-            String msgToParticipants = currentAuction.getAuctionID()+token+currentAuction.getItem().getName()+token+parts[2]+token+parts[3];
+            String msgToParticipants = "Auction ID: " + currentAuction.getAuctionID()+token+ "Item Name: "+ currentAuction.getItem().getName()+token+"New Bid: "+parts[2]+token+"Bidder IP: "+parts[3];
             System.out.println(msgToParticipants);
             notifyParticipants(msgToParticipants,currentAuction,tcpST,parts[3]);
         }

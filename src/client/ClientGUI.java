@@ -855,7 +855,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         {
                             notification += parts[i] + "\n";
                         }
-                        textArea.setText("IMPORTANT NOTIFICATION:\n\n"+notification);
+                        textArea.setText("NEW HIGHEST BID:\n\n"+notification);
                     }
                     else
                     JOptionPane.showMessageDialog(null,responseLine,"Info",1);
