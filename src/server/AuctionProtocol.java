@@ -181,7 +181,7 @@ public class AuctionProtocol {
         if(isRegistered(currentAuction,parts[2])){
             if(!currentAuction.getSellerIP().equals(parts[2]))
             {
-                if(currentAuction.getBiddingHistory().size() > 0 && ((Vector)(currentAuction.getBiddingHistory()).get(currentAuction.getBiddingHistory().size() - 1)).get(2).equals(parts[2]))
+                if(isHighestBidder(currentAuction.getBiddingHistory(),parts[2]))
                     out = "Sorry you cannot withdraw from this auction. You are the highest bidder!";
                 else
                 {
@@ -320,6 +320,14 @@ public class AuctionProtocol {
         TimerThread timeThread= new TimerThread(auct.getTimer(),tcp.getOut(),auct,tcpST,token);
             timeThread.start();
 
+    }
+
+    public boolean isHighestBidder(List biddingHistory,String ip)
+    {
+        if(biddingHistory.size() > 0 && ((Vector)(biddingHistory).get(biddingHistory.size() - 1)).get(2).equals(ip))
+            return true;
+        else
+            return false;
     }
 
 }

@@ -918,8 +918,12 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 }
                 }
             }
-        } catch (IOException ex) {
-            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            connected = false;
+            connectMenuItem.setText("Connect...");
+            connectMenuItem.setActionCommand("connect");
+            JOptionPane.showMessageDialog(null,"Server has crashed!\nWe appologize for the inconvenience!","Error",2);
+            //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
