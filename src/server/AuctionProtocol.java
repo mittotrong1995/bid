@@ -170,25 +170,27 @@ public class AuctionProtocol {
 
          if(currentAuction.isIsActive()){
         if(isRegistered(currentAuction,parts[2])){
-            if(currentAuction.getBiddingHistory().size() > 0)
+            if(!currentAuction.getSellerIP().equals(parts[2]))
             {
-                if(((Vector)(currentAuction.getBiddingHistory()).get(currentAuction.getBiddingHistory().size() - 1)).get(2).equals(parts[2]))
+                if(currentAuction.getBiddingHistory().size() > 0 && ((Vector)(currentAuction.getBiddingHistory()).get(currentAuction.getBiddingHistory().size() - 1)).get(2).equals(parts[2]))
                     out = "Sorry you cannot withdraw from this auction. You are the highest bidder!";
                 else
                 {
                     for(int i = 0; i < currentAuction.getClients().size(); i++)
-        {
-            if(((Client)(currentAuction.getClients().get(i))).getIp().equals(parts[2]))
-            {
-                currentAuction.getClients().remove(i);
-                break;
-            }
-        }
-        out = "withdrawn from auction " + parts[1];
+                    {
+                        if(((Client)(currentAuction.getClients().get(i))).getIp().equals(parts[2]))
+                        {
+                            currentAuction.getClients().remove(i);
+                            break;
+                        }
+                    }
+                out = "withdrawn from auction " + parts[1];
                 }
             }
             else
+            {
                 out = "You cannot withdraw from this auction.You are the creator!";
+            }
         }
         else
             out = "You are not registered in this auction in order to withdraw!";
@@ -205,14 +207,14 @@ public class AuctionProtocol {
         Auction currentAuction = getAuction(parts[1]);
 
         String out = "7" + token + currentAuction.getAuctionID() + token;
-        // if(currentAuction.isIsActive()){
+         if(currentAuction.isIsActive()){
         for(int i = 0; i< (currentAuction.getClients()).size();i++)
         {
             out += ((Client)(currentAuction.getClients()).get(i)).getIp() + token;
         }
-//        }
-//        else
-//            out = "This auction is not active any more!";
+        }
+        else
+            out = "This auction is not active any more!";
         return out;
     }
 
