@@ -337,8 +337,14 @@ public class AuctionProtocol {
 
         for(int i = 0; i < auctionList.size(); i++)
         {
-            if(isHighestBidder(((Auction)auctionList.get(i)).getBiddingHistory(),parts[1]))
+            if(((Auction)auctionList.get(i)).isIsActive())
+            {
+            if(((Auction)auctionList.get(i)).getSellerIP().equals(parts[1]))
+               return "13" + token + "Sorry, you cannot disconnect since you are the creator of an auction";
+            
+            else if(isHighestBidder(((Auction)auctionList.get(i)).getBiddingHistory(),parts[1]))
                 return "13" + token + "Sorry, you cannot disconnect since you are the highest bidder";
+            }
         }
         return "13" + token + "You have disconnected from the auction system!Farewell!";
     }
