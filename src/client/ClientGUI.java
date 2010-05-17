@@ -503,7 +503,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     Integer.parseInt(iPTextField3.getText());
                     Integer.parseInt(iPTextField4.getText());
                     
-                    String message = "8"+ token + iPTextField1.getText() + "." + iPTextField2.getText() + "." + iPTextField3.getText() + "." + iPTextField4.getText() + token+ messageTextField.getText();
+                    String message = "8"+ token + iPTextField1.getText() + "." + iPTextField2.getText() + "." + iPTextField3.getText() + "." + iPTextField4.getText() + token+ messageTextField.getText()+token+localaddr;
                         client.getPrintWriter().println(message);
                         messageDialog.dispose();
                 }
@@ -841,6 +841,11 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         }
                         textArea.setText("PARTICIPANTS:\n\n"+participants);
                         //JOptionPane.showMessageDialog(null,participants,"Participants",1);
+                    }
+                    else if(responseLine.charAt(0) == '8')
+                    {
+                        //String msgContents = "";
+                        JOptionPane.showMessageDialog(null,parts[1],"New Message from"+ parts[2],1);
                     }
                     else
                     JOptionPane.showMessageDialog(null,responseLine,"Info",1);
