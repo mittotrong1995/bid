@@ -227,8 +227,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         );
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setTitle("Auction System - Client");
-        this.setMinimumSize(new Dimension(850,600));
-        this.setPreferredSize(new Dimension(850, 600));
+        this.setMinimumSize(new Dimension(865,600));
+        this.setPreferredSize(new Dimension(865, 600));
         this.setLocationRelativeTo(null);
         
         this.pack();
@@ -311,7 +311,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         }
         else if (c.equals("disconnectMenu")){
                 disconnectAction();
-                refreshTable();
                //JOptionPane.showMessageDialog(null,"You have disconnected from the auction system!\nFarewell!", "Disconnected",1);
         }
     }
@@ -913,6 +912,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                                 connectMenuItem.setActionCommand("connect");
                                 System.out.println("mu5");
                                 JOptionPane.showMessageDialog(null,parts[1],"Info",1);
+                                refreshTable();
                                 listener.stop();
                             }
                              catch (IOException ex) {
