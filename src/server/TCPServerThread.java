@@ -36,7 +36,7 @@ public class TCPServerThread extends Thread {
         System.out.println(socket.getInetAddress());
 	try {
             TCP_SERVER_THREADS.add(this);
-            localaddr = socket.getLocalAddress().toString();
+            localaddr = socket.getInetAddress().getHostAddress();
 	    out = new PrintWriter(socket.getOutputStream(), true);
 	    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out.println("Welcome! You have been sucessfully connected!");            
