@@ -70,7 +70,7 @@ public class TimerThread extends Thread{
                 if((((TCPServerThread)tcpST.get(j)).getSocket().getInetAddress().toString()).replace("/","").equals(((Client)auct.getClients().get(i)).getIp()))
                 {
                     if (!(((TCPServerThread)tcpST.get(j)).getSocket().getInetAddress().toString()).replace("/","").equals(senderIP))
-                        ((TCPServerThread)tcpST.get(j)).getOut().println("11"+token+msgToParticipants);
+                        ((TCPServerThread)tcpST.get(j)).getOut().println("12"+token+msgToParticipants);
                 }
             }
         }
