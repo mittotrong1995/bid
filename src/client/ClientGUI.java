@@ -812,7 +812,9 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     JOptionPane.showMessageDialog(null, responseLine, "Connection Accepted", 1);
                 }
 
-                else if(responseLine.charAt(0) == '9')
+                else if(!responseLine.equals(""))
+                {
+                if(responseLine.charAt(0) == '9')
                 {
                     //refreshTable();
                     int info = 1;
@@ -863,6 +865,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     }
                     else
                     JOptionPane.showMessageDialog(null,responseLine,"Info",1);
+                }
                 }
             }
         } catch (IOException ex) {
