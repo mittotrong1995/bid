@@ -281,6 +281,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         }
         else if (c.equals("connect")){
             connectAction();
+            refreshTable();
+               client.getPrintWriter().println("9" + token + localaddr);
             
         }
         else if (c.equals("advertise")){
