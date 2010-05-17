@@ -57,7 +57,16 @@ public class AuctionProtocol {
     }
 
     public String listAction(String in) {
-        String out = "Bosko says: FART!";
+        String [] parts = null ;
+        parts = in.split(token);
+        String out = "1" + token;
+        for(int i = 0;i < auctionList.size(); i++)
+        {
+            if(((Auction)auctionList.get(i)).isIsActive())
+                out += ((Auction)(auctionList.get(i))).getAuctionID() + token + ((Auction)(auctionList.get(i))).getItem().getName() + token +((Auction)(auctionList.get(i))).getItem().getDescription() + token+ ((Auction)(auctionList.get(i))).getItem().getStartingPrize() + token + ((Auction)(auctionList.get(i))).getHighestBid() +token+((Auction)(auctionList.get(i))).getSellerIP() + token;
+        }
+        if(out.equals("1" + token))
+            out = "There are no Active auctions";
         return out;
     }
 
@@ -244,8 +253,7 @@ public class AuctionProtocol {
         String out = "9";
         for(int i = 0;i < auctionList.size(); i++)
         {
-            if(((Auction)auctionList.get(i)).isIsActive())
-                out += token + ((Auction)(auctionList.get(i))).getAuctionID() + token + ((Auction)(auctionList.get(i))).getItem().getName() + token + ((Auction)(auctionList.get(i))).getItem().getStartingPrize() + token + ((Auction)(auctionList.get(i))).getSellerIP() + token + isRegistered(parts[1],((Auction)auctionList.get(i)).getClients());
+            out += token + ((Auction)(auctionList.get(i))).getAuctionID() + token + ((Auction)(auctionList.get(i))).getItem().getName() + token + ((Auction)(auctionList.get(i))).getItem().getStartingPrize() + token + ((Auction)(auctionList.get(i))).getSellerIP() + token + isRegistered(parts[1],((Auction)auctionList.get(i)).getClients());
         }
         return out;
     }
