@@ -901,16 +901,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         if(parts[1].indexOf("Farewell") > -1)
                         {
                             try{
-                                System.out.println("mu");
-                                System.out.println("mu1");
                                 client.closeConnection();
-                                System.out.println("mu2");
                                 connected = false;
-                                System.out.println("mu3");
                                 connectMenuItem.setText("Connect...");
-                                System.out.println("mu4");
                                 connectMenuItem.setActionCommand("connect");
-                                System.out.println("mu5");
                                 JOptionPane.showMessageDialog(null,parts[1],"Info",1);
                                 refreshTable();
                                 listener.stop();
