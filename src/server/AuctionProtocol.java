@@ -52,7 +52,7 @@ public class AuctionProtocol {
         }
 //        String str = "9" + token + auction.getAuctionID();
 //        tableAction(str);
-        String out = "item added";
+        String out = "";
         return out;
     }
 
@@ -66,9 +66,11 @@ public class AuctionProtocol {
         String [] parts = null ;
         parts = in.split(token);
 
-        Auction currentAuction = getAuction(parts[1]);
-        Client client= new Client(parts[2]);
         String out= "";
+        Auction currentAuction = getAuction(parts[1]);
+        if(currentAuction.isIsActive()){
+        Client client= new Client(parts[2]);
+    
         if(isRegistered(currentAuction,parts[2]) == false)
         {
             (currentAuction.getClients()).add(client);
@@ -76,7 +78,9 @@ public class AuctionProtocol {
         }
         else
             out = "You have already been registered to this auction";
-
+        }
+        else
+            out = "This auction is not active any more!";
         return out;
     }
 
@@ -86,6 +90,8 @@ public class AuctionProtocol {
 
         Auction currentAuction = getAuction(parts[1]);
         String out = "";
+
+         if(currentAuction.isIsActive()){
         if(currentAuction.getHighestBid() < Double.parseDouble(parts[2]) && isRegistered(currentAuction,parts[3])){
         currentAuction.setHighestBid(Double.parseDouble(parts[2]));
         Date d = new Date();
@@ -109,6 +115,9 @@ public class AuctionProtocol {
         {
             out = "You have not been registered to this auction";
         }
+        }
+        else
+            out = "This auction is not active any more!";
                    
         return out;
     }
@@ -118,10 +127,14 @@ public class AuctionProtocol {
         parts = in.split(token);
         Auction currentAuction = getAuction(parts[1]);
         String out = "";
+         if(currentAuction.isIsActive()){
         if (currentAuction.getBiddingHistory().size() >0)
             out += "The highest bid is: " +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() - 1)).get(0) +" and was placed at: " +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() -1)).get(4);
         else
             out += "Still no bid has been placed for this auction";
+        }
+        else
+            out = "This auction is not active any more!";
         return out;
     }
 
@@ -131,6 +144,7 @@ public class AuctionProtocol {
         Auction currentAuction = getAuction(parts[1]);
 
         String out = "5" + token;
+         if(currentAuction.isIsActive()){
         if(currentAuction.getBiddingHistory().size() > 0)
         {
         out+= "Auction ID: " + currentAuction.getAuctionID() + token +",  Item name: " +currentAuction.getItem().getName() + token +",  Item Description: " +currentAuction.getItem().getDescription() +token +",  Seller IP: " +currentAuction.getSellerIP() +token +",  Starting Price: "+currentAuction.getItem().getStartingPrize() + token;
@@ -142,7 +156,9 @@ public class AuctionProtocol {
         }
         else
             out = "No bids have been placed yet!";
-        
+        }
+        else
+            out = "This auction is not active any more!";
         return out;
     }
 
@@ -152,6 +168,7 @@ public class AuctionProtocol {
         Auction currentAuction = getAuction(parts[1]);
         String out = "";
 
+         if(currentAuction.isIsActive()){
         if(isRegistered(currentAuction,parts[2])){
             System.out.println("sanjaaaaa" + currentAuction.getBiddingHistory().size());
             if(currentAuction.getBiddingHistory().size() > 0)
@@ -177,7 +194,9 @@ public class AuctionProtocol {
         else
             out = "You are not registered in this auction in order to withdraw!";
 
-        
+        }
+        else
+            out = "This auction is not active any more!";
         return out;
     }
 
@@ -187,10 +206,14 @@ public class AuctionProtocol {
         Auction currentAuction = getAuction(parts[1]);
 
         String out = "7" + token;
+         if(currentAuction.isIsActive()){
         for(int i = 0; i< (currentAuction.getClients()).size();i++)
         {
             out += ((Client)(currentAuction.getClients()).get(i)).getIp() + token;
         }
+        }
+        else
+            out = "This auction is not active any more!";
         return out;
     }
 
@@ -207,7 +230,7 @@ public class AuctionProtocol {
             }
         }
         
-        String out = "message sent";
+        String out = "";
         return out;
     }
 
