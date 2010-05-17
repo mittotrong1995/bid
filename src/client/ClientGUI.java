@@ -280,10 +280,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 participantsAction();
         }
         else if (c.equals("connect")){
-            connectAction();
-            refreshTable();
-               client.getPrintWriter().println("9" + token + localaddr);
-            
+            connectAction();            
         }
         else if (c.equals("advertise")){
             if (connected == false)
@@ -314,6 +311,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         }
         else if (c.equals("disconnectMenu")){
                 disconnectAction();
+                refreshTable();
                //JOptionPane.showMessageDialog(null,"You have disconnected from the auction system!\nFarewell!", "Disconnected",1);
         }
     }
