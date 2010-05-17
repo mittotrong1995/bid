@@ -424,9 +424,9 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
 
     private void showMessageDialog() {
         javax.swing.JLabel messageLabel = new javax.swing.JLabel();
-        final javax.swing.JTextArea messageTextArea = new javax.swing.JTextArea();
+        final javax.swing.JTextField messageTextField = new javax.swing.JTextField();
         javax.swing.JPanel messagesMainPanel = new javax.swing.JPanel();
-        javax.swing.JScrollPane msgScrollPane = new javax.swing.JScrollPane();
+        //javax.swing.JScrollPane msgScrollPane = new javax.swing.JScrollPane();
         javax.swing.JLabel recepientLabel = new javax.swing.JLabel();
         javax.swing.JButton sendButton = new javax.swing.JButton();
         final javax.swing.JTextField iPTextField1 = new javax.swing.JTextField();
@@ -471,7 +471,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         .addComponent(messageLabel))
                     .addGroup(messagesMainPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(msgScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(messageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, messagesMainPanelLayout.createSequentialGroup()
                         .addComponent(sendButton))))
         );
@@ -489,7 +489,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(messageLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(msgScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(messageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(sendButton)
                 .addContainerGap())
@@ -502,8 +502,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     Integer.parseInt(iPTextField2.getText());
                     Integer.parseInt(iPTextField3.getText());
                     Integer.parseInt(iPTextField4.getText());
-                    String message = "8"+ token + iPTextField1.getText() + "." + iPTextField2.getText() + "." + iPTextField3.getText() + "." + iPTextField4.getText() + token+ messageTextArea.getText();
-                    System.out.println(messageTextArea.getText());
+                    
+                    String message = "8"+ token + iPTextField1.getText() + "." + iPTextField2.getText() + "." + iPTextField3.getText() + "." + iPTextField4.getText() + token+ messageTextField.getText();
                         client.getPrintWriter().println(message);
                         messageDialog.dispose();
                 }
@@ -513,7 +513,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 }
             }
         });
-        msgScrollPane.setViewportView(messageTextArea);
+        //msgScrollPane.setViewportView(messageTextArea);
         messageDialog.add(messagesMainPanel);
         messageDialog.pack();
         messageDialog.setLocationRelativeTo(this);
@@ -623,8 +623,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         final javax.swing.JRadioButton closeTypeOneRadioButton = new javax.swing.JRadioButton();
         final javax.swing.JRadioButton closeTypeTwoRadioButton = new javax.swing.JRadioButton();
         javax.swing.JLabel descriptionLabel = new javax.swing.JLabel();
-        final javax.swing.JTextArea descriptionTextArea = new javax.swing.JTextArea();
-        javax.swing.JScrollPane descriptionScrollPane = new javax.swing.JScrollPane();
+        final javax.swing.JTextField descriptionTextField = new javax.swing.JTextField();
+        //javax.swing.JScrollPane descriptionScrollPane = new javax.swing.JScrollPane();
         javax.swing.JPanel advPanel = new javax.swing.JPanel();
         javax.swing.JLabel nameLabel = new javax.swing.JLabel();
         final javax.swing.JTextField nameTextField = new javax.swing.JTextField();
@@ -684,7 +684,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                                         .addComponent(closeTypeTwoRadioButton))))
                             .addComponent(nameLabel)
                             .addComponent(descriptionLabel)
-                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))))
+                            .addComponent(descriptionTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -698,7 +698,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(descriptionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startPriceLabel)
@@ -739,8 +739,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                                 JOptionPane.showMessageDialog(null,"Please select the closing type!", "Error Message!",3);
                             else if(nameTextField.getText().equals(""))
                                 JOptionPane.showMessageDialog(null,"Please enter the item's name!", "Error Message!",3);
-                            else if(descriptionTextArea.getText().equals(""))
-                                JOptionPane.showMessageDialog(null,"Please enter the item's description!", "Error Message!",3);
+                            //else if(descriptionTextArea.getText().equals(""))
+                                //JOptionPane.showMessageDialog(null,"Please enter the item's description!", "Error Message!",3);
                             else if (startprice <= 0)
                             {
                                 JOptionPane.showMessageDialog(null,"Please enter valid price that is greater than 0!", "Error Message!",3);
@@ -754,7 +754,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                                 JOptionPane.showMessageDialog(null,"Please enter closing time that is greater than 0!", "Error Message!",3);
                             }
                             else{
-                                String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextArea.getText() + token + localaddr +token +closingTimeTextField.getText() ;
+                                String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextField.getText() + token + localaddr +token +closingTimeTextField.getText() ;
                                 client.getPrintWriter().println(auction);
                                 advertiseDialog.dispose();
                                 refreshTable();
@@ -779,7 +779,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             }
         });
 
-        descriptionScrollPane.setViewportView(descriptionTextArea);
+        //descriptionScrollPane.setViewportView(descriptionTextArea);
         advertiseDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         advertiseDialog.setResizable(false);
         advertiseDialog.add(advPanel);
