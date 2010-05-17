@@ -22,7 +22,6 @@ public class Auction {
     private Item item;
     private List clients;
     private List biddingHistory;
-    private Vector biddingPair;
     private int timer;
 
     public Auction(int auctionID, int quantity, byte closingType, double highestBid, String sellerIP,Item item,int timer) {
