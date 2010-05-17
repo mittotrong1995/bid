@@ -231,9 +231,9 @@ public class AuctionProtocol {
             }
         }
         if(out.equals(""))
-            out = "The IP address you have entered is incorrect";
-        
-        return out;
+            return "The IP address you have entered is incorrect";
+
+        return "";
     }
 
     public String tableAction(String in) {
