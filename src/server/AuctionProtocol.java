@@ -48,8 +48,10 @@ public class AuctionProtocol {
         
         if(parts[1].equals("1"))
         {
-            startClosing(auction);
+            startClosing(auction,tcpST);
         }
+//        String str = "9" + token + auction.getAuctionID();
+//        tableAction(str);
         String out = "item added";
         return out;
     }
@@ -118,7 +120,7 @@ public class AuctionProtocol {
         Auction currentAuction = getAuction(parts[1]);
         String out = "";
         if (currentAuction.getBiddingHistory().size() >0)
-            out += "The highest bid is: " +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() - 1)).get(0) +" And was placed at: " +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() -1)).get(4);
+            out += "The highest bid is: " +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() - 1)).get(0) +" and was placed at: " +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() -1)).get(4);
         else
             out += "Still no bid has been placed for this auction";
         return out;
@@ -215,7 +217,10 @@ public class AuctionProtocol {
         parts = in.split(token);
         String out = "9";
         for(int i = 0;i < auctionList.size(); i++)
-            out += token + ((Auction)(auctionList.get(i))).getAuctionID() + token + ((Auction)(auctionList.get(i))).getItem().getName() + token + ((Auction)(auctionList.get(i))).getItem().getStartingPrize() + token + ((Auction)(auctionList.get(i))).getSellerIP() + token + isRegistered(parts[1],((Auction)auctionList.get(i)).getClients());
+        {
+            if(((Auction)auctionList.get(i)).isIsActive())
+                out += token + ((Auction)(auctionList.get(i))).getAuctionID() + token + ((Auction)(auctionList.get(i))).getItem().getName() + token + ((Auction)(auctionList.get(i))).getItem().getStartingPrize() + token + ((Auction)(auctionList.get(i))).getSellerIP() + token + isRegistered(parts[1],((Auction)auctionList.get(i)).getClients());
+        }
         return out;
     }
 
@@ -268,9 +273,18 @@ public class AuctionProtocol {
         return false;
     }
 
-    private void startClosing(final Auction auct) {
+    private void startClosing(final Auction auct, List<TCPServerThread> tcpST) {
         try{
-        TimerThread timeThread= new TimerThread(auct.getTimer());
+            TCPServerThread tcp = null;
+            for(int i = 0 ; i < tcpST.size(); i++)
+        {
+            //System.out.println((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","") + " blaaaaa" + parts[1]);
+            if((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","").equals(auct.getSellerIP()))
+            {
+              tcp = (TCPServerThread)tcpST.get(i);
+            }
+        }
+        TimerThread timeThread= new TimerThread(auct.getTimer(),tcp.getOut(),auct);
             timeThread.start();
 
             System.out.println(timeThread.interrupted());
