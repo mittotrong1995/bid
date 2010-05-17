@@ -23,6 +23,7 @@ public class AuctionProtocol {
     private static final byte MESSAGE = 8;
     private static final byte TABLE = 9;
     private static final byte CONNECT = 10;
+    private static final byte NOTIFY_ALL = 11;
     private static List auctionList = new LinkedList();
     private static String token = "#@";
 
@@ -97,7 +98,7 @@ public class AuctionProtocol {
             currentAuction.getBiddingHistory().add(biddingPair);
             String msgToParticipants = currentAuction.getAuctionID()+token+currentAuction.getItem().getName()+token+parts[2]+token+parts[3];
             System.out.println(msgToParticipants);
-            notifyParticipants(msgToParticipants,currentAuction,tcpST);
+            notifyParticipants(msgToParticipants,currentAuction,tcpST,parts[3]);
         }
         else if(currentAuction.getHighestBid() >= Integer.parseInt(parts[2]))
         {
@@ -244,14 +245,15 @@ public class AuctionProtocol {
     }
 
 
-    private void notifyParticipants(String msgToParticipants,Auction auct,List<TCPServerThread> tcpST) {
+    private void notifyParticipants(String msgToParticipants,Auction auct,List<TCPServerThread> tcpST,String senderIP) {
         for(int i = 0; i < auct.getClients().size(); i++)
         {
             for(int j = 0 ; j < tcpST.size(); j++)
             {
                 if((((TCPServerThread)tcpST.get(j)).getSocket().getInetAddress().toString()).replace("/","").equals(((Client)auct.getClients().get(i)).getIp()))
                 {
-                        ((TCPServerThread)tcpST.get(j)).getOut().println(msgToParticipants);
+                    if (!(((TCPServerThread)tcpST.get(j)).getSocket().getInetAddress().toString()).replace("/","").equals(senderIP))
+                        ((TCPServerThread)tcpST.get(j)).getOut().println("11"+token+msgToParticipants);
                 }
             }
         }

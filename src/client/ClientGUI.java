@@ -845,8 +845,17 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     else if(responseLine.charAt(0) == '8')
                     {
                         //String msgContents = "";
-                        String top= "New Message from"+ parts[2];
+                        String top= "New Message from "+ parts[2];
                         JOptionPane.showMessageDialog(null,parts[1] , top ,1);
+                    }
+                    else if(responseLine.charAt(0) == '1' &&responseLine.charAt(1) == '1' )
+                    {
+                        String notification = "";
+                        for(int i = 1 ; i < parts.length; i++)
+                        {
+                            notification += parts[i] + "\n";
+                        }
+                        textArea.setText("IMPORTANT NOTIFICATION:\n\n"+notification);
                     }
                     else
                     JOptionPane.showMessageDialog(null,responseLine,"Info",1);
