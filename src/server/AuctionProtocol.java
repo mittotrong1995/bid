@@ -22,7 +22,6 @@ public class AuctionProtocol {
     private static final byte PARTICIPANTS = 7;
     private static final byte MESSAGE = 8;
     private static final byte TABLE = 9;
-    private static final byte CONNECT = 10;
     private static final byte NOTIFY_ALL = 11;
     private static List auctionList = new LinkedList();
     private static String token = "#@";
@@ -85,8 +84,8 @@ public class AuctionProtocol {
 
         Auction currentAuction = getAuction(parts[1]);
         String out = "";
-        if(currentAuction.getHighestBid() < Integer.parseInt(parts[2]) && isRegistered(currentAuction,parts[3])){
-        currentAuction.setHighestBid(Integer.parseInt(parts[2]));
+        if(currentAuction.getHighestBid() < Double.parseDouble(parts[2]) && isRegistered(currentAuction,parts[3])){
+        currentAuction.setHighestBid(Double.parseDouble(parts[2]));
         Date d = new Date();
             out = "New highest bid has been set for auction " + currentAuction.getAuctionID() + " the bid is: " +  currentAuction.getHighestBid() + " and was placed at time: " + d.toGMTString();
             Vector biddingPair = new Vector();
