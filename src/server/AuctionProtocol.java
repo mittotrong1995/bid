@@ -349,5 +349,15 @@ public class AuctionProtocol {
         return "13" + token + "You have disconnected from the auction system!Farewell!";
     }
 
+    void changeHighestBidder() {
+        for(int i = 0; i < ((Auction)auctionList.get(i)).getBiddingHistory().size(); i++)
+        {
+            for(int j = 0; j < ((Vector)((Auction)auctionList.get(j)).getBiddingHistory().get(i)).size(); j++)
+            {
+                System.out.println((((Vector)((Auction)auctionList.get(j)).getBiddingHistory().get(i))).get(j));
+            }
+        }
+    }
+
 
 }
