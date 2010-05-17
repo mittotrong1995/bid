@@ -87,7 +87,7 @@ public class AuctionProtocol {
         if(currentAuction.getHighestBid() < Integer.parseInt(parts[2]) && isRegistered(currentAuction,parts[3])){
         currentAuction.setHighestBid(Integer.parseInt(parts[2]));
         Date d = new Date();
-            out = "New highest bid has been set for auction " + currentAuction.getAuctionID() + " the bid is:" +  currentAuction.getHighestBid() + "at time: " + d.toGMTString();
+            out = "New highest bid has been set for auction " + currentAuction.getAuctionID() + " the bid is: " +  currentAuction.getHighestBid() + " and was placed at time: " + d.toGMTString();
             Vector biddingPair = new Vector();
             biddingPair.add(parts[2]);
             biddingPair.add("-");
@@ -118,9 +118,9 @@ public class AuctionProtocol {
         Auction currentAuction = getAuction(parts[1]);
         String out = "";
         if (currentAuction.getBiddingHistory().size() >0)
-            out += ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() - 1)).get(0) +"-" +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() -1)).get(4);
+            out += "The highest bid is: " +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() - 1)).get(0) +" And was placed at: " +  ((Vector)currentAuction.getBiddingHistory().get(currentAuction.getBiddingHistory().size() -1)).get(4);
         else
-            out += Double.toString(currentAuction.getItem().getStartingPrize());
+            out += "Still no bid has been placed for this auction";
         return out;
     }
 
@@ -129,13 +129,18 @@ public class AuctionProtocol {
         parts = in.split(token);  
         Auction currentAuction = getAuction(parts[1]);
 
-        String out = "";
-        out+= currentAuction.getAuctionID() + currentAuction.getItem().getName() + currentAuction.getItem().getDescription() + currentAuction.getSellerIP() + currentAuction.getItem().getStartingPrize() + token;
+        String out = "5" + token;
+        if(currentAuction.getBiddingHistory().size() > 0)
+        {
+        out+= "Auction ID: " + currentAuction.getAuctionID() + token +",  Item name: " +currentAuction.getItem().getName() + token +",  Item Description: " +currentAuction.getItem().getDescription() +token +",  Seller IP: " +currentAuction.getSellerIP() +token +",  Starting Price: "+currentAuction.getItem().getStartingPrize() + token;
         for(int i = 0; i < currentAuction.getBiddingHistory().size(); i++)
         {
-            for(int j = 0; j < ((Vector)currentAuction.getBiddingHistory().get(i)).size() - 2;j++ )
-                out += ((Vector)currentAuction.getBiddingHistory().get(i)).get(j);
+            //for(int j = 0; j < ((Vector)currentAuction.getBiddingHistory().get(i)).size() - 2;j++ )
+                out += "Bid : " + ((Vector)currentAuction.getBiddingHistory().get(i)).get(0) +token+ " Bidder : " + ((Vector)currentAuction.getBiddingHistory().get(i)).get(2) + token;
         }
+        }
+        else
+            out = "No bids have been placed yet!";
         
         return out;
     }
@@ -147,7 +152,7 @@ public class AuctionProtocol {
         String out = "";
 
         if(isRegistered(currentAuction,parts[2])){
-
+            System.out.println("sanjaaaaa" + currentAuction.getBiddingHistory().size());
             if(currentAuction.getBiddingHistory().size() > 0)
             {
                 if(((Vector)(currentAuction.getBiddingHistory()).get(currentAuction.getBiddingHistory().size() - 1)).get(2).equals(parts[2]))
@@ -165,11 +170,8 @@ public class AuctionProtocol {
         out = "withdrawn from auction " + parts[1];
                 }
             }
-//            if(((Client)(currentAuction.getClients().get(i))).getIp().equals(parts[2]))
-//            {
-//
-//            }
-        
+            else
+                out = "You cannot withdraw from this aucttion.You are the creator!";
         }
         else
             out = "You are not registered in this auction in order to withdraw!";
@@ -183,7 +185,7 @@ public class AuctionProtocol {
         parts = in.split(token);
         Auction currentAuction = getAuction(parts[1]);
 
-        String out = "";
+        String out = "7" + token;
         for(int i = 0; i< (currentAuction.getClients()).size();i++)
         {
             out += ((Client)(currentAuction.getClients()).get(i)).getIp() + token;
@@ -211,8 +213,6 @@ public class AuctionProtocol {
     public String tableAction(String in) {
         String [] parts = null ;
         parts = in.split(token);
-
-        System.out.println("u auction prot");
         String out = "9";
         for(int i = 0;i < auctionList.size(); i++)
             out += token + ((Auction)(auctionList.get(i))).getAuctionID() + token + ((Auction)(auctionList.get(i))).getItem().getName() + token + ((Auction)(auctionList.get(i))).getItem().getStartingPrize() + token + ((Auction)(auctionList.get(i))).getSellerIP() + token + isRegistered(parts[1],((Auction)auctionList.get(i)).getClients());
