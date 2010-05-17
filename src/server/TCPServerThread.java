@@ -60,8 +60,9 @@ public class TCPServerThread extends Thread {
 
     public String processInput(String theInput) {
         String theOutput = "";
-
+        try{
         if (!theInput.isEmpty()){
+            
             byte action = Byte.parseByte(theInput.substring(0, 1));
             switch(action){
                 case 0: theOutput = auctionProtocol.advertiseAction(theInput,TCP_SERVER_THREADS);
@@ -86,8 +87,13 @@ public class TCPServerThread extends Thread {
                         break;
                 default:
                         break;
+                }
             }
-        }
-        return theOutput;
+     }      
+            catch(Exception e)
+            {
+                theOutput = auctionProtocol.disconnect(theInput);
+            }
+            return theOutput;
     }
 }

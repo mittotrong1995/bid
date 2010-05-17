@@ -311,16 +311,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             exitAction();
         }
         else if (c.equals("disconnectMenu")){
-            try {
-                listener.stop();
-                client.closeConnection();
-                connected = false;
-                connectMenuItem.setText("Connect...");
-                connectMenuItem.setActionCommand("connect");
-                JOptionPane.showMessageDialog(null,"You have disconnected from the auction system!\nFarewell!", "Disconnected",1);
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+                disconnectAction();
+               //JOptionPane.showMessageDialog(null,"You have disconnected from the auction system!\nFarewell!", "Disconnected",1);
         }
     }
     private void registerAction() {
@@ -404,6 +396,12 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
+    }
+
+
+    private void disconnectAction() {
+        String disconnect = ""+ token + localaddr;
+        (client.getPrintWriter()).println(disconnect);
     }
 
     private void advertiseAction() {
@@ -896,6 +894,28 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         }
                         textArea.setText("AUCTION CLOSED:\n\n"+notification);
                     }
+
+                    else if(responseLine.charAt(0) == '1'&&responseLine.charAt(1) == '3')
+                    {
+                        if(parts[1].indexOf("Farewell") > -1)
+                        {
+                            try{
+                            listener.stop();
+                            client.closeConnection();
+                            connected = false;
+                            connectMenuItem.setText("Connect...");
+                            connectMenuItem.setActionCommand("connect");
+                            JOptionPane.showMessageDialog(null,parts[1],"Info",1);
+                            }
+                             catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null,parts[1],"Info",1);
+                        }
+                    }
                     else if(responseLine.charAt(0) == '1')
                     {
                         if(parts.length == 3)
@@ -926,7 +946,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
 }
 class MaxLengthTextDocument extends javax.swing.text.PlainDocument {
