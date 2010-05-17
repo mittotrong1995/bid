@@ -12,6 +12,7 @@ public class TCPServerThread extends Thread {
     private AuctionProtocol auctionProtocol;
     private PrintWriter out;
     private BufferedReader in;
+    private String localaddr;
     public static List <TCPServerThread> TCP_SERVER_THREADS = new LinkedList();
 
     public PrintWriter getOut() {
@@ -35,6 +36,7 @@ public class TCPServerThread extends Thread {
         System.out.println(socket.getInetAddress());
 	try {
             TCP_SERVER_THREADS.add(this);
+            localaddr = socket.getLocalAddress().toString();
 	    out = new PrintWriter(socket.getOutputStream(), true);
 	    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out.println("Welcome! You have been sucessfully connected!");            
@@ -54,7 +56,7 @@ public class TCPServerThread extends Thread {
 	    socket.close();
 
 	} catch (IOException e) {
-            System.out.println(socket.getLocalAddress());
+            System.out.println(localaddr);
             auctionProtocol.changeHighestBidder();
 	    //System.err.println("IOException: " + e);
 	}

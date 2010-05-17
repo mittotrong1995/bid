@@ -350,12 +350,14 @@ public class AuctionProtocol {
     }
 
     void changeHighestBidder() {
+        if(auctionList.size()>0){
         for(int i = 0; i < ((Auction)auctionList.get(i)).getBiddingHistory().size(); i++)
         {
             for(int j = 0; j < ((Vector)((Auction)auctionList.get(j)).getBiddingHistory().get(i)).size(); j++)
             {
                 System.out.println((((Vector)((Auction)auctionList.get(j)).getBiddingHistory().get(i))).get(j));
             }
+        }
         }
     }
 
