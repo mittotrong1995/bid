@@ -820,7 +820,28 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 }
                 else
                 {
-                    System.out.println(responseLine);
+                    if(responseLine.charAt(0) == '5')
+                    {
+                        String bidPairs = "";
+                        for(int i = 6 ; i < parts.length-1; i++)
+                        {
+                            bidPairs += parts[i] + parts[i+1] + "\n";
+                            i++;
+                        }
+                        JOptionPane.showMessageDialog(null,parts[1] + parts[2] + parts[3] +parts[4] +parts[5] + "\n" + bidPairs ,"Bidding History",1);
+                    }
+
+                    else if(responseLine.charAt(0) == '7')
+                    {
+                        String participants = "";
+                        for(int i = 1 ; i < parts.length; i++)
+                        {
+                            participants += parts[i] + "\n";
+                        }
+                        JOptionPane.showMessageDialog(null,participants,"Participants",1);
+                    }
+                    else
+                    JOptionPane.showMessageDialog(null,responseLine,"Info",1);
                 }
             }
         } catch (IOException ex) {
