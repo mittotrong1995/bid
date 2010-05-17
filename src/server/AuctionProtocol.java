@@ -188,7 +188,7 @@ public class AuctionProtocol {
                 }
             }
             else
-                out = "You cannot withdraw from this aucttion.You are the creator!";
+                out = "You cannot withdraw from this auction.You are the creator!";
         }
         else
             out = "You are not registered in this auction in order to withdraw!";
@@ -220,16 +220,19 @@ public class AuctionProtocol {
         String [] parts = null ;
         parts = in.split(token);
 
+        String out = "";
         for(int i = 0 ; i < tcpST.size(); i++)
         {
             System.out.println((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","") + " blaaaaa" + parts[1]);
             if((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","").equals(parts[1]))
             {
-              ((TCPServerThread)tcpST.get(i)).getOut().println("8"+token+parts[2]+token+parts[3]);
+                out = "8"+token+parts[2]+token+parts[3];
+              ((TCPServerThread)tcpST.get(i)).getOut().println(out);
             }
         }
+        if(out.equals(""))
+            out = "The IP address you have entered is incorrect";
         
-        String out = "";
         return out;
     }
 
