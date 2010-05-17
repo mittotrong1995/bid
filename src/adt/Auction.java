@@ -23,6 +23,7 @@ public class Auction {
     private List clients;
     private List biddingHistory;
     private int timer;
+    private boolean isActive;
 
     public Auction(int auctionID, int quantity, byte closingType, double highestBid, String sellerIP,Item item,int timer) {
         this.auctionID = auctionID;
@@ -34,6 +35,15 @@ public class Auction {
         this.timer = timer;
         clients = new LinkedList();
         biddingHistory = new LinkedList();
+        isActive = true;
+    }
+
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public int getTimer() {

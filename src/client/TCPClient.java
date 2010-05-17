@@ -31,6 +31,7 @@ public class TCPClient implements Runnable{
 
     public TCPClient(String host, int port) throws UnknownHostException, IOException, InterruptedException{
 
+        //try{
         //client = new Client(host);
         clientSocket = new Socket(host, port);
         System.out.println(clientSocket.getLocalAddress());
@@ -44,6 +45,11 @@ public class TCPClient implements Runnable{
             t.start();
 
         }
+       // }
+//        catch(Exception e)
+//        {
+//            JOptionPane.showMessageDialog(null,"Incorrect connection details","Error message",2);
+//        }
     }
 
 //    public static Client getClient() {

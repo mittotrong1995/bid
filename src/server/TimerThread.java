@@ -5,6 +5,9 @@
 
 package server;
 
+import adt.Auction;
+import java.io.PrintWriter;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,18 +18,22 @@ import java.util.logging.Logger;
 public class TimerThread extends Thread{
     private int time;
     private String out;
+    private PrintWriter output;
+    private Auction auct;
 
 
-    public TimerThread(int time)
+    public TimerThread(int time,PrintWriter output,Auction auct)
     {
         this.time= time;
         this.out = "blaaaa";
+        this.output = output;
+        this.auct = auct;
     }
 
     public void activate(int time)
     {
         this.time = time;
-        out = "blaaaa";
+        out = "";
         //this.run();
     }
 
@@ -34,9 +41,12 @@ public class TimerThread extends Thread{
     {
          try {
                         TimerThread.sleep(time * 1000);
-                        this.interrupt();
-                        System.out.println(TimerThread.interrupted() + "dze");
-                        out = " cekaaaaaaaav";
+                        if(auct.getBiddingHistory().size() > 0)
+                            out = "Auction Id: " + auct.getAuctionID() + ", Item name: " + auct.getItem().getName() + ", Highest bid: " + auct.getHighestBid() + ", Buyer: " + ((Vector)auct.getBiddingHistory().get(auct.getBiddingHistory().size()-1)).get(2);
+                        else
+                            out = "Auction Id: " + auct.getAuctionID() + ", Item name: " + auct.getItem().getName() + ", Highest bid: " + auct.getHighestBid() + ", Buyer: " + auct.getSellerIP();
+                        auct.setIsActive(false);
+                        output.println(out);
                          //this.wait();
                         //this.stop();
 

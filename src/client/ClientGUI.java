@@ -43,6 +43,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     private javax.swing.JButton withdrawButton;
     private boolean connected;
     private String localaddr;
+    private Thread listener;
 
   
     public ClientGUI(){
@@ -295,10 +296,12 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         }
         else if (c.equals("disconnectMenu")){
             try {
+                listener.stop();
                 client.closeConnection();
                 connected = false;
                 connectMenuItem.setText("Connect...");
                 connectMenuItem.setActionCommand("connect");
+                JOptionPane.showMessageDialog(null,"You have disconnected from the auction system!\nFarewell!", "Disconnected",1);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -560,7 +563,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         action();
                         connected = true;
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(connectDialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(connectDialog, "Please enter a correct IP address.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     JOptionPane.showMessageDialog(connectDialog, "Please enter a correct IP address.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -757,8 +760,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                                 String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextField.getText() + token + localaddr +token +closingTimeTextField.getText() ;
                                 client.getPrintWriter().println(auction);
                                 advertiseDialog.dispose();
-                                refreshTable();
-                                client.getPrintWriter().println("9" + token + localaddr);
                             }
                         }
                         catch(Exception ex)
@@ -775,7 +776,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 catch(Exception exc)
                 {
                     JOptionPane.showMessageDialog(null,"Please enter digits in the price field!", "Error Message!",3);
-                }              
+                }
+
+                refreshTable();
+                client.getPrintWriter().println("9" + token + localaddr);
             }
         });
 
@@ -795,8 +799,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     
     public void action()
     {
-        Thread t = new Thread(this);
-        t.start();
+        listener = new Thread(this);
+        listener.start();
     }
 
     public void run() {
