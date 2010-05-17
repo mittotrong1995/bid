@@ -170,7 +170,6 @@ public class AuctionProtocol {
 
          if(currentAuction.isIsActive()){
         if(isRegistered(currentAuction,parts[2])){
-            System.out.println("sanjaaaaa" + currentAuction.getBiddingHistory().size());
             if(currentAuction.getBiddingHistory().size() > 0)
             {
                 if(((Vector)(currentAuction.getBiddingHistory()).get(currentAuction.getBiddingHistory().size() - 1)).get(2).equals(parts[2]))
@@ -205,7 +204,7 @@ public class AuctionProtocol {
         parts = in.split(token);
         Auction currentAuction = getAuction(parts[1]);
 
-        String out = "7" + token;
+        String out = "7" + token + currentAuction.getAuctionID() + token;
          if(currentAuction.isIsActive()){
         for(int i = 0; i< (currentAuction.getClients()).size();i++)
         {
