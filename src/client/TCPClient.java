@@ -61,7 +61,7 @@ public class TCPClient implements Runnable{
                         try {
                             out.println(inputLine.readLine());
                         } catch (IOException ex) {
-
+                            JOptionPane.showMessageDialog(null,"Error has occured","Error",3);
                         }
                     }
     }
