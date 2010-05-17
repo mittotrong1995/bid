@@ -23,6 +23,7 @@ public class AuctionProtocol {
     private static final byte MESSAGE = 8;
     private static final byte TABLE = 9;
     private static final byte NOTIFY_ALL = 11;
+    private static final byte DISCONNECT = 13;
     private static List auctionList = new LinkedList();
     private static String token = "#@";
 
@@ -329,5 +330,18 @@ public class AuctionProtocol {
         else
             return false;
     }
+
+    public String disconnect(String in) {
+        String [] parts = null ;
+        parts = in.split(token);
+
+        for(int i = 0; i < auctionList.size(); i++)
+        {
+            if(isHighestBidder(((Auction)auctionList.get(i)).getBiddingHistory(),parts[1]))
+                return "13" + token + "Sorry, you cannot disconnect since you are the highest bidder";
+        }
+        return "13" + token + "You have disconnected from the auction system!\nFarewell!";
+    }
+
 
 }
