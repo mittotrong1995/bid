@@ -118,9 +118,9 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
 
         tableModel = (DefaultTableModel) table.getModel();
 
-        textArea.setFont(new java.awt.Font("Lucida Sans", 0, 12)); 
+        textArea.setFont(new java.awt.Font("Lucida Sans", 0, 12));
         textArea.setToolTipText("Description");
-        textArea.setEnabled(false);
+        textArea.setEditable(false);
         textAreaScrollPane.setViewportView(textArea);
 
         historyButton.setText("History");
@@ -828,7 +828,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                             bidPairs += parts[i] + parts[i+1] + "\n";
                             i++;
                         }
-                        JOptionPane.showMessageDialog(null,parts[1] + parts[2] + parts[3] +parts[4] +parts[5] + "\n" + bidPairs ,"Bidding History",1);
+                        textArea.setText("BIDDING PAIRS:\n\n"+parts[1] + parts[2] + parts[3] +parts[4] +parts[5] + "\n" + bidPairs);
+                        //JOptionPane.showMessageDialog(null,parts[1] + parts[2] + parts[3] +parts[4] +parts[5] + "\n" + bidPairs ,"Bidding History",1);
                     }
 
                     else if(responseLine.charAt(0) == '7')
@@ -838,7 +839,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         {
                             participants += parts[i] + "\n";
                         }
-                        JOptionPane.showMessageDialog(null,participants,"Participants",1);
+                        textArea.setText("PARTICIPANTS:\n\n"+participants);
+                        //JOptionPane.showMessageDialog(null,participants,"Participants",1);
                     }
                     else
                     JOptionPane.showMessageDialog(null,responseLine,"Info",1);
