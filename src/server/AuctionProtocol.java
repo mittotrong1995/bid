@@ -349,15 +349,30 @@ public class AuctionProtocol {
         return "13" + token + "You have disconnected from the auction system!Farewell!";
     }
 
-    void changeHighestBidder() {
+    void changeHighestBidder(List<TCPServerThread> tcpST,String ip) {
         if(auctionList.size()>0){
-        for(int i = 0; i < ((Auction)auctionList.get(i)).getBiddingHistory().size(); i++)
-        {
-            for(int j = 0; j < ((Vector)((Auction)auctionList.get(j)).getBiddingHistory().get(i)).size(); j++)
+            if(isHighestBidder(tcpST,ip))
             {
-                System.out.println((((Vector)((Auction)auctionList.get(j)).getBiddingHistory().get(i))).get(j));
+                for(int i = 0; i < auctionList.size(); i++)
+                {
+                    if(((Auction)auctionList.get(i)).getBiddingHistory().size() > 0&& ((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1)).get(3).equals(ip))
+                    {
+                        ((Auction)auctionList.get(i)).setHighestBid(Double.parseDouble((String)(((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1)).get(3))));
+                        ((Auction)auctionList.get(i)).getBiddingHistory().remove((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1));
+                    }
+//                    for(int j = 0; j<((Auction)auctionList.get(i)).getBiddingHistory().size();j++)
+//                    {
+//
+//                    }
+                }
             }
-        }
+//        for(int i = 0; i < ((Auction)auctionList.get(i)).getBiddingHistory().size(); i++)
+//        {
+//            for(int j = 0; j < ((Vector)((Auction)auctionList.get(j)).getBiddingHistory().get(i)).size(); j++)
+//            {
+//                System.out.println((((Vector)((Auction)auctionList.get(j)).getBiddingHistory().get(i))).get(j));
+//            }
+//        }
         }
     }
 
