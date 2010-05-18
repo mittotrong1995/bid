@@ -9,14 +9,9 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
 public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runnable{
@@ -311,8 +306,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         }
         else if (c.equals("disconnectMenu")){
                 disconnectAction();
-               //JOptionPane.showMessageDialog(null,"You have disconnected from the auction system!\nFarewell!", "Disconnected",1);
-        }
+               }
     }
     private void registerAction() {
 
@@ -387,8 +381,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
 
         String activeAuctions = "1"+ token;
             (client.getPrintWriter()).println(activeAuctions);
-        //JOptionPane.showMessageDialog(null,"Not yet implemented","Error Message",2);
-    }
+        }
     private void connectAction() {
         try {
             showConnectDialog();
@@ -447,7 +440,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         javax.swing.JLabel messageLabel = new javax.swing.JLabel();
         final javax.swing.JTextField messageTextField = new javax.swing.JTextField();
         javax.swing.JPanel messagesMainPanel = new javax.swing.JPanel();
-        //javax.swing.JScrollPane msgScrollPane = new javax.swing.JScrollPane();
         javax.swing.JLabel recepientLabel = new javax.swing.JLabel();
         javax.swing.JButton sendButton = new javax.swing.JButton();
         final javax.swing.JTextField iPTextField1 = new javax.swing.JTextField();
@@ -534,7 +526,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 }
             }
         });
-        //msgScrollPane.setViewportView(messageTextArea);
         messageDialog.add(messagesMainPanel);
         messageDialog.pack();
         messageDialog.setLocationRelativeTo(this);
@@ -645,7 +636,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         final javax.swing.JRadioButton closeTypeTwoRadioButton = new javax.swing.JRadioButton();
         javax.swing.JLabel descriptionLabel = new javax.swing.JLabel();
         final javax.swing.JTextField descriptionTextField = new javax.swing.JTextField();
-        //javax.swing.JScrollPane descriptionScrollPane = new javax.swing.JScrollPane();
         javax.swing.JPanel advPanel = new javax.swing.JPanel();
         javax.swing.JLabel nameLabel = new javax.swing.JLabel();
         final javax.swing.JTextField nameTextField = new javax.swing.JTextField();
@@ -760,8 +750,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                                 JOptionPane.showMessageDialog(null,"Please select the closing type!", "Error Message!",3);
                             else if(nameTextField.getText().equals(""))
                                 JOptionPane.showMessageDialog(null,"Please enter the item's name!", "Error Message!",3);
-                            //else if(descriptionTextArea.getText().equals(""))
-                                //JOptionPane.showMessageDialog(null,"Please enter the item's description!", "Error Message!",3);
                             else if (startprice <= 0)
                             {
                                 JOptionPane.showMessageDialog(null,"Please enter valid price that is greater than 0!", "Error Message!",3);
@@ -801,7 +789,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             }
         });
 
-        //descriptionScrollPane.setViewportView(descriptionTextArea);
         advertiseDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         advertiseDialog.setResizable(false);
         advertiseDialog.add(advPanel);
@@ -835,7 +822,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 {
                 if(responseLine.charAt(0) == '9')
                 {
-                    //refreshTable();
                     int info = 1;
 
                     for(int j = 0; j < (parts.length/5); j++){
@@ -854,7 +840,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                             i++;
                         }
                         textArea.setText("BIDDING PAIRS:\n\n"+parts[1] + parts[2] + parts[3] +parts[4] +parts[5] + "\n" + bidPairs);
-                        //JOptionPane.showMessageDialog(null,parts[1] + parts[2] + parts[3] +parts[4] +parts[5] + "\n" + bidPairs ,"Bidding History",1);
                     }
 
                     else if(responseLine.charAt(0) == '7')
@@ -866,12 +851,9 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         }
                         
                         textArea.setText("PARTICIPANTS FOR AUCTION " +parts[1] +":\n\n"+participants);
-
-                        //JOptionPane.showMessageDialog(null,participants,"Participants",1);
                     }
                     else if(responseLine.charAt(0) == '8')
                     {
-                        //String msgContents = "";
                         String top= "New Message from "+ parts[2];
                         JOptionPane.showMessageDialog(null,parts[1] , top ,1);
                     }
@@ -945,7 +927,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             connectMenuItem.setText("Connect...");
             connectMenuItem.setActionCommand("connect");
             JOptionPane.showMessageDialog(null,"Server has crashed!\nWe appologize for the inconvenience!","Error",2);
-            //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

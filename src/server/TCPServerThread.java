@@ -56,9 +56,7 @@ public class TCPServerThread extends Thread {
 	    socket.close();
 
 	} catch (IOException e) {
-            //System.out.println(localaddr);
             auctionProtocol.changeHighestBidder(localaddr);
-	    //System.err.println("IOException: " + e);
 	}
     }
 
