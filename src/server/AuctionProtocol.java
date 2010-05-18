@@ -349,12 +349,13 @@ public class AuctionProtocol {
         return "13" + token + "You have disconnected from the auction system!Farewell!";
     }
 
-    void changeHighestBidder(List<TCPServerThread> tcpST,String ip) {
+    void changeHighestBidder(String ip) {
         if(auctionList.size()>0){
-            if(isHighestBidder(tcpST,ip))
-            {
+            
                 for(int i = 0; i < auctionList.size(); i++)
                 {
+                    if(isHighestBidder(((Auction)auctionList.get(i)).getBiddingHistory(),ip))
+                    {
                     if(((Auction)auctionList.get(i)).getBiddingHistory().size() > 0&& ((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1)).get(3).equals(ip))
                     {
                         ((Auction)auctionList.get(i)).setHighestBid(Double.parseDouble((String)(((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1)).get(3))));
