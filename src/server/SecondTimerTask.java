@@ -82,15 +82,10 @@ public class SecondTimerTask extends TimerTask{
     }
     private void notifyParticipants(String msgToParticipants,Auction auct,List<TCPServerThread> tcpST,String senderIP) {
         for(int i = 0; i < auct.getClients().size(); i++)
-        {
             for(int j = 0 ; j < tcpST.size(); j++)
-            {
                 if((((TCPServerThread)tcpST.get(j)).getSocket().getInetAddress().toString()).replace("/","").equals(((Client)auct.getClients().get(i)).getIp()))
-                {
                     if (!(((TCPServerThread)tcpST.get(j)).getSocket().getInetAddress().toString()).replace("/","").equals(senderIP))
                         ((TCPServerThread)tcpST.get(j)).getOut().println("12"+token+msgToParticipants);
-                }
-            }
-        }
     }
+    
 }

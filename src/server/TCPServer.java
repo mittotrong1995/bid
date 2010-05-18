@@ -16,8 +16,7 @@ public class TCPServer {
             System.err.println("Cannot listen on port: 4444.");
         }
 
-        while (listening)
-        {
+        while (listening){
             socket = serverSocket.accept();
 	    new TCPServerThread(socket).start();
         }

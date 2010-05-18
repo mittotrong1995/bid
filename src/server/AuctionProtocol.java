@@ -86,7 +86,7 @@ public class AuctionProtocol {
         Auction currentAuction = getAuction(parts[1]);
         String out = "";
 
-         if(currentAuction.isIsActive()){
+        if(currentAuction.isIsActive()){
         if(currentAuction.getHighestBid() < Double.parseDouble(parts[2]) && isRegistered(currentAuction,parts[3])){
         currentAuction.setHighestBid(Double.parseDouble(parts[2]));
         Date d = new Date();
@@ -101,11 +101,10 @@ public class AuctionProtocol {
             notifyParticipants(msgToParticipants,currentAuction,tcpST,parts[3]);
             if (currentAuction.getClosingType() == 2){
                 TCPServerThread tcp = null;
-                for(int i = 0 ; i < tcpST.size(); i++){
-                    if((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","").equals(currentAuction.getSellerIP())){
+                for(int i = 0 ; i < tcpST.size(); i++)
+                    if((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","").equals(currentAuction.getSellerIP()))
                         tcp = (TCPServerThread)tcpST.get(i);
-        }
-                }
+
                 boolean alreadyScheduled = false;
                 int taskIndex = -1;
                 for(int i=0; i< this.timerTasksVector.size(); i++)
@@ -114,10 +113,8 @@ public class AuctionProtocol {
                         taskIndex = i;
                     }
                 if (alreadyScheduled){
-                    System.out.println("restarted task");
-                    this.timerTasksVector.get(taskIndex).cancel();
-                    this.timerTasksVector.remove(taskIndex);
-                    System.out.println("Purged tasks: "+timer.purge());
+                    timerTasksVector.get(taskIndex).cancel();
+                    timerTasksVector.remove(taskIndex);
                     timer.purge();
                     SecondTimerTask timeTask = new SecondTimerTask(currentAuction.getAuctionID(),currentAuction.getTimer(),tcp.getOut(),currentAuction,tcpST,token);
                     timerTasksVector.add(timeTask);
@@ -290,25 +287,16 @@ public class AuctionProtocol {
 
     private void notifyParticipants(String msgToParticipants,Auction auct,List<TCPServerThread> tcpST,String senderIP) {
         for(int i = 0; i < auct.getClients().size(); i++)
-        {
             for(int j = 0 ; j < tcpST.size(); j++)
-            {
                 if((((TCPServerThread)tcpST.get(j)).getSocket().getInetAddress().toString()).replace("/","").equals(((Client)auct.getClients().get(i)).getIp()))
-                {
                     if (!(((TCPServerThread)tcpST.get(j)).getSocket().getInetAddress().toString()).replace("/","").equals(senderIP))
                         ((TCPServerThread)tcpST.get(j)).getOut().println("11"+token+msgToParticipants);
-                }
-            }
-        }
     }
 
     private boolean isRegistered(Auction auct,String ip) {
-
         for(int i = 0; i < (auct.getClients()).size(); i++)
-        {
             if(((Client)auct.getClients().get(i)).getIp().equals(ip))
                 return true;
-        }
         return false;
     }
 
@@ -353,35 +341,27 @@ public class AuctionProtocol {
     void changeHighestBidder(String ip) {
         if(auctionList.size()>0){
             
-                for(int i = 0; i < auctionList.size(); i++)
-                {
-                    if(isHighestBidder(((Auction)auctionList.get(i)).getBiddingHistory(),ip))
-                    {
-                        if(((Auction)auctionList.get(i)).getBiddingHistory().size() > 0)
-                        {
-                            if(((Auction)auctionList.get(i)).getBiddingHistory().size() == 1)
-                            {
-                                ((Auction)auctionList.get(i)).setHighestBid(((Auction)auctionList.get(i)).getItem().getStartingPrice());
-                                ((Auction)auctionList.get(i)).getBiddingHistory().remove((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1));
-                            }
-                            else{
-                                System.out.println("sisi");
+            for(int i = 0; i < auctionList.size(); i++){
+                if(isHighestBidder(((Auction)auctionList.get(i)).getBiddingHistory(),ip)){
+                    if(((Auction)auctionList.get(i)).getBiddingHistory().size() > 0){
+                        if(((Auction)auctionList.get(i)).getBiddingHistory().size() == 1){
+                            ((Auction)auctionList.get(i)).setHighestBid(((Auction)auctionList.get(i)).getItem().getStartingPrice());
+                            ((Auction)auctionList.get(i)).getBiddingHistory().remove((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1));
+                        }
+                        else{
                             ((Auction)auctionList.get(i)).setHighestBid(Double.parseDouble((String)(((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-2)).get(0))));
                             ((Auction)auctionList.get(i)).getBiddingHistory().remove((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1));
-                            }
                         }
-                   }
-                        for(int j = 0; j < ((Auction)auctionList.get(i)).getClients().size(); j++)
-                        {
-                            if(((Client)(((Auction)auctionList.get(i)).getClients().get(j))).getIp().equals(ip))
-                            {
-                                ((Auction)auctionList.get(i)).getClients().remove(j);
-                                break;
-                            }
-                        }
+                    }
                 }
-       }
+                for(int j = 0; j < ((Auction)auctionList.get(i)).getClients().size(); j++){
+                    if(((Client)(((Auction)auctionList.get(i)).getClients().get(j))).getIp().equals(ip)){
+                        ((Auction)auctionList.get(i)).getClients().remove(j);
+                        break;
+                    }
+                }
+            }
+        }
     }
-
 
 }

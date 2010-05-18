@@ -10,8 +10,6 @@ import adt.Client;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -36,6 +34,7 @@ public class TimerThread extends Thread{
         this.token = token;
     }
 
+    @Override
     public void run()
     {
          try {
@@ -50,7 +49,7 @@ public class TimerThread extends Thread{
                 output.println("12"+token+out);
 
             } catch (InterruptedException ex) {
-                Logger.getLogger(AuctionProtocol.class.getName()).log(Level.SEVERE, null, ex);
+
             }
     }
     private void notifyParticipants(String msgToParticipants,Auction auct,List<TCPServerThread> tcpST,String senderIP) {
