@@ -33,7 +33,6 @@ public class TCPServerThread extends Thread {
     }
 
     public void run() {
-        System.out.println(socket.getInetAddress());
 	try {
             TCP_SERVER_THREADS.add(this);
             localaddr = socket.getInetAddress().getHostAddress();

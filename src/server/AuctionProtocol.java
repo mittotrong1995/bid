@@ -32,9 +32,7 @@ public class AuctionProtocol {
     public String advertiseAction(String in,List<TCPServerThread> tcpST) {
         String [] parts = null ;
         parts = in.split(token);
-        
-        for(int i = 0; i < parts.length; i++)
-            System.out.println(parts[i]);
+
         Item item = new Item(parts[4],parts[5],Double.parseDouble(parts[2]));
         int id = 1;
         if(auctionList.size() > 0){
@@ -109,7 +107,6 @@ public class AuctionProtocol {
             biddingPair.add(d);
             currentAuction.getBiddingHistory().add(biddingPair);
             String msgToParticipants = "Auction ID: " + currentAuction.getAuctionID()+token+ "Item Name: "+ currentAuction.getItem().getName()+token+"New Bid: "+parts[2]+token+"Bidder IP: "+parts[3];
-            System.out.println(msgToParticipants);
             notifyParticipants(msgToParticipants,currentAuction,tcpST,parts[3]);
         }
         else if(currentAuction.getHighestBid() >= Integer.parseInt(parts[2]))
@@ -223,7 +220,6 @@ public class AuctionProtocol {
         String out = "";
         for(int i = 0 ; i < tcpST.size(); i++)
         {
-            System.out.println((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","") + " blaaaaa" + parts[1]);
             if((((TCPServerThread)tcpST.get(i)).getSocket().getInetAddress().toString()).replace("/","").equals(parts[1]))
             {
                 out = "8"+token+parts[2]+token+parts[3];
