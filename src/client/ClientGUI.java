@@ -25,7 +25,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     private javax.swing.JButton historyButton;
     private javax.swing.JButton highestBidButton;
     private javax.swing.JButton activeAuctionsButton;
-    private javax.swing.JButton refreshTableButton;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JPopupMenu.Separator menuSeparator1;
     private javax.swing.JPopupMenu.Separator menuSeparator2;
@@ -72,7 +71,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         historyButton = new javax.swing.JButton();
         highestBidButton = new javax.swing.JButton();
         activeAuctionsButton = new javax.swing.JButton();
-        refreshTableButton = new javax.swing.JButton();
         participantsButton = new javax.swing.JButton();
         textAreaScrollPane = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
@@ -110,8 +108,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         table.getColumnModel().getColumn(2).setMinWidth(100);
         table.getColumnModel().getColumn(2).setPreferredWidth(100);
         table.getColumnModel().getColumn(2).setMaxWidth(200);
-        table.getColumnModel().getColumn(3).setMinWidth(150);
-        table.getColumnModel().getColumn(3).setPreferredWidth(150);
+        table.getColumnModel().getColumn(3).setMinWidth(100);
+        table.getColumnModel().getColumn(3).setPreferredWidth(100);
         table.getColumnModel().getColumn(3).setMaxWidth(200);
         table.getColumnModel().getColumn(4).setMinWidth(80);
         table.getColumnModel().getColumn(4).setPreferredWidth(80);
@@ -139,10 +137,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         activeAuctionsButton.setText("Active Auctions...");
         activeAuctionsButton.setActionCommand("activeauctions");
         activeAuctionsButton.addActionListener(this);
-
-        refreshTableButton.setText("Refresh Table");
-        refreshTableButton.setActionCommand("refreshtable");
-        refreshTableButton.addActionListener(this);
 
         participantsButton.setText("Participants");
         participantsButton.setActionCommand("participants");
@@ -199,8 +193,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     .addComponent(participantsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(highestBidButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(activeAuctionsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(refreshTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(activeAuctionsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -221,9 +214,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(highestBidButton)
                         .addGap(18, 18, 18)
-                        .addComponent(activeAuctionsButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(refreshTableButton))
+                        .addComponent(activeAuctionsButton))
                     .addComponent(tableScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textAreaScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
@@ -231,8 +222,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         );
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setTitle("Auction System - Client");
-        this.setMinimumSize(new Dimension(865,600));
-        this.setPreferredSize(new Dimension(865, 600));
+        this.setMinimumSize(new Dimension(850,600));
+        this.setPreferredSize(new Dimension(850, 600));
         this.setLocationRelativeTo(null);
         
         this.pack();
@@ -250,7 +241,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             }
 
             if (connected == false )
-                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+                JOptionPane.showMessageDialog(this,"Please connect to the server first","Error Message",2);
         }
         else if (c.equals("withdraw")){
             if (connected == true)
@@ -261,34 +252,35 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             }
 
             if (connected == false )
-                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+                JOptionPane.showMessageDialog(this,"Please connect to the server first","Error Message",2);
         }
         else if (c.equals("bid")){
             if (connected == true)
                 bidAction();
             if (connected == false )
-             JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+             JOptionPane.showMessageDialog(this,"Please connect to the server first","Error Message",2);
         }
         else if (c.equals("history")){
             if (connected == true)
                 historyAction();
             
             if (connected == false )
-                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+                JOptionPane.showMessageDialog(this,"Please connect to the server first","Error Message",2);
         }
         else if (c.equals("participants")){
             if (connected == false )
-                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+                JOptionPane.showMessageDialog(this,"Please connect to the server first","Error Message",2);
             
             if (connected == true)
                 participantsAction();
         }
         else if (c.equals("connect")){
-            connectAction();            
+            connectAction();
+            
         }
         else if (c.equals("advertise")){
             if (connected == false)
-                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+                JOptionPane.showMessageDialog(this,"Please connect to the server first","Error Message",2);
             if (connected == true)
                 advertiseAction();
         }
@@ -296,35 +288,35 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             if (connected == true)
                 messageAction();
             if (connected == false )
-                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+                JOptionPane.showMessageDialog(this,"Please connect to the server first","Error Message",2);
         }
         else if (c.equals("highestbid")){
             if (connected == false)
-                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+                JOptionPane.showMessageDialog(this,"Please connect to the server first","Error Message",2);
             if (connected == true)
                 highestBidAction();
         }
         else if (c.equals("activeauctions")){
             if (connected == false)
-                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+                JOptionPane.showMessageDialog(this,"Please connect to the server first","Error Message",2);
             if (connected == true)
                 activeAuctionsAction();
-        }
-        else if (c.equals("refreshtable")){
-            if (connected == false)
-                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
-            if (connected == true)
-            {
-                refreshTable();
-                client.getPrintWriter().println("9" + token + localaddr);
-            }
         }
         else if (c.equals("exit")){
             exitAction();
         }
         else if (c.equals("disconnectMenu")){
-                disconnectAction();
-               }
+            try {
+                listener = null;
+                client.closeConnection();
+                connected = false;
+                connectMenuItem.setText("Connect...");
+                connectMenuItem.setActionCommand("connect");
+                JOptionPane.showMessageDialog(this,"You have disconnected from the auction system!\nFarewell!", "Disconnected",1);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
     private void registerAction() {
 
@@ -333,7 +325,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             (client.getPrintWriter()).println(register);
         }
         else
-          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
+          JOptionPane.showMessageDialog(this,"Please select an auction first","Error Message",2);
     }
 
     private void withdrawAction() {
@@ -342,7 +334,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             (client.getPrintWriter()).println(withdraw);
         }
         else
-          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
+          JOptionPane.showMessageDialog(this,"Please select an auction first","Error Message",2);
     }
 
     private void bidAction() {
@@ -359,15 +351,15 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null,"Please enter a number greater than 0","Error Message",2);
+                    JOptionPane.showMessageDialog(this,"Please enter a number greater than 0","Error Message",2);
                 }
             }
             else
-            JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
+            JOptionPane.showMessageDialog(this,"Please select an auction first","Error Message",2);
         }
         catch(Exception e)
         {
-            JOptionPane.showMessageDialog(null,"Please enter only digits in the bid field","Error Message",2);
+            JOptionPane.showMessageDialog(this,"Please enter only digits in the bid field","Error Message",2);
         }      
    }
 
@@ -376,7 +368,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             String history = "5"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
             (client.getPrintWriter()).println(history);}
         else
-          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
+          JOptionPane.showMessageDialog(this,"Please select an auction first","Error Message",2);
     }
 
     private void highestBidAction() {
@@ -384,7 +376,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             String highestBid = "4"+ token + (table.getModel().getValueAt(table.getSelectedRow(),0)).toString();
             (client.getPrintWriter()).println(highestBid);}
         else
-          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
+          JOptionPane.showMessageDialog(this,"Please select an auction first","Error Message",2);
     }
 
     private void participantsAction() {
@@ -393,24 +385,20 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             (client.getPrintWriter()).println(participants);
                 }
         else
-          JOptionPane.showMessageDialog(null,"Please select an auction first","Error Message",2);
+          JOptionPane.showMessageDialog(this,"Please select an auction first","Error Message",2);
     }
     private void activeAuctionsAction() {
 
         String activeAuctions = "1"+ token;
             (client.getPrintWriter()).println(activeAuctions);
-        }
+        //JOptionPane.showMessageDialog(this,"Not yet implemented","Error Message",2);
+    }
     private void connectAction() {
         try {
             showConnectDialog();
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
-    }
-
-    private void disconnectAction() {
-        String disconnect = ""+ token + localaddr;
-        (client.getPrintWriter()).println(disconnect);
     }
 
     private void advertiseAction() {
@@ -457,6 +445,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         javax.swing.JLabel messageLabel = new javax.swing.JLabel();
         final javax.swing.JTextField messageTextField = new javax.swing.JTextField();
         javax.swing.JPanel messagesMainPanel = new javax.swing.JPanel();
+        //javax.swing.JScrollPane msgScrollPane = new javax.swing.JScrollPane();
         javax.swing.JLabel recepientLabel = new javax.swing.JLabel();
         javax.swing.JButton sendButton = new javax.swing.JButton();
         final javax.swing.JTextField iPTextField1 = new javax.swing.JTextField();
@@ -539,10 +528,11 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 }
                 catch(Exception ex)
                 {
-                    JOptionPane.showMessageDialog(null,"Please enter digits in the IP fields!", "Error Message!",3);
+                    JOptionPane.showMessageDialog(messageDialog,"Please enter digits in the IP fields!", "Error Message!",3);
                 }
             }
         });
+        //msgScrollPane.setViewportView(messageTextArea);
         messageDialog.add(messagesMainPanel);
         messageDialog.pack();
         messageDialog.setLocationRelativeTo(this);
@@ -581,6 +571,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     try {
                         client = new TCPClient(IPTextField1.getText() + "." + IPTextField2.getText() + "." + IPTextField3.getText() + "." + IPTextField4.getText(), Integer.parseInt(portTextField.getText()));
                         localaddr = ((client.getClientSocket().getLocalAddress()).toString()).replace("/","");
+                        System.out.println(localaddr);
                         connectDialog.dispose();
                         connectMenuItem.setText("Disconnect");
                         connectMenuItem.setActionCommand("disconnectMenu");
@@ -652,6 +643,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         final javax.swing.JRadioButton closeTypeTwoRadioButton = new javax.swing.JRadioButton();
         javax.swing.JLabel descriptionLabel = new javax.swing.JLabel();
         final javax.swing.JTextField descriptionTextField = new javax.swing.JTextField();
+        //javax.swing.JScrollPane descriptionScrollPane = new javax.swing.JScrollPane();
         javax.swing.JPanel advPanel = new javax.swing.JPanel();
         javax.swing.JLabel nameLabel = new javax.swing.JLabel();
         final javax.swing.JTextField nameTextField = new javax.swing.JTextField();
@@ -755,6 +747,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 {
 
                     double startprice = Double.parseDouble(startPriceTextField.getText());
+                    System.out.println(startprice);
                     try{
                         int quantity = Integer.parseInt(quantityTextField.getText());
 
@@ -762,20 +755,22 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         {
                             int closingtime = Integer.parseInt(closingTimeTextField.getText());
                             if(typeSelection.equals(""))
-                                JOptionPane.showMessageDialog(null,"Please select the closing type!", "Error Message!",3);
+                                JOptionPane.showMessageDialog(advertiseDialog,"Please select the closing type!", "Error Message!",3);
                             else if(nameTextField.getText().equals(""))
-                                JOptionPane.showMessageDialog(null,"Please enter the item's name!", "Error Message!",3);
+                                JOptionPane.showMessageDialog(advertiseDialog,"Please enter the item's name!", "Error Message!",3);
+                            //else if(descriptionTextArea.getText().equals(""))
+                                //JOptionPane.showMessageDialog(this,"Please enter the item's description!", "Error Message!",3);
                             else if (startprice <= 0)
                             {
-                                JOptionPane.showMessageDialog(null,"Please enter valid price that is greater than 0!", "Error Message!",3);
+                                JOptionPane.showMessageDialog(advertiseDialog,"Please enter valid price that is greater than 0!", "Error Message!",3);
                             }
                             else if (quantity <= 0 )
                             {
-                                JOptionPane.showMessageDialog(null,"Please enter quantity that is greater than 0!", "Error Message!",3);
+                                JOptionPane.showMessageDialog(advertiseDialog,"Please enter quantity that is greater than 0!", "Error Message!",3);
                             }
                             else if (closingtime <= 0 )
                             {
-                                JOptionPane.showMessageDialog(null,"Please enter closing time that is greater than 0!", "Error Message!",3);
+                                JOptionPane.showMessageDialog(advertiseDialog,"Please enter closing time that is greater than 0!", "Error Message!",3);
                             }
                             else{
                                 String auction = "0"+ token + typeSelection + token + startPriceTextField.getText() + token + quantityTextField.getText() + token+ nameTextField.getText() + token + descriptionTextField.getText() + token + localaddr +token +closingTimeTextField.getText() ;
@@ -785,18 +780,18 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         }
                         catch(Exception ex)
                         {
-                            JOptionPane.showMessageDialog(null,"Please enter digits in the closing time field!", "Error Message!",3);
+                            JOptionPane.showMessageDialog(advertiseDialog,"Please enter digits in the closing time field!", "Error Message!",3);
                         }
                     }
                     catch(Exception ex)
                     {
-                        JOptionPane.showMessageDialog(null,"Please enter digits in the quantity field!", "Error Message!",3);
+                        JOptionPane.showMessageDialog(advertiseDialog,"Please enter digits in the quantity field!", "Error Message!",3);
                     }
 
                 }
                 catch(Exception exc)
                 {
-                    JOptionPane.showMessageDialog(null,"Please enter digits in the price field!", "Error Message!",3);
+                    JOptionPane.showMessageDialog(advertiseDialog,"Please enter digits in the price field!", "Error Message!",3);
                 }
 
                 refreshTable();
@@ -804,6 +799,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             }
         });
 
+        //descriptionScrollPane.setViewportView(descriptionTextArea);
         advertiseDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         advertiseDialog.setResizable(false);
         advertiseDialog.add(advPanel);
@@ -817,8 +813,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     tableModel.removeRow(0);
             }
     
-    public void action()
-    {
+    public void action(){
         listener = new Thread(this);
         listener.start();
     }
@@ -828,8 +823,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             String responseLine;
             while ((responseLine = (client.getIn()).readLine()) != null) {
                 String [] parts = responseLine.split(token);
-                if (responseLine.indexOf("connected") > -1 && responseLine.indexOf("disconnected") <= -1) {
-                    JOptionPane.showMessageDialog(null, responseLine, "Connection Accepted", 1);
+                if (responseLine.indexOf("connected") > -1) {
+                    JOptionPane.showMessageDialog(this, responseLine, "Connection Accepted", 1);
                 }
 
                 else if(!responseLine.equals(""))
@@ -854,6 +849,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                             i++;
                         }
                         textArea.setText("BIDDING PAIRS:\n\n"+parts[1] + parts[2] + parts[3] +parts[4] +parts[5] + "\n" + bidPairs);
+                        //JOptionPane.showMessageDialog(this,parts[1] + parts[2] + parts[3] +parts[4] +parts[5] + "\n" + bidPairs ,"Bidding History",1);
                     }
 
                     else if(responseLine.charAt(0) == '7')
@@ -865,11 +861,14 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         }
                         
                         textArea.setText("PARTICIPANTS FOR AUCTION " +parts[1] +":\n\n"+participants);
+
+                        //JOptionPane.showMessageDialog(this,participants,"Participants",1);
                     }
                     else if(responseLine.charAt(0) == '8')
                     {
+                        //String msgContents = "";
                         String top= "New Message from "+ parts[2];
-                        JOptionPane.showMessageDialog(null,parts[1] , top ,1);
+                        JOptionPane.showMessageDialog(this,parts[1] , top ,1);
                     }
                     else if(responseLine.charAt(0) == '1' &&responseLine.charAt(1) == '1' )
                     {
@@ -890,33 +889,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         }
                         textArea.setText("AUCTION CLOSED:\n\n"+notification);
                     }
-
-                    else if(responseLine.charAt(0) == '1'&&responseLine.charAt(1) == '3')
-                    {
-                        if(parts[1].indexOf("Farewell") > -1)
-                        {
-                            try{
-                                client.closeConnection();
-                                connected = false;
-                                connectMenuItem.setText("Connect...");
-                                connectMenuItem.setActionCommand("connect");
-                                JOptionPane.showMessageDialog(null,parts[1],"Info",1);
-                                refreshTable();
-                                listener.stop();
-                            }
-                             catch (IOException ex) {
-                                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
-                        else
-                        {
-                            JOptionPane.showMessageDialog(null,parts[1],"Info",1);
-                        }
-                    }
                     else if(responseLine.charAt(0) == '1')
                     {
                         if(parts.length == 3)
-                            JOptionPane.showMessageDialog(null,parts[2],"Info",1);
+                            JOptionPane.showMessageDialog(this,parts[2],"Info",1);
                         else{
                         String activeAuctions = "LIST OF ACTIVE AUCTIONS:\n\n";
 
@@ -931,17 +907,16 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         }
                     }
                     else
-                    JOptionPane.showMessageDialog(null,responseLine,"Info",1);
+                    JOptionPane.showMessageDialog(this,responseLine,"Info",1);
                 }
                 }
             }
-        } catch (Exception ex) {
-            connected = false;
-            connectMenuItem.setText("Connect...");
-            connectMenuItem.setActionCommand("connect");
-            JOptionPane.showMessageDialog(null,"Server has crashed!\nWe appologize for the inconvenience!","Error",2);
+        } catch (IOException ex) {
+            
         }
     }
+
+
 }
 class MaxLengthTextDocument extends javax.swing.text.PlainDocument {
     private int maxChars;

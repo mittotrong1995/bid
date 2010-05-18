@@ -12,13 +12,11 @@ public class TCPServerThread extends Thread {
     private AuctionProtocol auctionProtocol;
     private PrintWriter out;
     private BufferedReader in;
-    private String localaddr;
     public static List <TCPServerThread> TCP_SERVER_THREADS = new LinkedList();
 
     public PrintWriter getOut() {
         return out;
     }
-
 
     public TCPServerThread(Socket socket) {
 	super();
@@ -32,10 +30,11 @@ public class TCPServerThread extends Thread {
         return socket;
     }
 
+    @Override
     public void run() {
+        System.out.println(socket.getInetAddress());
 	try {
             TCP_SERVER_THREADS.add(this);
-            localaddr = socket.getInetAddress().getHostAddress();
 	    out = new PrintWriter(socket.getOutputStream(), true);
 	    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out.println("Welcome! You have been sucessfully connected!");            
@@ -55,15 +54,14 @@ public class TCPServerThread extends Thread {
 	    socket.close();
 
 	} catch (IOException e) {
-            auctionProtocol.changeHighestBidder(localaddr);
+	    System.err.println("IOException:  " + e);
 	}
     }
 
     public String processInput(String theInput) {
         String theOutput = "";
-        try{
+
         if (!theInput.isEmpty()){
-            
             byte action = Byte.parseByte(theInput.substring(0, 1));
             switch(action){
                 case 0: theOutput = auctionProtocol.advertiseAction(theInput,TCP_SERVER_THREADS);
@@ -88,13 +86,8 @@ public class TCPServerThread extends Thread {
                         break;
                 default:
                         break;
-                }
             }
-     }      
-            catch(Exception e)
-            {
-                theOutput = auctionProtocol.disconnect(theInput);
-            }
-            return theOutput;
+        }
+        return theOutput;
     }
 }
