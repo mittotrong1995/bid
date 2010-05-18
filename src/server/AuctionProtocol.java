@@ -364,26 +364,10 @@ public class AuctionProtocol {
                         {
                             ((Auction)auctionList.get(i)).setHighestBid(((Auction)auctionList.get(i)).getItem().getStartingPrize());
                             ((Auction)auctionList.get(i)).getBiddingHistory().remove((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1));
-                                for(int j = 0; j < ((Auction)auctionList.get(i)).getClients().size(); j++)
-                                {
-                                    if(((Client)(((Auction)auctionList.get(i)).getClients().get(i))).getIp().equals(ip))
-                                    {
-                                        ((Auction)auctionList.get(i)).getClients().remove(j);
-                                        break;
-                                    }
-                                }
                         }
                         else{
                         ((Auction)auctionList.get(i)).setHighestBid(Double.parseDouble((String)(((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-2)).get(0))));
                         ((Auction)auctionList.get(i)).getBiddingHistory().remove((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1));
-                                for(int j = 0; j < ((Auction)auctionList.get(i)).getClients().size(); j++)
-                                {
-                                    if(((Client)(((Auction)auctionList.get(i)).getClients().get(i))).getIp().equals(ip))
-                                    {
-                                        ((Auction)auctionList.get(i)).getClients().remove(j);
-                                        break;
-                                    }
-                                }
                         }
                     }
 //                    for(int j = 0; j<((Auction)auctionList.get(i)).getBiddingHistory().size();j++)
@@ -391,7 +375,16 @@ public class AuctionProtocol {
 //
 //                    }
                 }
+                    for(int j = 0; j < ((Auction)auctionList.get(i)).getClients().size(); j++)
+                                {
+                                    if(((Client)(((Auction)auctionList.get(i)).getClients().get(i))).getIp().equals(ip))
+                                    {
+                                        ((Auction)auctionList.get(i)).getClients().remove(j);
+                                        break;
+                                    }
+                                }
             }
+
 //        for(int i = 0; i < ((Auction)auctionList.get(i)).getBiddingHistory().size(); i++)
 //        {
 //            for(int j = 0; j < ((Vector)((Auction)auctionList.get(j)).getBiddingHistory().get(i)).size(); j++)
