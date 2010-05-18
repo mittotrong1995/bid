@@ -36,31 +36,22 @@ public class TimerThread extends Thread{
         this.token = token;
     }
 
-    public void activate(int time)
-    {
-        this.time = time;
-        out = "";
-        //this.run();
-    }
-
     public void run()
     {
          try {
-                        TimerThread.sleep(time * 1000);
-                        if(auct.getBiddingHistory().size() > 0)
-                            out = "Auction Id: " + auct.getAuctionID() + token +"Item name: " + auct.getItem().getName() + token +"Highest bid: " + auct.getHighestBid() + token +"Buyer: " + ((Vector)auct.getBiddingHistory().get(auct.getBiddingHistory().size()-1)).get(2);
-                        else
-                            out = "Auction Id: " + auct.getAuctionID() + token +"Item name: " + auct.getItem().getName() +token + "Highest bid: " + auct.getHighestBid() + token +"Buyer: " + auct.getSellerIP();
-                        auct.setIsActive(false);
-                       notifyParticipants(out,auct,tcpST,auct.getSellerIP());
-                        output.println("12"+token+out);
-                         //this.wait();
-                        //this.stop();
+                TimerThread.sleep(time * 1000);
+                if(auct.getBiddingHistory().size() > 0)
+                    out = "Auction Id: " + auct.getAuctionID() + token +"Item name: " + auct.getItem().getName() + token +"Highest bid: " + auct.getHighestBid() + token +"Buyer: " + ((Vector)auct.getBiddingHistory().get(auct.getBiddingHistory().size()-1)).get(2);
+                else
+                    out = "Auction Id: " + auct.getAuctionID() + token +"Item name: " + auct.getItem().getName() +token + "Highest bid: " + auct.getHighestBid() + token +"Buyer: " + auct.getSellerIP();
 
-                    } catch (InterruptedException ex) {
-                       // throw new RuntimeException("Interrupted");
-                        Logger.getLogger(AuctionProtocol.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                auct.setIsActive(false);
+                notifyParticipants(out,auct,tcpST,auct.getSellerIP());
+                output.println("12"+token+out);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AuctionProtocol.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
     private void notifyParticipants(String msgToParticipants,Auction auct,List<TCPServerThread> tcpST,String senderIP) {
         for(int i = 0; i < auct.getClients().size(); i++)
