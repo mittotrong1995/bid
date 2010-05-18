@@ -31,6 +31,7 @@ public class TCPServerThread extends Thread {
         return socket;
     }
 
+    @Override
     public void run() {
 	try {
             TCP_SERVER_THREADS.add(this);
@@ -62,7 +63,6 @@ public class TCPServerThread extends Thread {
         String theOutput = "";
         try{
         if (!theInput.isEmpty()){
-            
             byte action = Byte.parseByte(theInput.substring(0, 1));
             switch(action){
                 case 0: theOutput = auctionProtocol.advertiseAction(theInput,TCP_SERVER_THREADS);
@@ -89,11 +89,10 @@ public class TCPServerThread extends Thread {
                         break;
                 }
             }
-     }      
-            catch(Exception e)
-            {
-                theOutput = auctionProtocol.disconnect(theInput);
-            }
-            return theOutput;
+        }
+        catch(Exception e){
+            theOutput = auctionProtocol.disconnect(theInput);
+        }
+        return theOutput;
     }
 }
