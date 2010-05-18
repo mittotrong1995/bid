@@ -314,7 +314,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             if (connected == false)
                 JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
             if (connected == true)
-                refreshTableAction();
+            {
+                refreshTable();
+                client.getPrintWriter().println("9" + token + localaddr);
+            }
         }
         else if (c.equals("exit")){
             exitAction();
@@ -403,9 +406,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
-    }
-    private void refreshTableAction() {
-        JOptionPane.showMessageDialog(null,"NOT IMPLEMENTED YET","Error Message",2);;
     }
 
     private void disconnectAction() {
@@ -581,7 +581,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     try {
                         client = new TCPClient(IPTextField1.getText() + "." + IPTextField2.getText() + "." + IPTextField3.getText() + "." + IPTextField4.getText(), Integer.parseInt(portTextField.getText()));
                         localaddr = ((client.getClientSocket().getLocalAddress()).toString()).replace("/","");
-                        System.out.println(localaddr);
                         connectDialog.dispose();
                         connectMenuItem.setText("Disconnect");
                         connectMenuItem.setActionCommand("disconnectMenu");
@@ -756,7 +755,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 {
 
                     double startprice = Double.parseDouble(startPriceTextField.getText());
-                    System.out.println(startprice);
                     try{
                         int quantity = Integer.parseInt(quantityTextField.getText());
 
@@ -831,7 +829,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             while ((responseLine = (client.getIn()).readLine()) != null) {
                 String [] parts = responseLine.split(token);
                 if (responseLine.indexOf("connected") > -1 && responseLine.indexOf("disconnected") <= -1) {
-                    System.out.println("pa");
                     JOptionPane.showMessageDialog(null, responseLine, "Connection Accepted", 1);
                 }
 
@@ -896,7 +893,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
 
                     else if(responseLine.charAt(0) == '1'&&responseLine.charAt(1) == '3')
                     {
-                        System.out.println("u 13");
                         if(parts[1].indexOf("Farewell") > -1)
                         {
                             try{

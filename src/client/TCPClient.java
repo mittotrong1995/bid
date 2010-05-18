@@ -29,7 +29,6 @@ public class TCPClient implements Runnable{
 
     public TCPClient(String host, int port) throws UnknownHostException, IOException, InterruptedException{
         clientSocket = new Socket(host, port);
-        System.out.println(clientSocket.getLocalAddress());
         out = new PrintWriter(clientSocket.getOutputStream(), true);
 
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
