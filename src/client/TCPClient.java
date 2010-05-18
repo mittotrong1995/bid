@@ -2,7 +2,6 @@ package client;
 
 import java.io.*;
 import java.net.*;
-import javax.swing.JOptionPane;
 
 public class TCPClient implements Runnable{
 
@@ -12,6 +11,7 @@ public class TCPClient implements Runnable{
     static BufferedReader inputLine = null;
     static boolean closed = false;
     static Thread t;
+    //static Client client;
     String responseLine;
     Thread clientThread;
     
@@ -23,12 +23,14 @@ public class TCPClient implements Runnable{
         this.clientThread = clientThread;
     }
 
-    public static Socket getClientSocket() {
+    public Socket getClientSocket() {
         return clientSocket;
     }
 
     public TCPClient(String host, int port) throws UnknownHostException, IOException, InterruptedException{
+
         clientSocket = new Socket(host, port);
+        System.out.println(clientSocket.getLocalAddress());
         out = new PrintWriter(clientSocket.getOutputStream(), true);
 
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -46,10 +48,24 @@ public class TCPClient implements Runnable{
             try {
                 out.println(inputLine.readLine());
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null,"Error has occured","Error",3);
+
             }
         }
     }
+//	try{
+//	    while ((responseLine = in.readLine()) != null) {
+//                if(responseLine.indexOf("connected") > -1)
+//                {
+//                    JOptionPane.showMessageDialog(null,responseLine, "Connection Accepted", 1);
+//                }
+//
+//		System.out.println(responseLine);
+//	    }
+//            closed = true;
+//        } catch (Exception e) {
+//	    System.err.println("IOException:  " + e);
+//	}
+//    }
 
     public static BufferedReader getIn() {
         return in;
