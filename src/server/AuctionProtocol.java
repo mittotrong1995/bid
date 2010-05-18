@@ -336,4 +336,64 @@ public class AuctionProtocol {
 
     }
 
+    public boolean isHighestBidder(List biddingHistory,String ip)
+    {
+        if(biddingHistory.size() > 0 && ((Vector)(biddingHistory).get(biddingHistory.size() - 1)).get(2).equals(ip))
+            return true;
+        else
+            return false;
+    }
+
+    public String disconnect(String in) {
+        String [] parts = null ;
+        parts = in.split(token);
+
+        for(int i = 0; i < auctionList.size(); i++)
+        {
+            if(((Auction)auctionList.get(i)).isIsActive())
+            {
+            if(((Auction)auctionList.get(i)).getSellerIP().equals(parts[1]))
+               return "13" + token + "Sorry, you cannot disconnect since you are the creator of an auction";
+            
+            else if(isHighestBidder(((Auction)auctionList.get(i)).getBiddingHistory(),parts[1]))
+                return "13" + token + "Sorry, you cannot disconnect since you are the highest bidder";
+            }
+        }
+        return "13" + token + "You have disconnected from the auction system!Farewell!";
+    }
+
+    void changeHighestBidder(String ip) {
+        if(auctionList.size()>0){
+            
+                for(int i = 0; i < auctionList.size(); i++)
+                {
+                    if(isHighestBidder(((Auction)auctionList.get(i)).getBiddingHistory(),ip))
+                    {
+                        if(((Auction)auctionList.get(i)).getBiddingHistory().size() > 0)
+                        {
+                            if(((Auction)auctionList.get(i)).getBiddingHistory().size() == 1)
+                            {
+                                ((Auction)auctionList.get(i)).setHighestBid(((Auction)auctionList.get(i)).getItem().getStartingPrice());
+                                ((Auction)auctionList.get(i)).getBiddingHistory().remove((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1));
+                            }
+                            else{
+                                System.out.println("sisi");
+                            ((Auction)auctionList.get(i)).setHighestBid(Double.parseDouble((String)(((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-2)).get(0))));
+                            ((Auction)auctionList.get(i)).getBiddingHistory().remove((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1));
+                            }
+                        }
+                   }
+                        for(int j = 0; j < ((Auction)auctionList.get(i)).getClients().size(); j++)
+                        {
+                            if(((Client)(((Auction)auctionList.get(i)).getClients().get(j))).getIp().equals(ip))
+                            {
+                                ((Auction)auctionList.get(i)).getClients().remove(j);
+                                break;
+                            }
+                        }
+                }
+       }
+    }
+
+
 }
