@@ -356,9 +356,9 @@ public class AuctionProtocol {
                 {
                     if(isHighestBidder(((Auction)auctionList.get(i)).getBiddingHistory(),ip))
                     {
-                    if(((Auction)auctionList.get(i)).getBiddingHistory().size() > 0&& ((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1)).get(3).equals(ip))
+                    if(((Auction)auctionList.get(i)).getBiddingHistory().size() > 1)
                     {
-                        ((Auction)auctionList.get(i)).setHighestBid(Double.parseDouble((String)(((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1)).get(3))));
+                        ((Auction)auctionList.get(i)).setHighestBid(Double.parseDouble((String)(((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-2)).get(3))));
                         ((Auction)auctionList.get(i)).getBiddingHistory().remove((Vector)((Auction)auctionList.get(i)).getBiddingHistory().get(((Auction)auctionList.get(i)).getBiddingHistory().size()-1));
                     }
 //                    for(int j = 0; j<((Auction)auctionList.get(i)).getBiddingHistory().size();j++)
