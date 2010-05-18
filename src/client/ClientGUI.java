@@ -25,6 +25,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
     private javax.swing.JButton historyButton;
     private javax.swing.JButton highestBidButton;
     private javax.swing.JButton activeAuctionsButton;
+    private javax.swing.JButton refreshTableButton;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JPopupMenu.Separator menuSeparator1;
     private javax.swing.JPopupMenu.Separator menuSeparator2;
@@ -71,6 +72,7 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         historyButton = new javax.swing.JButton();
         highestBidButton = new javax.swing.JButton();
         activeAuctionsButton = new javax.swing.JButton();
+        refreshTableButton = new javax.swing.JButton();
         participantsButton = new javax.swing.JButton();
         textAreaScrollPane = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
@@ -138,6 +140,10 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
         activeAuctionsButton.setActionCommand("activeauctions");
         activeAuctionsButton.addActionListener(this);
 
+        refreshTableButton.setText("Refresh Table");
+        refreshTableButton.setActionCommand("refreshtable");
+        refreshTableButton.addActionListener(this);
+
         participantsButton.setText("Participants");
         participantsButton.setActionCommand("participants");
         participantsButton.addActionListener(this);
@@ -193,7 +199,8 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                     .addComponent(participantsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(highestBidButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(activeAuctionsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(activeAuctionsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -214,7 +221,9 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(highestBidButton)
                         .addGap(18, 18, 18)
-                        .addComponent(activeAuctionsButton))
+                        .addComponent(activeAuctionsButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(refreshTableButton))
                     .addComponent(tableScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textAreaScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
@@ -300,6 +309,12 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
                 JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
             if (connected == true)
                 activeAuctionsAction();
+        }
+        else if (c.equals("refreshtable")){
+            if (connected == false)
+                JOptionPane.showMessageDialog(null,"Please connect to the server first","Error Message",2);
+            if (connected == true)
+                refreshTableAction();
         }
         else if (c.equals("exit")){
             exitAction();
@@ -389,7 +404,9 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             ex.printStackTrace();
         }
     }
-
+    private void refreshTableAction() {
+        JOptionPane.showMessageDialog(null,"NOT IMPLEMENTED YET","Error Message",2);;
+    }
 
     private void disconnectAction() {
         String disconnect = ""+ token + localaddr;
@@ -929,7 +946,6 @@ public class ClientGUI extends javax.swing.JFrame implements ActionListener,Runn
             JOptionPane.showMessageDialog(null,"Server has crashed!\nWe appologize for the inconvenience!","Error",2);
         }
     }
-
 }
 class MaxLengthTextDocument extends javax.swing.text.PlainDocument {
     private int maxChars;
